@@ -7,88 +7,211 @@ Diogo Alves Almeida - 2018282583
 num		[0-9]
 signal	[+-]
 simple char|else|while|if|int|short|double|return|void
-reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|register|signed|sizeof|static|struct|switch|typedef|union|unsigned|volatile|enum|extern|float|for|goto
+reserved (_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|"++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|register|signed|sizeof|static|struct|switch|typedef|union|unsigned|volatile|enum|extern|float|for|goto|inline|restrict
 
 %{
 	void upperString(char* str);
+	void detect(char* text);
+	char *charlit;
+	int line = 1, column = 0;
+	int stateinitLine, stateinitColumn;
+	char flag = '\0';
 %}
+
+%X CHARINIT CHAREND COMMENTSINGLE COMMENTDOUBLE
 
 %%
 
+"//" {
+	BEGIN COMMENTSINGLE;	
+	column+=2;
+}
+
+<COMMENTSINGLE>. {
+	column++;
+}
+
+<COMMENTSINGLE>"\n"|"\r\n"|"\r" {
+	column = 0;
+	line++;
+	BEGIN 0;
+}
+
+"/*" {
+	BEGIN COMMENTDOUBLE;	
+	column+=2;
+	stateinitColumn = column;
+	stateinitLine = line;
+}
+
+<COMMENTDOUBLE>. {
+	column++;
+}
+
+<COMMENTDOUBLE>"\n"|"\r\n"|"\r" {
+	column = 0;
+	line++;
+}
+
+<COMMENTDOUBLE>"*/" {
+	column+=2;
+	BEGIN 0;
+}
+
+<COMMENTDOUBLE><<EOF>> {
+	printf("Line <%d>, col <%d>: unterminated comment\n", stateinitLine, stateinitColumn);
+	BEGIN 0;
+}
+
+
+
+"'"	{
+	BEGIN CHARINIT; //entrar no modo de busca de char literal
+	column++;
+	stateinitColumn = column;
+	stateinitLine = line;	
+}
+
+<CHARINIT>(\\n|\\t|\\\\|\\'|"\""|(\\[0-7][0-7][0-7]))	{	// procurar sequencia de escape			
+	// Caso seja uma sequência de escape
+	BEGIN CHAREND;
+	charlit = strdup(yytext);
+	column += yyleng;
+}	
+
+
+<CHARINIT>. { 
+	// Caso seja um caracter
+	BEGIN CHAREND;
+	charlit = strdup(yytext);
+	column++;
+}
+
+<CHAREND>"'" { //encontrou segunda plica e por isso termina o char literal
+	if (flag == 'l') printf("CHRLIT('%s')\n", charlit);
+	free(charlit);
+	BEGIN 0;
+	column++;
+}
+
+<CHAREND>[^']+' { //encontrou conteudo a mais no char literal e por isso apresenta erro
+	printf("Line <%d>, col <%d>: invalid char constant ('%s%s)\n", stateinitLine, stateinitColumn, charlit, yytext);
+	free(charlit);
+	column += yyleng;
+	BEGIN 0;
+}
+
+<CHARINIT>"\n"|"\r\n"|"\r" {
+	printf("Line <%d>, col <%d>: unterminated char constant\n", stateinitLine, stateinitColumn);
+	BEGIN 0;
+	line++;
+}
+
+<CHAREND>"\n"|"\r\n"|"\r" {
+	printf("Line <%d>, col <%d>: unterminated char constant\n", stateinitLine, stateinitColumn);
+	BEGIN 0;
+	line++;
+}
+
+<CHARINIT><<EOF>> {
+	printf("Line <%d>, col <%d>: unterminated char constant\n", stateinitLine, stateinitColumn);
+	BEGIN 0;
+}
+
+<CHAREND><<EOF>> {
+	printf("Line <%d>, col <%d>: unterminated char constant\n", stateinitLine, stateinitColumn);
+	BEGIN 0;
+}
+
+
+
 {simple} {
 	upperString(yytext);
-	printf("%s\n", yytext);
+	detect(yytext);
 }
 
-{reserved} { printf("RESERVED\n"); }
+{reserved} { detect("RESERVED");}
 
-"&" { printf("BITWISEAND\n"); }
+"&" { detect("BITWISEAND"); }
 
-"|" { printf("BITWISEOR\n"); }
+"|" { detect("BITWISEOR"); }
 
-"^" { printf("BITWISEXOR\n"); }
+"^" { detect("BITWISEXOR"); }
 
-"&&" { printf("AND\n"); }
+"&&" { detect("AND"); }
 
-"=" { printf("ASSIGN\n"); }
+"=" { detect("ASSIGN"); }
 
-"*" { printf("MUL\n"); }
+"*" { detect("MUL"); }
 
-"," { printf("COMMA\n"); }
+"," { detect("COMMA"); }
 
-"/" { printf("DIV\n"); }
+"/" { detect("DIV"); }
 
-"==" { printf("EQ\n"); }
+"==" { detect("EQ"); }
 
-">=" { printf("GE\n"); }
+">=" { detect("GE"); }
 
-">" { printf("GT\n"); }
+">" { detect("GT"); }
 
-"{" { printf("LBRACE\n"); }
+"{" { detect("LBRACE"); }
 
-"<=" { printf("LE\n"); }
+"<=" { detect("LE"); }
 
-"(" { printf("LPAR\n"); }
+"(" { detect("LPAR"); }
 
-"<" { printf("LT\n"); }
+"<" { detect("LT"); }
 
-"-" { printf("MINUS\n"); }
+"-" { detect("MINUS"); }
 
-"%" { printf("MOD\n"); }
+"%" { detect("MOD"); }
 
-"!=" { printf("NE\n"); }
+"!=" { detect("NE"); }
 
-"!" { printf("NOT\n"); }
+"!" { detect("NOT"); }
 
-"||" { printf("OR\n"); }
+"||" { detect("OR"); }
 
-"+" { printf("PLUS\n"); }
+"+" { detect("PLUS"); }
 
-"}" { printf("RBRACE\n"); }
+"}" { detect("RBRACE"); }
 
-")" { printf("RPAR\n"); }
+")" { detect("RPAR"); }
 
-";" { printf("SEMI\n"); }
+";" { detect("SEMI"); }
 
-[a-zA-z_]+({num}*|a-zA-z|_)+ {											// Sequências alfanuméricas
-	printf("ID(%s)\n", yytext);
-}
 
-'[a-zA-Z]' {
-	printf("CHRLIT(%s)\n", yytext);
+
+[_a-zA-Z]([a-zA-Z_]|{num})* {											// Sequências alfanuméricas
+	if (flag == 'l') printf("ID(%s)\n", yytext);
+	column += yyleng;
 }
 
 {num}+ {							
-	printf("INTLIT(%s)\n", yytext);										// Sequências de dígitos decimais
+	if (flag == 'l') printf("INTLIT(%s)\n", yytext);										// Sequências de dígitos decimais
+	column += yyleng;
 }
 
 {num}*"."{num}*([eE]{signal}?{num}+)?|{num}+[eE]{signal}?{num}+ {		// Números Reais
-	printf("REALLIT(%s)\n", yytext);
+	if (flag == 'l') printf("REALLIT(%s)\n", yytext);
+	column += yyleng;
 }
 
-(.|"\r"|"\n") {																		// Ignora o que não dá "match"  //todo acrescentar erros!!
-	;
-}								
+"\n"|"\r\n"|"\r" {
+	column = 0;
+	line++;
+}
+
+" "|"\t" {
+	column++;
+}
+
+. {	
+	column++;
+	printf("Line <%d>, col <%d>: illegal character (%s)\n", line, column, yytext); 
+}
+
+
 
 %%
 
@@ -100,7 +223,15 @@ void upperString(char* str) {
 	}
 }
 
-int main() {
+void detect(char* text){
+	if (flag == 'l') printf("%s\n", text);
+	column += yyleng;
+}
+
+int main(int argc, char *argv[]) {
+	if (argc > 1 && argv[1][0] == '-'){
+		flag = argv[1][1];
+	}
     yylex();
     return 0;
 }
