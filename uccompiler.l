@@ -1,7 +1,6 @@
 /*
 Ana Rita Rodrigues - 2018284515
 Diogo Alves Almeida - 2018282583
-(_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|
 */
 
 
@@ -73,7 +72,7 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 	stateinitLine = line;	
 }
 
-<CHARINIT>(\\n|\\t|\\\\|\\'|"\\\""|(\\[0-7]?[0-7]?[0-7]))'	{		
+<CHARINIT>(\\n|\\t|\\\\|\\'|"\\\""|(\\[0-3][0-7]?[0-7]?))'	{		
 	// Caso seja uma sequência de escape
 	BEGIN 0;
 	if (flag == 'l') printf("CHRLIT('%s)\n", yytext);
@@ -84,11 +83,11 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 <CHARINIT>[^'\"\\\n\t]' { 
 	// Caso seja um caracter
 	BEGIN 0;
-	if (flag == 'l') printf("CHRLIT('%s)\n", yytext);
+	if (flag == 'l') printf("CHRLIT('%s)\n", yytext); 
 	column += yyleng;
 }
 
-<CHARINIT>[^'\n]*("\n"|"\r\n"|"\r") {
+<CHARINIT>[^'\n]*("\n"|"\r\n"|"\r")|\\'("\n"|"\r\n"|"\r") {
 	printf("Line %d, col %d: unterminated char constant\n", stateinitLine, stateinitColumn);
 	BEGIN 0;
 	line++;
