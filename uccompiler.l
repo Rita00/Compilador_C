@@ -1,13 +1,14 @@
 /*
 Ana Rita Rodrigues - 2018284515
 Diogo Alves Almeida - 2018282583
+(_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|
 */
 
 
 num		[0-9]
 signal	[+-]
 simple char|else|while|if|int|short|double|return|void
-reserved (_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|"++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|register|signed|sizeof|static|struct|switch|typedef|union|unsigned|volatile|enum|extern|float|for|goto|inline|restrict
+reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|register|signed|sizeof|static|struct|switch|typedef|union|unsigned|volatile|enum|extern|float|for|goto|inline|restrict|_Bool|_Complex|_Imaginary
 
 %{
 	void upperString(char* str);
@@ -18,7 +19,7 @@ reserved (_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|"++"|"--"|"["|"]"|aut
 	char flag = '\0';
 %}
 
-%X CHARINIT CHAREND COMMENTSINGLE COMMENTDOUBLE
+%X CHARINIT COMMENTSINGLE COMMENTDOUBLE
 
 %%
 
@@ -40,7 +41,7 @@ reserved (_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|"++"|"--"|"["|"]"|aut
 "/*" {
 	BEGIN COMMENTDOUBLE;	
 	column+=2;
-	stateinitColumn = column;
+	stateinitColumn = column - 1;
 	stateinitLine = line;
 }
 
@@ -59,7 +60,7 @@ reserved (_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|"++"|"--"|"["|"]"|aut
 }
 
 <COMMENTDOUBLE><<EOF>> {
-	printf("Line <%d>, col <%d>: unterminated comment\n", stateinitLine, stateinitColumn);
+	printf("Line %d, col %d: unterminated comment\n", stateinitLine, stateinitColumn);
 	BEGIN 0;
 }
 
@@ -72,56 +73,41 @@ reserved (_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|"++"|"--"|"["|"]"|aut
 	stateinitLine = line;	
 }
 
-<CHARINIT>(\\n|\\t|\\\\|\\'|"\""|(\\[0-7][0-7][0-7]))	{	// procurar sequencia de escape			
+<CHARINIT>(\\n|\\t|\\\\|\\'|"\\\""|(\\[0-7]?[0-7]?[0-7]))'	{		
 	// Caso seja uma sequência de escape
-	BEGIN CHAREND;
-	charlit = strdup(yytext);
+	BEGIN 0;
+	if (flag == 'l') printf("CHRLIT('%s)\n", yytext);
 	column += yyleng;
 }	
 
 
-<CHARINIT>. { 
+<CHARINIT>[^'\"\\\n\t]' { 
 	// Caso seja um caracter
-	BEGIN CHAREND;
-	charlit = strdup(yytext);
-	column++;
-}
-
-<CHAREND>"'" { //encontrou segunda plica e por isso termina o char literal
-	if (flag == 'l') printf("CHRLIT('%s')\n", charlit);
-	free(charlit);
 	BEGIN 0;
-	column++;
-}
-
-<CHAREND>[^']+' { //encontrou conteudo a mais no char literal e por isso apresenta erro
-	printf("Line <%d>, col <%d>: invalid char constant ('%s%s)\n", stateinitLine, stateinitColumn, charlit, yytext);
-	free(charlit);
+	if (flag == 'l') printf("CHRLIT('%s)\n", yytext);
 	column += yyleng;
-	BEGIN 0;
 }
 
-<CHARINIT>"\n"|"\r\n"|"\r" {
-	printf("Line <%d>, col <%d>: unterminated char constant\n", stateinitLine, stateinitColumn);
+<CHARINIT>[^'\n]*("\n"|"\r\n"|"\r") {
+	printf("Line %d, col %d: unterminated char constant\n", stateinitLine, stateinitColumn);
 	BEGIN 0;
 	line++;
+	column = 0;
 }
 
-<CHAREND>"\n"|"\r\n"|"\r" {
-	printf("Line <%d>, col <%d>: unterminated char constant\n", stateinitLine, stateinitColumn);
+<CHARINIT>[^'\n]*' { 
+	// Caso seja um caracter
 	BEGIN 0;
-	line++;
+	printf("Line %d, col %d: invalid char constant ('%s)\n", stateinitLine, stateinitColumn, yytext);
+	column += yyleng;
 }
 
-<CHARINIT><<EOF>> {
-	printf("Line <%d>, col <%d>: unterminated char constant\n", stateinitLine, stateinitColumn);
+
+<CHARINIT>[^']*<EOF> {
+	printf("Line %d, col %d: unterminated char constant\n", stateinitLine, stateinitColumn);
 	BEGIN 0;
 }
 
-<CHAREND><<EOF>> {
-	printf("Line <%d>, col <%d>: unterminated char constant\n", stateinitLine, stateinitColumn);
-	BEGIN 0;
-}
 
 
 
@@ -130,7 +116,10 @@ reserved (_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|"++"|"--"|"["|"]"|aut
 	detect(yytext);
 }
 
-{reserved} { detect("RESERVED");}
+{reserved} { 
+	if (flag == 'l') printf("RESERVED(%s)\n", yytext);
+	column+=yyleng;
+}
 
 "&" { detect("BITWISEAND"); }
 
@@ -192,7 +181,7 @@ reserved (_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|"++"|"--"|"["|"]"|aut
 	column += yyleng;
 }
 
-{num}*"."{num}*([eE]{signal}?{num}+)?|{num}+[eE]{signal}?{num}+ {		// Números Reais
+(({num}+".")|({num}*"."{num}+))([eE]{signal}?{num}+)?|{num}+[eE]{signal}?{num}+ {		// Números Reais
 	if (flag == 'l') printf("REALLIT(%s)\n", yytext);
 	column += yyleng;
 }
@@ -208,7 +197,7 @@ reserved (_[A-Z]([a-zA-Z]|{num})*)|(__+([_a-zA-Z]|{num})*)|"++"|"--"|"["|"]"|aut
 
 . {	
 	column++;
-	printf("Line <%d>, col <%d>: illegal character (%s)\n", line, column, yytext); 
+	printf("Line %d, col %d: illegal character (%s)\n", line, column, yytext); 
 }
 
 
