@@ -1,6 +1,6 @@
 /*
 Ana Rita Rodrigues - 2018284515
-Diogo Alves Almeida - 2018282583
+Diogo Flórido - 2018282583
 */
 
 
@@ -18,7 +18,7 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 	char flag = '\0';
 %}
 
-%X CHARINIT COMMENTSINGLE COMMENTDOUBLE
+%X COMMENTSINGLE COMMENTDOUBLE
 
 %%
 
