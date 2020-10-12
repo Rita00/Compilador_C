@@ -9,6 +9,9 @@ const
 continue
 default
 do
+while
+do-while
+do while
 double
 else
 enum

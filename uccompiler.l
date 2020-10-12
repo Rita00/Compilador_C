@@ -63,53 +63,6 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 	BEGIN 0;
 }
 
-
-
-"'"	{
-	BEGIN CHARINIT; //entrar no modo de busca de char literal
-	column++;
-	stateinitColumn = column;
-	stateinitLine = line;	
-}
-
-<CHARINIT>(\\n|\\t|\\\\|\\'|"\\\""|(\\[0-3][0-7]?[0-7]?))'	{		
-	// Caso seja uma sequência de escape
-	BEGIN 0;
-	if (flag == 'l') printf("CHRLIT('%s)\n", yytext);
-	column += yyleng;
-}	
-
-
-<CHARINIT>[^'\"\\\n\t]' { 
-	// Caso seja um caracter
-	BEGIN 0;
-	if (flag == 'l') printf("CHRLIT('%s)\n", yytext); 
-	column += yyleng;
-}
-
-<CHARINIT>[^'\n]*("\n"|"\r\n"|"\r")|\\'("\n"|"\r\n"|"\r") {
-	printf("Line %d, col %d: unterminated char constant\n", stateinitLine, stateinitColumn);
-	BEGIN 0;
-	line++;
-	column = 0;
-}
-
-<CHARINIT>[^'\n]*' { 
-	// Caso seja um caracter
-	BEGIN 0;
-	printf("Line %d, col %d: invalid char constant ('%s)\n", stateinitLine, stateinitColumn, yytext);
-	column += yyleng;
-}
-
-
-<CHARINIT>[^']*<EOF> {
-	printf("Line %d, col %d: unterminated char constant\n", stateinitLine, stateinitColumn);
-	BEGIN 0;
-}
-
-
-
-
 {simple} {
 	upperString(yytext);
 	detect(yytext);
@@ -169,6 +122,21 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 ";" { detect("SEMI"); }
 
 
+
+\'([^\n\'\\]|\\n|\\t|\\\\|"\\\""|\\\'|\\[0-7][0-7]?[0-7]?)\' {
+	if(flag == 'l') printf("CHRLIT(%s)\n", yytext); 
+	column += yyleng;
+}
+
+\'([^\n\'\\]|\\.)*\' {
+	printf("Line %d, col %d: invalid char constant (%s)\n", line, column+1, yytext); 
+	column += yyleng;
+}
+
+\'([^\n\'\\]|\\.)*(\\)? {
+	printf("Line %d, col %d: unterminated char constant\n", line, column+1);
+	column += yyleng;
+}
 
 [_a-zA-Z]([a-zA-Z_]|{num})* {											// Sequências alfanuméricas
 	if (flag == 'l') printf("ID(%s)\n", yytext);
