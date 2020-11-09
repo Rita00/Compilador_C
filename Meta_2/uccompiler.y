@@ -62,13 +62,15 @@ FunctionDeclarator:
 	ID LPAR ParameterList RPAR	{}
 ;
 ParameterList:
-ParameterDeclaration COMMA ParameterDeclaration
+ParameterDeclaration	{}
+|ParameterDeclaration COMMA ParameterDeclaration	{}
 ;
 ParameterDeclaration:
 	TypeSpec ID	{}
 |	TypeSpec	{}
 ;
 Declaration:
+	TypeSpec Declarator SEMI	{}
 	TypeSpec Declarator COMMA Declarator SEMI	{}
 ;
 TypeSpec:
@@ -79,7 +81,7 @@ TypeSpec:
 Declarator:
 	ID	{}
 |	ID ASSIGN Expr	{}
-|	ID COMMA ID 	{}	//suponho que isto se verifique
+|	Declarator COMMA Declarator 	{}	//suponho que isto se verifique
 ;
 Statement:
 	RETURN SEMI	{}
@@ -87,6 +89,7 @@ Statement:
 |	WHILE LPAR Expr RPAR Statement	{}
 |	IF LPAR Expr RPAR Statement	{}
 |	IF LPAR Expr RPAR Statement ELSE Statement	{}
+|	LBRACE RBRACE
 |	LBRACE Statement RBRACE	{}
 |	Statement Statement	{}	//suponho que isto se verifique
 |	SEMI
@@ -99,6 +102,7 @@ Expr:
 |	REALLIT	{}	
 | 	LPAR Expr RPAR	{}
 |	ID LPAR RPAR	{}
+|	ID LPAR Expr RPAR	{}
 |	ID LPAR Expr COMMA EXPR RPAR {}
 |	PLUS Expr	{}
 |	MINUS Expr	{}
