@@ -9,13 +9,10 @@ symtab tab[NSYMS];
 
 symtab *symlook(char *varname);
 %}
-%token <realnum> REALLIT
-%token <intnum> INTLIT
-%token <letters> SIMPLE RESERVED BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI CHRLIT ID
+
+%token <letters> REALLIT INTLIT SIMPLE RESERVED BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI CHRLIT ID CHAR ELSE WHILE IF INT SHORT DOUBLE RETURN VOID
 %type <value> expression
 %union{
-double realnum;
-int intnum;
 char* letters;
 }
 %right LBRACE 
@@ -63,7 +60,7 @@ FunctionDeclarator:
 ;
 ParameterList:
 ParameterDeclaration	{}
-|ParameterDeclaration COMMA ParameterDeclaration	{}
+|ParameterList COMMA ParameterDeclaration	{}
 ;
 ParameterDeclaration:
 	TypeSpec ID	{}
