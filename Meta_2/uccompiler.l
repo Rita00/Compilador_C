@@ -84,53 +84,53 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 	return RESERVED;
 }
 
-"&" { detect("BITWISEAND"); yylval.letters=yytext; return BITWISEAND; }
+"&" { detect("BITWISEAND"); ; return BITWISEAND; }
 
-"|" { detect("BITWISEOR");yylval.letters=yytext; return BITWISEOR;}
+"|" { detect("BITWISEOR");; return BITWISEOR;}
 
-"^" { detect("BITWISEXOR");yylval.letters=yytext; return BITWISEXOR;}
+"^" { detect("BITWISEXOR");; return BITWISEXOR;}
 
-"&&" { detect("AND");yylval.letters=yytext return AND;}
+"&&" { detect("AND"); return AND;}
 
-"=" { detect("ASSIGN");yylval.letters=yytext return ASSIGN;}
+"=" { detect("ASSIGN"); return ASSIGN;}
 
-"*" { detect("MUL");yylval.letters=yytext return MUL;}
+"*" { detect("MUL"); return MUL;}
 
-"," { detect("COMMA");yylval.letters=yytext return COMMA;}
+"," { detect("COMMA"); return COMMA;}
 
-"/" { detect("DIV");yylval.letters=yytext return DIV;}
+"/" { detect("DIV"); return DIV;}
 
-"==" { detect("EQ");yylval.letters=yytext return EQ;}
+"==" { detect("EQ"); return EQ;}
 
-">=" { detect("GE");yylval.letters=yytext return GE;}
+">=" { detect("GE"); return GE;}
 
-">" { detect("GT");yylval.letters=yytext return GT;}
+">" { detect("GT"); return GT;}
 
-"{" { detect("LBRACE");yylval.letters=yytext return LBRACE;}
+"{" { detect("LBRACE"); return LBRACE;}
 
-"<=" { detect("LE");yylval.letters=yytext return LE;}
+"<=" { detect("LE"); return LE;}
 
-"(" { detect("LPAR");yylval.letters=yytext return LPAR;}
+"(" { detect("LPAR"); return LPAR;}
 
-"<" { detect("LT");yylval.letters=yytext return LT;}
+"<" { detect("LT"); return LT;}
 
-"-" { detect("MINUS");yylval.letters=yytext return MINUS;}
+"-" { detect("MINUS"); return MINUS;}
 
-"%" { detect("MOD");yylval.letters=yytext return MOD;}
+"%" { detect("MOD"); return MOD;}
 
-"!=" { detect("NE");yylval.letters=yytext return NE;}
+"!=" { detect("NE"); return NE;}
 
-"!" { detect("NOT");yylval.letters=yytext return NOT;}
+"!" { detect("NOT"); return NOT;}
 
-"||" { detect("OR");yylval.letters=yytext return OR;}
+"||" { detect("OR"); return OR;}
 
-"+" { detect("PLUS");yylval.letters=yytext return PLUS;}
+"+" { detect("PLUS"); return PLUS;}
 
-"}" { detect("RBRACE");yylval.letters=yytext return RBRACE;}
+"}" { detect("RBRACE"); return RBRACE;}
 
-")" { detect("RPAR");yylval.letters=yytext return RPAR;}
+")" { detect("RPAR"); return RPAR;}
 
-";" { detect("SEMI");yylval.letters=yytext return SEMI;}
+";" { detect("SEMI"); return SEMI;}
 
 
 \'([^\n\'\\]|\\n|\\t|\\\\|"\\\""|\\\'|\\[0-7][0-7]?[0-7]?)\' {
