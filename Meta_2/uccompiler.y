@@ -35,19 +35,15 @@ char* letters;
 
 %%
 FunctionsAndDeclarations:
-	FunctionDefinition FunctionDefinition 
-|	FunctionDefinition FunctionDeclaration
-|	FunctionDefinition Declaration
-|	FunctionDeclaration FunctionDefinition 
-|	FunctionDeclaration FunctionDeclaration
-|	FunctionDeclaration Declaration
-|	Declaration FunctionDefinition 
-|	Declaration FunctionDeclaration
-|	Declaration Declaration
+	FunctionDefinition	{}
+|	FunctionDeclaration	{}
+|	Declaration	{}
+|	FunctionsAndDeclarations FunctionDefinition	{}
+|	FunctionsAndDeclarations FunctionDeclaration	{}
+|	FunctionsAndDeclarations Declaration	{}
 ;
 FunctionDefinition:
 	TypeSpec FunctionDeclarator FunctionBody	{}
-	FunctionDefinition FunctionDefinition	{} //Suponho que isto se verifique
 ; 
 FunctionBody:
 	LBRACE DeclarationsAndStatements RBRACE	{}
@@ -61,7 +57,6 @@ DeclarationsAndStatements:
 ;
 FunctionDeclaration:
 	TypeSpec FunctionDeclarator SEMI	{}
-	FunctionDeclaration FunctionDeclaration	{} //Suponho que isto se verifique
 ;
 FunctionDeclarator:
 	ID LPAR ParameterList RPAR	{}
@@ -72,11 +67,9 @@ ParameterDeclaration COMMA ParameterDeclaration
 ParameterDeclaration:
 	TypeSpec ID	{}
 |	TypeSpec	{}
-|	ParameterDeclaration COMMA ParameterDeclaration	{}	//suponho que isto se verifique
 ;
 Declaration:
 	TypeSpec Declarator COMMA Declarator SEMI	{}
-	Declaration Declaration	{}	//Suponho que isto se verifique
 ;
 TypeSpec:
 	CHAR	{}
