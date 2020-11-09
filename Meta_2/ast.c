@@ -1,6 +1,4 @@
-//
-// Created by GU502GW on 08/11/2020.
-//
+
 
 #include "ast.h"
 AST_Node create_node(char *token) { //TODO n_linha e n_coluna
@@ -10,23 +8,40 @@ AST_Node create_node(char *token) { //TODO n_linha e n_coluna
 }
 
 void add_child(AST_Node target, AST_Node child) {
-    child->parent = target;
-    //criar novo array
-    AST_Node *new_array = calloc(target->n_children + 1, sizeof(AST_Node));
-    // copiar conteudos do antigo array para o novo
-    memcpy(new_array, target->children, target->n_children*sizeof(AST_Node));
-    //Adicionar child ao novo array
-    new_array[target->n_children] = child;
-    // trocar array antigo por novo
-    target->n_children++;
-    free(target->children);
-    target->children = new_array;
+    if (strcmp(child->token, "many_children")){
+        child->parent = target;
+        //criar novo array
+        AST_Node *new_array = calloc(target->n_children + 1, sizeof(AST_Node));
+        // copiar conteudos do antigo array para o novo
+        memcpy(new_array, target->children, target->n_children*sizeof(AST_Node));
+        //Adicionar child ao novo array
+        new_array[target->n_children] = child;
+        // trocar array antigo por novo
+        target->n_children++;
+        free(target->children);
+        target->children = new_array;
+    }else{
+        //criar novo array
+        AST_Node *new_array = calloc(target->n_children + child->n_children, sizeof(AST_Node));
+        memcpy(new_array, target->children, target->n_children*sizeof(AST_Node));
+        for (int i = 0; i < child->n_children; i++) {
+            child->children[i]->parent = target;
+            new_array[target->n_children+i] = child->children[i];
+        }
+        target->n_children += child->n_children;
+        free(target->children);
+        free(child->children);
+        free(child);
+        target->children = new_array;
+    }
+    
 }
 
 void free_AST(AST_Node root) {
     for (int i = 0; i < root->n_children; i++) {
         free_AST(root->children[i]);
     }
+    free(root->children);
     free(root);
 }
 

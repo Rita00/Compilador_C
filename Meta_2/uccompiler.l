@@ -10,6 +10,7 @@ simple char|else|while|if|int|short|double|return|void
 reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|register|signed|sizeof|static|struct|switch|typedef|union|unsigned|volatile|enum|extern|float|for|goto|inline|restrict|_Bool|_Complex|_Imaginary
 
 %{
+	#include "y.tab.h"
 	void upperString(char* str);
 	void detect(char* text);
 	char *charlit;
@@ -66,65 +67,77 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 {simple} {
 	upperString(yytext);
 	detect(yytext);
+	if (!strcmp(yytext, "CHAR")) return CHAR;
+	if (!strcmp(yytext, "ELSE")) return ELSE;
+	if (!strcmp(yytext, "WHILE")) return WHILE;
+	if (!strcmp(yytext, "IF")) return IF;
+	if (!strcmp(yytext, "INT")) return INT;
+	if (!strcmp(yytext, "SHORT")) return SHORT;
+	if (!strcmp(yytext, "DOUBLE")) return DOUBLE;
+	if (!strcmp(yytext, "RETURN")) return RETURN;
+	if (!strcmp(yytext, "VOID")) return VOID;
 }
 
 {reserved} { 
 	if (flag == 'l') printf("RESERVED(%s)\n", yytext);
 	column+=yyleng;
+	return RESERVED;
 }
 
-"&" { detect("BITWISEAND"); }
+"&" { detect("BITWISEAND"); return BITWISEAND;}
 
-"|" { detect("BITWISEOR"); }
+"|" { detect("BITWISEOR"); return BITWISEOR;}
 
-"^" { detect("BITWISEXOR"); }
+"^" { detect("BITWISEXOR"); return BITWISEXOR;}
 
-"&&" { detect("AND"); }
+"&&" { detect("AND"); return AND;}
 
-"=" { detect("ASSIGN"); }
+"=" { detect("ASSIGN"); return ASSIGN;}
 
-"*" { detect("MUL"); }
+"*" { detect("MUL"); return MUL;}
 
-"," { detect("COMMA"); }
+"," { detect("COMMA"); return COMMA;}
 
-"/" { detect("DIV"); }
+"/" { detect("DIV"); return DIV;}
 
-"==" { detect("EQ"); }
+"==" { detect("EQ"); return EQ;}
 
-">=" { detect("GE"); }
+">=" { detect("GE"); return GE;}
 
-">" { detect("GT"); }
+">" { detect("GT"); return GT;}
 
-"{" { detect("LBRACE"); }
+"{" { detect("LBRACE"); return LBRACE;}
 
-"<=" { detect("LE"); }
+"<=" { detect("LE"); return LE;}
 
-"(" { detect("LPAR"); }
+"(" { detect("LPAR"); return LPAR;}
 
-"<" { detect("LT"); }
+"<" { detect("LT"); return LT;}
 
-"-" { detect("MINUS"); }
+"-" { detect("MINUS"); return MINUS;}
 
-"%" { detect("MOD"); }
+"%" { detect("MOD"); return MOD;}
 
-"!=" { detect("NE"); }
+"!=" { detect("NE"); return NE;}
 
-"!" { detect("NOT"); }
+"!" { detect("NOT"); return NOT;}
 
-"||" { detect("OR"); }
+"||" { detect("OR"); return OR;}
 
-"+" { detect("PLUS"); }
+"+" { detect("PLUS"); return PLUS;}
 
-"}" { detect("RBRACE"); }
+"}" { detect("RBRACE"); return RBRACE;}
 
-")" { detect("RPAR"); }
+")" { detect("RPAR"); return RPAR;}
 
-";" { detect("SEMI"); }
+";" { detect("SEMI"); return SEMI;}
 
 
 \'([^\n\'\\]|\\n|\\t|\\\\|"\\\""|\\\'|\\[0-7][0-7]?[0-7]?)\' {
 	if(flag == 'l') printf("CHRLIT(%s)\n", yytext); 
 	column += yyleng;
+	yylval.letters = yytext;
+	return CHRLIT;
 }
 
 \'([^\n\'\\]|\\.)*\' {
@@ -140,16 +153,22 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 [_a-zA-Z]([a-zA-Z_]|{num})* {											// Sequências alfanuméricas
 	if (flag == 'l') printf("ID(%s)\n", yytext);
 	column += yyleng;
+	yylval.letters = yytext;
+	return ID;
 }
 
 {num}+ {							
 	if (flag == 'l') printf("INTLIT(%s)\n", yytext);										// Sequências de dígitos decimais
 	column += yyleng;
+	yylval.letters = yytext;
+	return INTLIT;
 }
 
 (({num}+".")|({num}*"."{num}+))([eE]{signal}?{num}+)?|{num}+[eE]{signal}?{num}+ {		// Números Reais
 	if (flag == 'l') printf("REALLIT(%s)\n", yytext);
 	column += yyleng;
+	yylval.letters = yytext;
+	return REALLIT;
 }
 
 "\n"|"\r\n"|"\r" {
@@ -186,8 +205,17 @@ int main(int argc, char *argv[]) {
 	if (argc > 1 && argv[1][0] == '-'){
 		flag = argv[1][1];
 	}
-    yylex();
+	if(flag == 'l'){
+		yylex();
+	}else{
+	    yyparse();
+	    yylex_destroy();
+	}
     return 0;
+}
+
+void yyerror (char *str) {
+    printf("Line %d, col %d: %s: %s\n", line, column - (int)strlen(yytext), str, yytext);
 }
 
 int yywrap() {
