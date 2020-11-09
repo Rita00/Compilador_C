@@ -84,11 +84,11 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 	return RESERVED;
 }
 
-"&" { detect("BITWISEAND"); ; return BITWISEAND; }
+"&" { detect("BITWISEAND"); return BITWISEAND; }
 
-"|" { detect("BITWISEOR");; return BITWISEOR;}
+"|" { detect("BITWISEOR"); return BITWISEOR;}
 
-"^" { detect("BITWISEXOR");; return BITWISEXOR;}
+"^" { detect("BITWISEXOR"); return BITWISEXOR;}
 
 "&&" { detect("AND"); return AND;}
 
@@ -136,7 +136,7 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 \'([^\n\'\\]|\\n|\\t|\\\\|"\\\""|\\\'|\\[0-7][0-7]?[0-7]?)\' {
 	if(flag == 'l') printf("CHRLIT(%s)\n", yytext); 
 	column += yyleng;
-	yylval.letters=(char*)strdup(yytext);
+	yylval.letters=yytext;
 	return CHRLIT;
 }
 
@@ -160,14 +160,14 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 {num}+ {							
 	if (flag == 'l') printf("INTLIT(%s)\n", yytext);										// Sequências de dígitos decimais
 	column += yyleng;
-	yylval.letters=(char*)strdup(yytext);
+	yylval.letters=yytext;
 	return INTLIT;
 }
 
 (({num}+".")|({num}*"."{num}+))([eE]{signal}?{num}+)?|{num}+[eE]{signal}?{num}+ {		// Números Reais
 	if (flag == 'l') printf("REALLIT(%s)\n", yytext);
 	column += yyleng;
-	yylval.letters=(char*)strdup(yytext);
+	yylval.letters=yytext;
 	return REALLIT;
 }
 
