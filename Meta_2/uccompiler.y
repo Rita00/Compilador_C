@@ -18,8 +18,20 @@ double realnum;
 int intnum;
 char* letters;
 }
-%right LBRACE EQ NE GE GT LE LT LPAR ASSIGN NOT
-%left COMMA RBRACE SEMI PLUS MINUS MUL DIV MOD BITWISEOR OR BITWISEXOR BITWISEAND AND RPAR
+%right LBRACE 
+%right EQ NE GE GT LE LT 
+%right LPAR 
+%right ASSIGN 
+%right NOT
+%left COMMA 
+%left RBRACE 
+%left SEMI 
+%left BITWISEOR OR 
+%left BITWISEXOR 
+%left BITWISEAND AND 
+%left PLUS MINUS 
+%left MUL DIV MOD 
+%left RPAR
 
 %%
 FunctionsAndDeclarations:
