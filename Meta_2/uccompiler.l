@@ -66,64 +66,71 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 {simple} {
 	upperString(yytext);
 	detect(yytext);
-	yylval.letters=(char*)strdup(yytext);
-	return SIMPLE;
+	if (!strcmp(yytext, "CHAR")) return CHAR;
+	if (!strcmp(yytext, "ELSE")) return ELSE;
+	if (!strcmp(yytext, "WHILE")) return WHILE;
+	if (!strcmp(yytext, "IF")) return IF;
+	if (!strcmp(yytext, "INT")) return INT;
+	if (!strcmp(yytext, "SHORT")) return SHORT;
+	if (!strcmp(yytext, "DOUBLE")) return DOUBLE;
+	if (!strcmp(yytext, "RETURN")) return RETURN;
+	if (!strcmp(yytext, "VOID")) return VOID;
 }
 
 {reserved} { 
 	if (flag == 'l') printf("RESERVED(%s)\n", yytext);
 	column+=yyleng;
-	yylval.letters=(char*)strdup(yytext);
+	yylval.letters=yytext;
 	return RESERVED;
 }
 
-"&" { detect("BITWISEAND"); yylval.letters=(char*)strdup(yytext); return BITWISEAND; }
+"&" { detect("BITWISEAND"); yylval.letters=yytext; return BITWISEAND; }
 
-"|" { detect("BITWISEOR");yylval.letters=(char*)strdup(yytext); return BITWISEOR;}
+"|" { detect("BITWISEOR");yylval.letters=yytext; return BITWISEOR;}
 
-"^" { detect("BITWISEXOR");yylval.letters=(char*)strdup(yytext); return BITWISEXOR;}
+"^" { detect("BITWISEXOR");yylval.letters=yytext; return BITWISEXOR;}
 
-"&&" { detect("AND");yylval.letters=(char*)strdup(yytext); return AND;}
+"&&" { detect("AND");yylval.letters=yytext return AND;}
 
-"=" { detect("ASSIGN");yylval.letters=(char*)strdup(yytext); return ASSIGN;}
+"=" { detect("ASSIGN");yylval.letters=yytext return ASSIGN;}
 
-"*" { detect("MUL");yylval.letters=(char*)strdup(yytext); return MUL;}
+"*" { detect("MUL");yylval.letters=yytext return MUL;}
 
-"," { detect("COMMA");yylval.letters=(char*)strdup(yytext); return COMMA;}
+"," { detect("COMMA");yylval.letters=yytext return COMMA;}
 
-"/" { detect("DIV");yylval.letters=(char*)strdup(yytext); return DIV;}
+"/" { detect("DIV");yylval.letters=yytext return DIV;}
 
-"==" { detect("EQ");yylval.letters=(char*)strdup(yytext); return EQ;}
+"==" { detect("EQ");yylval.letters=yytext return EQ;}
 
-">=" { detect("GE");yylval.letters=(char*)strdup(yytext); return GE;}
+">=" { detect("GE");yylval.letters=yytext return GE;}
 
-">" { detect("GT");yylval.letters=(char*)strdup(yytext); return GT;}
+">" { detect("GT");yylval.letters=yytext return GT;}
 
-"{" { detect("LBRACE");yylval.letters=(char*)strdup(yytext); return LBRACE;}
+"{" { detect("LBRACE");yylval.letters=yytext return LBRACE;}
 
-"<=" { detect("LE");yylval.letters=(char*)strdup(yytext); return LE;}
+"<=" { detect("LE");yylval.letters=yytext return LE;}
 
-"(" { detect("LPAR");yylval.letters=(char*)strdup(yytext); return LPAR;}
+"(" { detect("LPAR");yylval.letters=yytext return LPAR;}
 
-"<" { detect("LT");yylval.letters=(char*)strdup(yytext); return LT;}
+"<" { detect("LT");yylval.letters=yytext return LT;}
 
-"-" { detect("MINUS");yylval.letters=(char*)strdup(yytext); return MINUS;}
+"-" { detect("MINUS");yylval.letters=yytext return MINUS;}
 
-"%" { detect("MOD");yylval.letters=(char*)strdup(yytext); return MOD;}
+"%" { detect("MOD");yylval.letters=yytext return MOD;}
 
-"!=" { detect("NE");yylval.letters=(char*)strdup(yytext); return NE;}
+"!=" { detect("NE");yylval.letters=yytext return NE;}
 
-"!" { detect("NOT");yylval.letters=(char*)strdup(yytext); return NOT;}
+"!" { detect("NOT");yylval.letters=yytext return NOT;}
 
-"||" { detect("OR");yylval.letters=(char*)strdup(yytext); return OR;}
+"||" { detect("OR");yylval.letters=yytext return OR;}
 
-"+" { detect("PLUS");yylval.letters=(char*)strdup(yytext); return PLUS;}
+"+" { detect("PLUS");yylval.letters=yytext return PLUS;}
 
-"}" { detect("RBRACE");yylval.letters=(char*)strdup(yytext); return RBRACE;}
+"}" { detect("RBRACE");yylval.letters=yytext return RBRACE;}
 
-")" { detect("RPAR");yylval.letters=(char*)strdup(yytext); return RPAR;}
+")" { detect("RPAR");yylval.letters=yytext return RPAR;}
 
-";" { detect("SEMI");yylval.letters=(char*)strdup(yytext); return SEMI;}
+";" { detect("SEMI");yylval.letters=yytext return SEMI;}
 
 
 \'([^\n\'\\]|\\n|\\t|\\\\|"\\\""|\\\'|\\[0-7][0-7]?[0-7]?)\' {
@@ -146,21 +153,21 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 [_a-zA-Z]([a-zA-Z_]|{num})* {											// Sequências alfanuméricas
 	if (flag == 'l') printf("ID(%s)\n", yytext);
 	column += yyleng;
-	yylval.letters=(char*)strdup(yytext);
+	yylval.letters=yytext;
 	return ID;
 }
 
 {num}+ {							
 	if (flag == 'l') printf("INTLIT(%s)\n", yytext);										// Sequências de dígitos decimais
 	column += yyleng;
-	yylval.intnum=atoi(yytext);
+	yylval.letters=(char*)strdup(yytext);
 	return INTLIT;
 }
 
 (({num}+".")|({num}*"."{num}+))([eE]{signal}?{num}+)?|{num}+[eE]{signal}?{num}+ {		// Números Reais
 	if (flag == 'l') printf("REALLIT(%s)\n", yytext);
 	column += yyleng;
-	yylval.realnum=strtod(yytext,*(yytext+sizeof(yytext));
+	yylval.letters=(char*)strdup(yytext);
 	return REALLIT;
 }
 
