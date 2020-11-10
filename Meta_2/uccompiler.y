@@ -55,9 +55,9 @@ Program: FunctionsAndDeclarations {root = create_node("Program"); add_child(root
 FunctionsAndDeclarations: FunctionDefinition {$$=$1;}
     | FunctionDeclaration {$$=$1;}
     | Declaration {$$=$1;}
-    | FunctionsAndDeclarations FunctionDefinition {$$=NULL;}
-    | FunctionsAndDeclarations FunctionDeclaration {$$=NULL;}
-    | FunctionsAndDeclarations Declaration {$$=NULL;}
+    | FunctionsAndDeclarations FunctionDefinition {$$ = create_node("many_children"); add_child($$, $1); add_child($$, $2);}
+    | FunctionsAndDeclarations FunctionDeclaration {$$ = create_node("many_children"); add_child($$, $1); add_child($$, $2);}
+    | FunctionsAndDeclarations Declaration {$$ = create_node("many_children"); add_child($$, $1); add_child($$, $2);}
 ;
 
 FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody {$$=create_node("FuncDefinition"); add_child($$, $1); add_child($$, $2); add_child($$, $3);}

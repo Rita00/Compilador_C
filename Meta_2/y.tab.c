@@ -1520,19 +1520,19 @@ yyreduce:
 
   case 6:
 #line 58 "uccompiler.y" /* yacc.c:1646  */
-    {(yyval.node)=NULL;}
+    {(yyval.node) = create_node("many_children"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
 #line 1525 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 59 "uccompiler.y" /* yacc.c:1646  */
-    {(yyval.node)=NULL;}
+    {(yyval.node) = create_node("many_children"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
 #line 1531 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
 #line 60 "uccompiler.y" /* yacc.c:1646  */
-    {(yyval.node)=NULL;}
+    {(yyval.node) = create_node("many_children"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
 #line 1537 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1586,7 +1586,7 @@ yyreduce:
 
   case 17:
 #line 79 "uccompiler.y" /* yacc.c:1646  */
-    {(yyval.node) = create_node("many_children"); printf("\n\n1%s\n\n", yylval.letters); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));}
+    {(yyval.node) = create_node("many_children"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));}
 #line 1591 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1604,7 +1604,7 @@ yyreduce:
 
   case 20:
 #line 86 "uccompiler.y" /* yacc.c:1646  */
-    {(yyval.node) = create_node("ParamDeclaration"); add_child((yyval.node), (yyvsp[-1].node));printf("\n\n2%s\n\n", yylval.letters); add_child((yyval.node), create_literal_node("Id", (yyvsp[0].letters)));}
+    {(yyval.node) = create_node("ParamDeclaration"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), create_literal_node("Id", (yyvsp[0].letters)));}
 #line 1609 "y.tab.c" /* yacc.c:1646  */
     break;
 
