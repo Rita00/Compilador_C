@@ -15,6 +15,7 @@ AST_Node create_literal_node(char *token, char * content){
 }
 
 void add_child(AST_Node target, AST_Node child) {
+    if(child == NULL) return;
     if (strcmp(child->token, "many_children")){
         child->parent = target;
         //criar novo array
@@ -37,11 +38,16 @@ void add_child(AST_Node target, AST_Node child) {
         }
         target->n_children += child->n_children;
         free(target->children);
-        free(child->children);
-        free(child);
+        destroy_node(child);
         target->children = new_array;
     }
     
+}
+
+void destroy_node(AST_Node root){
+    free(root->token);
+    free(root->children);
+    free(root);
 }
 
 void free_AST(AST_Node root) {

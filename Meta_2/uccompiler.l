@@ -12,6 +12,7 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 %{
 	#include "y.tab.h"
 	void upperString(char* str);
+	void lowerString(char* str);
 	void detect(char* text);
 	char *charlit;
 	int line = 1, column = 0;
@@ -67,78 +68,85 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 {simple} {
 	upperString(yytext);
 	detect(yytext);
-	if (!strcmp(yytext, "CHAR")) return CHAR;
-	if (!strcmp(yytext, "ELSE")) return ELSE;
-	if (!strcmp(yytext, "WHILE")) return WHILE;
-	if (!strcmp(yytext, "IF")) return IF;
-	if (!strcmp(yytext, "INT")) return INT;
-	if (!strcmp(yytext, "SHORT")) return SHORT;
-	if (!strcmp(yytext, "DOUBLE")) return DOUBLE;
-	if (!strcmp(yytext, "RETURN")) return RETURN;
-	if (!strcmp(yytext, "VOID")) return VOID;
+	lowerString(yytext);
+	if (flag != 'l' && flag != '1'){
+		if (!strcmp(yytext, "char")) return CHAR;
+		if (!strcmp(yytext, "else")) return ELSE;
+		if (!strcmp(yytext, "while")) return WHILE;
+		if (!strcmp(yytext, "if")) return IF;
+		if (!strcmp(yytext, "int")) return INT;
+		if (!strcmp(yytext, "short")) return SHORT;
+		if (!strcmp(yytext, "double")) return DOUBLE;
+		if (!strcmp(yytext, "return")) return RETURN;
+		if (!strcmp(yytext, "void")) return VOID;
+	}
 }
 
 {reserved} { 
 	if (flag == 'l') printf("RESERVED(%s)\n", yytext);
 	column+=yyleng;
 	yylval.letters = strdup(yytext);
-	return RESERVED;
+	if (flag != 'l' && flag != '1')
+		return RESERVED;
 }
 
-"&" { detect("BITWISEAND"); return BITWISEAND;}
 
-"|" { detect("BITWISEOR"); return BITWISEOR;}
 
-"^" { detect("BITWISEXOR"); return BITWISEXOR;}
+"&" { detect("BITWISEAND");if (flag != 'l' && flag != '1') return BITWISEAND;}
 
-"&&" { detect("AND"); return AND;}
+"|" { detect("BITWISEOR"); if (flag != 'l' && flag != '1') return BITWISEOR;}
 
-"=" { detect("ASSIGN"); return ASSIGN;}
+"^" { detect("BITWISEXOR"); if (flag != 'l' && flag != '1') return BITWISEXOR;}
 
-"*" { detect("MUL"); return MUL;}
+"&&" { detect("AND"); if (flag != 'l' && flag != '1') return AND;}
 
-"," { detect("COMMA"); return COMMA;}
+"=" { detect("ASSIGN"); if (flag != 'l' && flag != '1') return ASSIGN;}
 
-"/" { detect("DIV"); return DIV;}
+"*" { detect("MUL"); if (flag != 'l' && flag != '1') return MUL;}
 
-"==" { detect("EQ"); return EQ;}
+"," { detect("COMMA"); if (flag != 'l' && flag != '1') return COMMA;}
 
-">=" { detect("GE"); return GE;}
+"/" { detect("DIV"); if (flag != 'l' && flag != '1') return DIV;}
 
-">" { detect("GT"); return GT;}
+"==" { detect("EQ"); if (flag != 'l' && flag != '1') return EQ;}
 
-"{" { detect("LBRACE"); return LBRACE;}
+">=" { detect("GE"); if (flag != 'l' && flag != '1') return GE;}
 
-"<=" { detect("LE"); return LE;}
+">" { detect("GT"); if (flag != 'l' && flag != '1') return GT;}
 
-"(" { detect("LPAR"); return LPAR;}
+"{" { detect("LBRACE"); if (flag != 'l' && flag != '1') return LBRACE;}
 
-"<" { detect("LT"); return LT;}
+"<=" { detect("LE"); if (flag != 'l' && flag != '1') return LE;}
 
-"-" { detect("MINUS"); return MINUS;}
+"(" { detect("LPAR"); if (flag != 'l' && flag != '1') return LPAR;}
 
-"%" { detect("MOD"); return MOD;}
+"<" { detect("LT"); if (flag != 'l' && flag != '1') return LT;}
 
-"!=" { detect("NE"); return NE;}
+"-" { detect("MINUS"); if (flag != 'l' && flag != '1') return MINUS;}
 
-"!" { detect("NOT"); return NOT;}
+"%" { detect("MOD"); if (flag != 'l' && flag != '1') return MOD;}
 
-"||" { detect("OR"); return OR;}
+"!=" { detect("NE"); if (flag != 'l' && flag != '1') return NE;}
 
-"+" { detect("PLUS"); return PLUS;}
+"!" { detect("NOT"); if (flag != 'l' && flag != '1') return NOT;}
 
-"}" { detect("RBRACE"); return RBRACE;}
+"||" { detect("OR"); if (flag != 'l' && flag != '1') return OR;}
 
-")" { detect("RPAR"); return RPAR;}
+"+" { detect("PLUS"); if (flag != 'l' && flag != '1') return PLUS;}
 
-";" { detect("SEMI"); return SEMI;}
+"}" { detect("RBRACE"); if (flag != 'l' && flag != '1') return RBRACE;}
+
+")" { detect("RPAR"); if (flag != 'l' && flag != '1') return RPAR;}
+
+";" { detect("SEMI"); if (flag != 'l' && flag != '1') return SEMI;}
 
 
 \'([^\n\'\\]|\\n|\\t|\\\\|"\\\""|\\\'|\\[0-7][0-7]?[0-7]?)\' {
 	if(flag == 'l') printf("CHRLIT(%s)\n", yytext); 
 	column += yyleng;
 	yylval.letters = strdup(yytext);
-	return CHRLIT;
+	if (flag != 'l' && flag != '1')
+		return CHRLIT;
 }
 
 \'([^\n\'\\]|\\.)*\' {
@@ -155,21 +163,24 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 	if (flag == 'l') printf("ID(%s)\n", yytext);
 	column += yyleng;
 	yylval.letters = strdup(yytext);
-	return ID;
+	if (flag != 'l' && flag != '1')
+		return ID;
 }
 
 {num}+ {							
 	if (flag == 'l') printf("INTLIT(%s)\n", yytext);										// Sequências de dígitos decimais
 	column += yyleng;
 	yylval.letters = strdup(yytext);
-	return INTLIT;
+	if (flag != 'l' && flag != '1')
+		return INTLIT;
 }
 
 (({num}+".")|({num}*"."{num}+))([eE]{signal}?{num}+)?|{num}+[eE]{signal}?{num}+ {		// Números Reais
 	if (flag == 'l') printf("REALLIT(%s)\n", yytext);
 	column += yyleng;
 	yylval.letters = strdup(yytext);
-	return REALLIT;
+	if (flag != 'l' && flag != '1')
+		return REALLIT;
 }
 
 "\n"|"\r\n"|"\r" {
@@ -197,6 +208,14 @@ void upperString(char* str) {
 	}
 }
 
+void lowerString(char* str) {
+	for (char *c = str; *c != '\0'; c++){
+		if (*c >='A' && *c <='Z'){
+			*c = *c + ('a' - 'A');
+		}
+	}
+}
+
 void detect(char* text){
 	if (flag == 'l') printf("%s\n", text);
 	column += yyleng;
@@ -205,10 +224,13 @@ void detect(char* text){
 int main(int argc, char *argv[]) {
 	if (argc > 1 && argv[1][0] == '-'){
 		flag = argv[1][1];
+		if (flag == 'e') {
+			flag = argv[1][2];
+		}
 	}
-	if(flag == 'l'){
+	if(flag == 'l' || flag == '1'){
 		yylex();
-	}else{
+	}else {
 	    yyparse();
 	    yylex_destroy();
 	}
@@ -217,8 +239,8 @@ int main(int argc, char *argv[]) {
 
 
 
-void yyerror (char *str) {
-    printf("Line %d, col %d: %s: %s\n", line, column - (int)strlen(yytext), str, yytext);
+void yyerror (char *s) {
+    printf("Line %d, col %d: %s: %s\n", line, column - (int)strlen(yytext) + 1, s, yytext);
 }
 
 int yywrap() {

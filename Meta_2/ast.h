@@ -27,6 +27,8 @@ void add_child(AST_Node target, AST_Node child);
 
 void free_AST(AST_Node root);
 
+void destroy_node(AST_Node root);
+
 void print_AST(AST_Node root, int n_tabs);
 
 #endif //UNTITLED_AST_H

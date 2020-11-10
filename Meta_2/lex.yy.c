@@ -599,14 +599,15 @@ Diogo Flórido - 2018282583
 #line 13 "uccompiler.l"
 	#include "y.tab.h"
 	void upperString(char* str);
+	void lowerString(char* str);
 	void detect(char* text);
 	char *charlit;
 	int line = 1, column = 0;
 	int stateinitLine, stateinitColumn;
 	char flag = '\0';
-#line 608 "lex.yy.c"
+#line 609 "lex.yy.c"
 
-#line 610 "lex.yy.c"
+#line 611 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENTSINGLE 1
@@ -825,10 +826,10 @@ YY_DECL
 		}
 
 	{
-#line 24 "uccompiler.l"
+#line 25 "uccompiler.l"
 
 
-#line 832 "lex.yy.c"
+#line 833 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -887,7 +888,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 26 "uccompiler.l"
+#line 27 "uccompiler.l"
 {
 	BEGIN COMMENTSINGLE;	
 	column+=2;
@@ -895,7 +896,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 31 "uccompiler.l"
+#line 32 "uccompiler.l"
 {
 	column++;
 }
@@ -903,7 +904,7 @@ YY_RULE_SETUP
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 35 "uccompiler.l"
+#line 36 "uccompiler.l"
 {
 	column = 0;
 	line++;
@@ -912,7 +913,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 41 "uccompiler.l"
+#line 42 "uccompiler.l"
 {
 	BEGIN COMMENTDOUBLE;	
 	column+=2;
@@ -922,7 +923,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 48 "uccompiler.l"
+#line 49 "uccompiler.l"
 {
 	column++;
 }
@@ -930,7 +931,7 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 52 "uccompiler.l"
+#line 53 "uccompiler.l"
 {
 	column = 0;
 	line++;
@@ -938,14 +939,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 57 "uccompiler.l"
+#line 58 "uccompiler.l"
 {
 	column+=2;
 	BEGIN 0;
 }
 	YY_BREAK
 case YY_STATE_EOF(COMMENTDOUBLE):
-#line 62 "uccompiler.l"
+#line 63 "uccompiler.l"
 {
 	printf("Line %d, col %d: unterminated comment\n", stateinitLine, stateinitColumn);
 	BEGIN 0;
@@ -953,164 +954,169 @@ case YY_STATE_EOF(COMMENTDOUBLE):
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 67 "uccompiler.l"
+#line 68 "uccompiler.l"
 {
 	upperString(yytext);
 	detect(yytext);
-	if (!strcmp(yytext, "CHAR")) return CHAR;
-	if (!strcmp(yytext, "ELSE")) return ELSE;
-	if (!strcmp(yytext, "WHILE")) return WHILE;
-	if (!strcmp(yytext, "IF")) return IF;
-	if (!strcmp(yytext, "INT")) return INT;
-	if (!strcmp(yytext, "SHORT")) return SHORT;
-	if (!strcmp(yytext, "DOUBLE")) return DOUBLE;
-	if (!strcmp(yytext, "RETURN")) return RETURN;
-	if (!strcmp(yytext, "VOID")) return VOID;
+	lowerString(yytext);
+	if (flag != 'l' && flag != '1'){
+		if (!strcmp(yytext, "char")) return CHAR;
+		if (!strcmp(yytext, "else")) return ELSE;
+		if (!strcmp(yytext, "while")) return WHILE;
+		if (!strcmp(yytext, "if")) return IF;
+		if (!strcmp(yytext, "int")) return INT;
+		if (!strcmp(yytext, "short")) return SHORT;
+		if (!strcmp(yytext, "double")) return DOUBLE;
+		if (!strcmp(yytext, "return")) return RETURN;
+		if (!strcmp(yytext, "void")) return VOID;
+	}
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 81 "uccompiler.l"
+#line 85 "uccompiler.l"
 { 
 	if (flag == 'l') printf("RESERVED(%s)\n", yytext);
 	column+=yyleng;
 	yylval.letters = strdup(yytext);
-	return RESERVED;
+	if (flag != 'l' && flag != '1')
+		return RESERVED;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 88 "uccompiler.l"
-{ detect("BITWISEAND"); return BITWISEAND;}
+#line 95 "uccompiler.l"
+{ detect("BITWISEAND");if (flag != 'l' && flag != '1') return BITWISEAND;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 90 "uccompiler.l"
-{ detect("BITWISEOR"); return BITWISEOR;}
+#line 97 "uccompiler.l"
+{ detect("BITWISEOR"); if (flag != 'l' && flag != '1') return BITWISEOR;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 92 "uccompiler.l"
-{ detect("BITWISEXOR"); return BITWISEXOR;}
+#line 99 "uccompiler.l"
+{ detect("BITWISEXOR"); if (flag != 'l' && flag != '1') return BITWISEXOR;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 94 "uccompiler.l"
-{ detect("AND"); return AND;}
+#line 101 "uccompiler.l"
+{ detect("AND"); if (flag != 'l' && flag != '1') return AND;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 96 "uccompiler.l"
-{ detect("ASSIGN"); return ASSIGN;}
+#line 103 "uccompiler.l"
+{ detect("ASSIGN"); if (flag != 'l' && flag != '1') return ASSIGN;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 98 "uccompiler.l"
-{ detect("MUL"); return MUL;}
+#line 105 "uccompiler.l"
+{ detect("MUL"); if (flag != 'l' && flag != '1') return MUL;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 100 "uccompiler.l"
-{ detect("COMMA"); return COMMA;}
+#line 107 "uccompiler.l"
+{ detect("COMMA"); if (flag != 'l' && flag != '1') return COMMA;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 102 "uccompiler.l"
-{ detect("DIV"); return DIV;}
+#line 109 "uccompiler.l"
+{ detect("DIV"); if (flag != 'l' && flag != '1') return DIV;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 104 "uccompiler.l"
-{ detect("EQ"); return EQ;}
+#line 111 "uccompiler.l"
+{ detect("EQ"); if (flag != 'l' && flag != '1') return EQ;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 106 "uccompiler.l"
-{ detect("GE"); return GE;}
+#line 113 "uccompiler.l"
+{ detect("GE"); if (flag != 'l' && flag != '1') return GE;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 108 "uccompiler.l"
-{ detect("GT"); return GT;}
+#line 115 "uccompiler.l"
+{ detect("GT"); if (flag != 'l' && flag != '1') return GT;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 110 "uccompiler.l"
-{ detect("LBRACE"); return LBRACE;}
+#line 117 "uccompiler.l"
+{ detect("LBRACE"); if (flag != 'l' && flag != '1') return LBRACE;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 112 "uccompiler.l"
-{ detect("LE"); return LE;}
+#line 119 "uccompiler.l"
+{ detect("LE"); if (flag != 'l' && flag != '1') return LE;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 114 "uccompiler.l"
-{ detect("LPAR"); return LPAR;}
+#line 121 "uccompiler.l"
+{ detect("LPAR"); if (flag != 'l' && flag != '1') return LPAR;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 116 "uccompiler.l"
-{ detect("LT"); return LT;}
+#line 123 "uccompiler.l"
+{ detect("LT"); if (flag != 'l' && flag != '1') return LT;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 118 "uccompiler.l"
-{ detect("MINUS"); return MINUS;}
+#line 125 "uccompiler.l"
+{ detect("MINUS"); if (flag != 'l' && flag != '1') return MINUS;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 120 "uccompiler.l"
-{ detect("MOD"); return MOD;}
+#line 127 "uccompiler.l"
+{ detect("MOD"); if (flag != 'l' && flag != '1') return MOD;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 122 "uccompiler.l"
-{ detect("NE"); return NE;}
+#line 129 "uccompiler.l"
+{ detect("NE"); if (flag != 'l' && flag != '1') return NE;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 124 "uccompiler.l"
-{ detect("NOT"); return NOT;}
+#line 131 "uccompiler.l"
+{ detect("NOT"); if (flag != 'l' && flag != '1') return NOT;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 126 "uccompiler.l"
-{ detect("OR"); return OR;}
+#line 133 "uccompiler.l"
+{ detect("OR"); if (flag != 'l' && flag != '1') return OR;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 128 "uccompiler.l"
-{ detect("PLUS"); return PLUS;}
+#line 135 "uccompiler.l"
+{ detect("PLUS"); if (flag != 'l' && flag != '1') return PLUS;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 130 "uccompiler.l"
-{ detect("RBRACE"); return RBRACE;}
+#line 137 "uccompiler.l"
+{ detect("RBRACE"); if (flag != 'l' && flag != '1') return RBRACE;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 132 "uccompiler.l"
-{ detect("RPAR"); return RPAR;}
+#line 139 "uccompiler.l"
+{ detect("RPAR"); if (flag != 'l' && flag != '1') return RPAR;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 134 "uccompiler.l"
-{ detect("SEMI"); return SEMI;}
+#line 141 "uccompiler.l"
+{ detect("SEMI"); if (flag != 'l' && flag != '1') return SEMI;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 137 "uccompiler.l"
+#line 144 "uccompiler.l"
 {
 	if(flag == 'l') printf("CHRLIT(%s)\n", yytext); 
 	column += yyleng;
 	yylval.letters = strdup(yytext);
-	return CHRLIT;
+	if (flag != 'l' && flag != '1')
+		return CHRLIT;
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 144 "uccompiler.l"
+#line 152 "uccompiler.l"
 {
 	printf("Line %d, col %d: invalid char constant (%s)\n", line, column+1, yytext); 
 	column += yyleng;
@@ -1118,7 +1124,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 149 "uccompiler.l"
+#line 157 "uccompiler.l"
 {
 	printf("Line %d, col %d: unterminated char constant\n", line, column+1);
 	column += yyleng;
@@ -1126,38 +1132,41 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 154 "uccompiler.l"
+#line 162 "uccompiler.l"
 {											// Sequências alfanuméricas
 	if (flag == 'l') printf("ID(%s)\n", yytext);
 	column += yyleng;
 	yylval.letters = strdup(yytext);
-	return ID;
+	if (flag != 'l' && flag != '1')
+		return ID;
 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 161 "uccompiler.l"
+#line 170 "uccompiler.l"
 {							
 	if (flag == 'l') printf("INTLIT(%s)\n", yytext);										// Sequências de dígitos decimais
 	column += yyleng;
 	yylval.letters = strdup(yytext);
-	return INTLIT;
+	if (flag != 'l' && flag != '1')
+		return INTLIT;
 }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 168 "uccompiler.l"
+#line 178 "uccompiler.l"
 {		// Números Reais
 	if (flag == 'l') printf("REALLIT(%s)\n", yytext);
 	column += yyleng;
 	yylval.letters = strdup(yytext);
-	return REALLIT;
+	if (flag != 'l' && flag != '1')
+		return REALLIT;
 }
 	YY_BREAK
 case 40:
 /* rule 40 can match eol */
 YY_RULE_SETUP
-#line 175 "uccompiler.l"
+#line 186 "uccompiler.l"
 {
 	column = 0;
 	line++;
@@ -1165,14 +1174,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 180 "uccompiler.l"
+#line 191 "uccompiler.l"
 {
 	column++;
 }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 184 "uccompiler.l"
+#line 195 "uccompiler.l"
 {	
 	column++;
 	printf("Line %d, col %d: illegal character (%s)\n", line, column, yytext); 
@@ -1180,10 +1189,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 190 "uccompiler.l"
+#line 201 "uccompiler.l"
 ECHO;
 	YY_BREAK
-#line 1187 "lex.yy.c"
+#line 1196 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENTSINGLE):
 	yyterminate();
@@ -2189,13 +2198,21 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 190 "uccompiler.l"
+#line 201 "uccompiler.l"
 
 
 void upperString(char* str) {
 	for (char *c = str; *c != '\0'; c++){
 		if (*c >='a' && *c <='z'){
 			*c = *c - ('a' - 'A');
+		}
+	}
+}
+
+void lowerString(char* str) {
+	for (char *c = str; *c != '\0'; c++){
+		if (*c >='A' && *c <='Z'){
+			*c = *c + ('a' - 'A');
 		}
 	}
 }
@@ -2208,10 +2225,13 @@ void detect(char* text){
 int main(int argc, char *argv[]) {
 	if (argc > 1 && argv[1][0] == '-'){
 		flag = argv[1][1];
+		if (flag == 'e') {
+			flag = argv[1][2];
+		}
 	}
-	if(flag == 'l'){
+	if(flag == 'l' || flag == '1'){
 		yylex();
-	}else{
+	}else {
 	    yyparse();
 	    yylex_destroy();
 	}
@@ -2220,8 +2240,8 @@ int main(int argc, char *argv[]) {
 
 
 
-void yyerror (char *str) {
-    printf("Line %d, col %d: %s: %s\n", line, column - (int)strlen(yytext), str, yytext);
+void yyerror (char *s) {
+    printf("Line %d, col %d: %s: %s\n", line, column - (int)strlen(yytext) + 1, s, yytext);
 }
 
 int yywrap() {

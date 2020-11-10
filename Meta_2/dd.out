@@ -1,0 +1,4 @@
+Line 1, col 1: syntax error: intttt
+Line 2, col 18: syntax error: ;
+Line 9, col 19: syntax error: )
+Line 11, col 11: syntax error: )

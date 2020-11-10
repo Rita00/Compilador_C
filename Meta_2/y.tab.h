@@ -82,7 +82,8 @@ extern int yydebug;
     RESERVED = 292,
     ID = 293,
     CHRLIT = 294,
-    MUL = 295
+    MUL = 295,
+    NO_ELSE = 296
   };
 #endif
 /* Tokens.  */
@@ -124,18 +125,19 @@ extern int yydebug;
 #define ID 293
 #define CHRLIT 294
 #define MUL 295
+#define NO_ELSE 296
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 29 "uccompiler.y" /* yacc.c:1909  */
+#line 32 "uccompiler.y" /* yacc.c:1909  */
 
     struct _ast_Node *node;
     char *letters;
 
-#line 139 "y.tab.h" /* yacc.c:1909  */
+#line 141 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

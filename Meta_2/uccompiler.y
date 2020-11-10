@@ -2,29 +2,32 @@
     #include <stdio.h>
     #include "ast.h"
     int yylex(void);
-    void yyerror (const char *s);
+    void yyerror (char *s);
     char error = 0;
     AST_Node root;
+    extern char flag;
 %}
 
 
 %token BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI CHAR ELSE WHILE IF INT SHORT DOUBLE RETURN VOID
 %token <letters> REALLIT INTLIT RESERVED ID CHRLIT
 
-%right LBRACE 
-%right EQ NE GE GT LE LT 
-%right LPAR 
-%right ASSIGN 
+
+%left SEMI
+%left COMMA
+%right ASSIGN
+%left OR
+%left AND
+%left BITWISEOR
+%left BITWISEXOR
+%left BITWISEAND
+%left EQ NE
+%left GE GT LE LT
+%left PLUS MINUS
+%left MUL DIV MOD
 %right NOT
-%left COMMA 
-%left RBRACE 
-%left SEMI 
-%left BITWISEOR OR 
-%left BITWISEXOR 
-%left BITWISEAND AND 
-%left PLUS MINUS 
-%left MUL DIV MOD 
-%left RPAR
+%nonassoc NO_ELSE
+%nonassoc ELSE
 
 %union {
     struct _ast_Node *node;
@@ -44,12 +47,13 @@
 %type <node> TypeSpec
 %type <node> Declarator
 %type <node> Statement
+%type <node> Statlist
 %type <node> Expr
 
 
 %%
 
-Program: FunctionsAndDeclarations {root = create_node("Program"); add_child(root, $1); print_AST(root, 0); free_AST(root);}
+Program: FunctionsAndDeclarations {root = create_node("Program"); add_child(root, $1); if (!error && flag == 't') print_AST(root, 0); free_AST(root);}
 ;
 
 FunctionsAndDeclarations: FunctionDefinition {$$=$1;}
@@ -63,17 +67,17 @@ FunctionsAndDeclarations: FunctionDefinition {$$=$1;}
 FunctionDefinition: TypeSpec FunctionDeclarator FunctionBody {$$=create_node("FuncDefinition"); add_child($$, $1); add_child($$, $2); add_child($$, $3);}
 ;
 
-FunctionBody: LBRACE DeclarationsAndStatements RBRACE {$$=create_node("FuncBody"); /*TODO*/}
+FunctionBody: LBRACE DeclarationsAndStatements RBRACE {$$=create_node("FuncBody"); add_child($$, $2);}
     | LBRACE RBRACE {$$=create_node("FuncBody");}
 ;
 
-DeclarationsAndStatements: Statement DeclarationsAndStatements {$$=NULL;} 
-    | Declaration DeclarationsAndStatements  {$$=NULL;}
-    | Statement  {$$=NULL;}
-    | Declaration {$$=NULL;}
+DeclarationsAndStatements: DeclarationsAndStatements Statement {$$=create_node("many_children");add_child($$, $1);add_child($$, $2);} 
+    | DeclarationsAndStatements Declaration {$$=create_node("many_children"); add_child($$, $1); add_child($$, $2);}
+    | Statement  {$$=$1;}
+    | Declaration {$$=$1;}  
 ;
 
-FunctionDeclaration: TypeSpec FunctionDeclarator SEMI {$$=NULL;}
+FunctionDeclaration: TypeSpec FunctionDeclarator SEMI {$$=create_node("FuncDeclaration"); add_child($$, $1); add_child($$, $2);}
 ;
 
 FunctionDeclarator: ID LPAR ParameterList RPAR {$$ = create_node("many_children"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);}
@@ -84,11 +88,11 @@ ParameterList: ParameterDeclaration  {$$ = create_node("ParamList"); add_child($
 
 ParameterDeclaration: ParameterDeclaration COMMA ParameterDeclaration {$$=create_node("many_children"); add_child($$, $1); add_child($$, $3);}
     | TypeSpec ID {$$ = create_node("ParamDeclaration"); add_child($$, $1); add_child($$, create_literal_node("Id", $2));}
-    | TypeSpec {$$=$1;}
+    | TypeSpec {$$ = create_node("ParamDeclaration"); add_child($$, $1); }
 ;
 
-Declaration: TypeSpec Declarator SEMI {$$=NULL;}
-    | error SEMI {$$=NULL;}
+Declaration: TypeSpec Declarator SEMI {$$=create_node("Declaration"); add_child($$, $1); add_child($$, $2);}
+    | error SEMI {$$=create_node("Null"); error = 1;}
 ;
 
 TypeSpec: CHAR  {$$=create_node("Char");}
@@ -98,26 +102,30 @@ TypeSpec: CHAR  {$$=create_node("Char");}
     | DOUBLE {$$=create_node("Double");}
 ;
 
-Declarator: Declarator COMMA Declarator {$$=NULL;} 
-    | ID  {$$=NULL;}
-    | ID ASSIGN Expr {$$=NULL;}
+Declarator: Declarator COMMA Declarator {$$=create_node("many_children"); add_child($$, $1); add_child($$, $3);} 
+    | ID  {$$=create_literal_node("Id", $1);}
+    | ID ASSIGN Expr {$$=create_node("many_children"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);}
 ;
 
-Statement: Statement Statement {$$=NULL;}
-    | Expr SEMI {$$=NULL;}
+Statement: Expr SEMI {$$=$1;}
     | SEMI {$$=NULL;}
-    | LBRACE Statement RBRACE {$$=NULL;}
+    | LBRACE Statlist Statement RBRACE {$$=create_node("StatList"); add_child($$, $2); add_child($$, $3); if ($$->n_children == 0){destroy_node($$); $$ = NULL;}else if($$->n_children == 1){AST_Node aux = $$->children[0]; destroy_node($$); $$ = aux;}}
+    | LBRACE Statement RBRACE {$$=$2;}
     | LBRACE RBRACE {$$=NULL;}
-    | IF LPAR Expr RPAR Statement {$$=NULL;}
-    | IF LPAR Expr RPAR Statement ELSE Statement {$$=NULL;}
-    | WHILE LPAR Expr RPAR Statement {$$=NULL;}
-    | RETURN Expr SEMI {$$=NULL;}
-    | RETURN SEMI {$$=NULL;}
-    | error SEMI {$$=NULL;}
-    | LBRACE error RBRACE {$$=NULL;}
+    | IF LPAR Expr RPAR Statement %prec NO_ELSE  {$$=create_node("If");add_child($$, $3); add_child($$, $5);}
+    | IF LPAR Expr RPAR Statement ELSE Statement {$$=create_node("If"); add_child($$, $3); add_child($$, $5); add_child($$, $7);}
+    | WHILE LPAR Expr RPAR Statement {$$=create_node("While");add_child($$, $3); add_child($$, $5);}
+    | RETURN Expr SEMI {$$=create_node("Return");add_child($$, $2);}
+    | RETURN SEMI {$$=create_node("Return"); add_child($$, create_node("Null"));}
+    | LBRACE error RBRACE {$$=NULL; error = 1;}
 ;
 
-Expr: Expr ASSIGN Expr {$$=create_node("Assign");add_child($$, $1);add_child($$, $3);}
+Statlist: Statlist Statement {$$ = create_node("many_children"); add_child($$, $1); add_child($$, $2);}
+    | Statement {$$=$1;}
+    | error SEMI {$$=NULL; error = 1;}
+    ;
+
+Expr: Expr ASSIGN Expr {$$=create_node("Store");add_child($$, $1);add_child($$, $3);}
     | Expr COMMA Expr {$$=create_node("Comma");add_child($$, $1);add_child($$, $3);}
     | Expr PLUS Expr {$$=create_node("Add");add_child($$, $1);add_child($$, $3);}
     | Expr MINUS Expr {$$=create_node("Sub");add_child($$, $1);add_child($$, $3);} 
@@ -145,8 +153,8 @@ Expr: Expr ASSIGN Expr {$$=create_node("Assign");add_child($$, $1);add_child($$,
     | CHRLIT {$$=create_literal_node("Chrlit", $1);}
     | REALLIT {$$=create_literal_node("Reallit", $1);}
     | LPAR Expr RPAR {$$=$2;}
-    | ID LPAR error RPAR {$$=create_node("Call");add_child($$, NULL);}
-    | LPAR error RPAR {$$=NULL;}
+    | ID LPAR error RPAR {$$=create_node("Call");add_child($$, create_node("Null")); error = 1;}
+    | LPAR error RPAR {$$=NULL; error = 1;}
 ;
 
 %%
