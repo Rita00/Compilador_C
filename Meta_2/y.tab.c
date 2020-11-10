@@ -1588,7 +1588,7 @@ yyreduce:
 
   case 17:
 #line 79 "uccompiler.y" /* yacc.c:1646  */
-    {(yyval.node) = create_node("many_children"); add_child((yyval.node), create_node("Id")); add_child((yyval.node), (yyvsp[-1].node));}
+    {(yyval.node) = create_node("many_children");printf("%s\n", yylval.letters); add_child((yyval.node), create_literal_node("Id", yylval.letters)); add_child((yyval.node), (yyvsp[-1].node));}
 #line 1593 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1606,7 +1606,7 @@ yyreduce:
 
   case 20:
 #line 86 "uccompiler.y" /* yacc.c:1646  */
-    {(yyval.node) = create_node("many_children"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), create_node("Id"));}
+    {(yyval.node) = create_node("many_children"); add_child((yyval.node), (yyvsp[-1].node));printf("2\n"); add_child((yyval.node), create_literal_node("Id", yylval.letters));}
 #line 1611 "y.tab.c" /* yacc.c:1646  */
     break;
 

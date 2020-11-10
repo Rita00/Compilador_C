@@ -7,6 +7,13 @@ AST_Node create_node(char *token) { //TODO n_linha e n_coluna
     return new_node;
 }
 
+AST_Node create_literal_node(char *token, char * content){
+    char aux[10000];
+    sprintf(aux, "%s(%s)", token, content);
+    free(content);
+    return create_node(aux);
+}
+
 void add_child(AST_Node target, AST_Node child) {
     if (strcmp(child->token, "many_children")){
         child->parent = target;

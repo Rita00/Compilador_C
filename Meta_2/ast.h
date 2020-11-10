@@ -21,6 +21,8 @@ struct _ast_Node {
 
 AST_Node create_node(char *token);
 
+AST_Node create_literal_node(char *token, char * content);
+
 void add_child(AST_Node target, AST_Node child);
 
 void free_AST(AST_Node root);

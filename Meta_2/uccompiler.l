@@ -81,6 +81,7 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 {reserved} { 
 	if (flag == 'l') printf("RESERVED(%s)\n", yytext);
 	column+=yyleng;
+	yylval.letters = strdup(yytext);
 	return RESERVED;
 }
 
@@ -136,7 +137,7 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 \'([^\n\'\\]|\\n|\\t|\\\\|"\\\""|\\\'|\\[0-7][0-7]?[0-7]?)\' {
 	if(flag == 'l') printf("CHRLIT(%s)\n", yytext); 
 	column += yyleng;
-	yylval.letters = yytext;
+	yylval.letters = strdup(yytext);
 	return CHRLIT;
 }
 
@@ -153,21 +154,21 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 [_a-zA-Z]([a-zA-Z_]|{num})* {											// Sequências alfanuméricas
 	if (flag == 'l') printf("ID(%s)\n", yytext);
 	column += yyleng;
-	yylval.letters = yytext;
+	yylval.letters = strdup(yytext);
 	return ID;
 }
 
 {num}+ {							
 	if (flag == 'l') printf("INTLIT(%s)\n", yytext);										// Sequências de dígitos decimais
 	column += yyleng;
-	yylval.letters = yytext;
+	yylval.letters = strdup(yytext);
 	return INTLIT;
 }
 
 (({num}+".")|({num}*"."{num}+))([eE]{signal}?{num}+)?|{num}+[eE]{signal}?{num}+ {		// Números Reais
 	if (flag == 'l') printf("REALLIT(%s)\n", yytext);
 	column += yyleng;
-	yylval.letters = yytext;
+	yylval.letters = strdup(yytext);
 	return REALLIT;
 }
 
@@ -213,6 +214,8 @@ int main(int argc, char *argv[]) {
 	}
     return 0;
 }
+
+
 
 void yyerror (char *str) {
     printf("Line %d, col %d: %s: %s\n", line, column - (int)strlen(yytext), str, yytext);
