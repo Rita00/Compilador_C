@@ -25,6 +25,10 @@ AST_Node create_literal_node(char *token, char * content);
 
 void add_child(AST_Node target, AST_Node child);
 
+void prepend_child(AST_Node root, AST_Node child);
+
+AST_Node remove_commas(AST_Node root);
+
 void free_AST(AST_Node root);
 
 void destroy_node(AST_Node root);

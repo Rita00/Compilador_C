@@ -44,6 +44,32 @@ void add_child(AST_Node target, AST_Node child) {
     
 }
 
+void prepend_child(AST_Node root, AST_Node child){ //resolver frees
+     for(int i = 0; i < root->n_children; i++) {
+        AST_Node new_child = create_node(child->token);
+        new_child->parent = root->children[i];
+        AST_Node *new_array = calloc(root->children[i]->n_children + 1, sizeof(AST_Node));
+        memcpy(new_array+1, root->children[i]->children, root->children[i]->n_children*sizeof(AST_Node));
+        new_array[0] = new_child;
+        free(root->children[i]->children);
+        root->children[i]->children = new_array;
+        root->children[i]->n_children++;
+    }
+    destroy_node(child);
+}
+
+AST_Node remove_commas(AST_Node root){ // recursively eliminate comma nodes so that all their childs are child to one single node
+    if(strcmp(root->token, "Comma")){
+        return root;
+    }
+    AST_Node new_node = create_node("many_children");
+    for(int i = 0; i < root->n_children; i++){
+        add_child(new_node, remove_commas(root->children[i]));
+    }
+    destroy_node(root);
+    return new_node;
+}
+
 void destroy_node(AST_Node root){
     free(root->token);
     free(root->children);

@@ -28,6 +28,7 @@
 %right NOT
 %nonassoc NO_ELSE
 %nonassoc ELSE
+%left MAX_PREC
 
 %union {
     struct _ast_Node *node;
@@ -91,7 +92,7 @@ ParameterDeclaration: ParameterDeclaration COMMA ParameterDeclaration {$$=create
     | TypeSpec {$$ = create_node("ParamDeclaration"); add_child($$, $1); }
 ;
 
-Declaration: TypeSpec Declarator SEMI {$$=create_node("Declaration"); add_child($$, $1); add_child($$, $2);}
+Declaration: TypeSpec Declarator SEMI {$$=create_node("many_children");  add_child($$, $2); prepend_child($$, $1);}
     | error SEMI {$$=create_node("Null"); error = 1;}
 ;
 
@@ -103,8 +104,8 @@ TypeSpec: CHAR  {$$=create_node("Char");}
 ;
 
 Declarator: Declarator COMMA Declarator {$$=create_node("many_children"); add_child($$, $1); add_child($$, $3);} 
-    | ID  {$$=create_literal_node("Id", $1);}
-    | ID ASSIGN Expr {$$=create_node("many_children"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);}
+    | ID  {$$=create_node("Declaration"); add_child($$, create_literal_node("Id", $1));}
+    | ID ASSIGN Expr {$$=create_node("Declaration"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);}
 ;
 
 Statement: Expr SEMI {$$=$1;}
@@ -112,7 +113,7 @@ Statement: Expr SEMI {$$=$1;}
     | LBRACE Statlist Statement RBRACE {$$=create_node("StatList"); add_child($$, $2); add_child($$, $3); if ($$->n_children == 0){destroy_node($$); $$ = NULL;}else if($$->n_children == 1){AST_Node aux = $$->children[0]; destroy_node($$); $$ = aux;}}
     | LBRACE Statement RBRACE {$$=$2;}
     | LBRACE RBRACE {$$=NULL;}
-    | IF LPAR Expr RPAR Statement %prec NO_ELSE  {$$=create_node("If");add_child($$, $3); add_child($$, $5);}
+    | IF LPAR Expr RPAR Statement %prec NO_ELSE  {$$=create_node("If");add_child($$, $3); add_child($$, $5); add_child($$, create_node("Null"));}
     | IF LPAR Expr RPAR Statement ELSE Statement {$$=create_node("If"); add_child($$, $3); add_child($$, $5); add_child($$, $7);}
     | WHILE LPAR Expr RPAR Statement {$$=create_node("While");add_child($$, $3); add_child($$, $5);}
     | RETURN Expr SEMI {$$=create_node("Return");add_child($$, $2);}
@@ -143,18 +144,19 @@ Expr: Expr ASSIGN Expr {$$=create_node("Store");add_child($$, $1);add_child($$, 
     | Expr GE Expr {$$=create_node("Ge");add_child($$, $1);add_child($$, $3);}
     | Expr LT Expr {$$=create_node("Lt");add_child($$, $1);add_child($$, $3);}
     | Expr GT Expr {$$=create_node("Gt");add_child($$, $1);add_child($$, $3);}
-    | PLUS Expr {$$=create_node("Plus");add_child($$, $2);}
-    | MINUS Expr {$$=create_node("Minus");add_child($$, $2);}
-    | NOT Expr {$$=create_node("Not");add_child($$, $2);}
+    | PLUS Expr %prec MAX_PREC {$$=create_node("Plus");add_child($$, $2);}
+    | MINUS Expr %prec MAX_PREC {$$=create_node("Minus");add_child($$, $2);}
+    | NOT Expr %prec MAX_PREC {$$=create_node("Not");add_child($$, $2);}
     | ID LPAR RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1));}
-    | ID LPAR Expr RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);}
+    | ID LPAR Expr RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1)); add_child($$, remove_commas($3));}
     | ID  {$$=$$=create_literal_node("Id", $1);}
-    | INTLIT {$$=create_literal_node("Intlit", $1);} 
-    | CHRLIT {$$=create_literal_node("Chrlit", $1);}
-    | REALLIT {$$=create_literal_node("Reallit", $1);}
+    | INTLIT {$$=create_literal_node("IntLit", $1);} 
+    | CHRLIT {$$=create_literal_node("ChrLit", $1);}
+    | REALLIT {$$=create_literal_node("RealLit", $1);}
     | LPAR Expr RPAR {$$=$2;}
     | ID LPAR error RPAR {$$=create_node("Call");add_child($$, create_node("Null")); error = 1;}
     | LPAR error RPAR {$$=NULL; error = 1;}
 ;
+
 
 %%

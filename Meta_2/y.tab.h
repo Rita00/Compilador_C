@@ -83,7 +83,8 @@ extern int yydebug;
     ID = 293,
     CHRLIT = 294,
     MUL = 295,
-    NO_ELSE = 296
+    NO_ELSE = 296,
+    MAX_PREC = 297
   };
 #endif
 /* Tokens.  */
@@ -126,18 +127,19 @@ extern int yydebug;
 #define CHRLIT 294
 #define MUL 295
 #define NO_ELSE 296
+#define MAX_PREC 297
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 32 "uccompiler.y" /* yacc.c:1909  */
+#line 33 "uccompiler.y" /* yacc.c:1909  */
 
     struct _ast_Node *node;
     char *letters;
 
-#line 141 "y.tab.h" /* yacc.c:1909  */
+#line 143 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
