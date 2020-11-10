@@ -1131,13 +1131,12 @@ YY_RULE_SETUP
 	if (flag == 'l') printf("ID(%s)\n", yytext);
 	column += yyleng;
 	yylval.letters = strdup(yytext);
-	printf("%s\n\n", yytext);
 	return ID;
 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 162 "uccompiler.l"
+#line 161 "uccompiler.l"
 {							
 	if (flag == 'l') printf("INTLIT(%s)\n", yytext);										// Sequências de dígitos decimais
 	column += yyleng;
@@ -1147,7 +1146,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 169 "uccompiler.l"
+#line 168 "uccompiler.l"
 {		// Números Reais
 	if (flag == 'l') printf("REALLIT(%s)\n", yytext);
 	column += yyleng;
@@ -1158,7 +1157,7 @@ YY_RULE_SETUP
 case 40:
 /* rule 40 can match eol */
 YY_RULE_SETUP
-#line 176 "uccompiler.l"
+#line 175 "uccompiler.l"
 {
 	column = 0;
 	line++;
@@ -1166,14 +1165,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 181 "uccompiler.l"
+#line 180 "uccompiler.l"
 {
 	column++;
 }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 185 "uccompiler.l"
+#line 184 "uccompiler.l"
 {	
 	column++;
 	printf("Line %d, col %d: illegal character (%s)\n", line, column, yytext); 
@@ -1181,10 +1180,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 191 "uccompiler.l"
+#line 190 "uccompiler.l"
 ECHO;
 	YY_BREAK
-#line 1188 "lex.yy.c"
+#line 1187 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENTSINGLE):
 	yyterminate();
@@ -2190,7 +2189,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 191 "uccompiler.l"
+#line 190 "uccompiler.l"
 
 
 void upperString(char* str) {

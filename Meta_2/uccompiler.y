@@ -8,8 +8,8 @@
 %}
 
 
-%token <letters> REALLIT INTLIT RESERVED BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI CHRLIT ID CHAR ELSE WHILE IF INT SHORT DOUBLE RETURN VOID
-
+%token BITWISEAND BITWISEOR BITWISEXOR AND ASSIGN COMMA DIV EQ GE GT LBRACE LE LPAR LT MINUS MOD NE NOT OR PLUS RBRACE RPAR SEMI CHAR ELSE WHILE IF INT SHORT DOUBLE RETURN VOID
+%token <letters> REALLIT INTLIT RESERVED ID CHRLIT
 
 %right LBRACE 
 %right EQ NE GE GT LE LT 
@@ -76,14 +76,14 @@ DeclarationsAndStatements: Statement DeclarationsAndStatements {$$=NULL;}
 FunctionDeclaration: TypeSpec FunctionDeclarator SEMI {$$=NULL;}
 ;
 
-FunctionDeclarator: ID LPAR ParameterList RPAR {$$ = create_node("many_children"); add_child($$, create_literal_node("Id", yylval.letters)); add_child($$, $3);}
+FunctionDeclarator: ID LPAR ParameterList RPAR {$$ = create_node("many_children"); printf("\n\n1%s\n\n", yylval.letters); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);}
 ;
 
 ParameterList: ParameterDeclaration  {$$ = create_node("ParamList"); add_child($$, $1);}
 ;
 
-ParameterDeclaration: ParameterDeclaration COMMA ParameterDeclaration {$$=NULL;}
-    | TypeSpec ID {$$ = create_node("many_children"); add_child($$, $1); add_child($$, create_literal_node("Id", yylval.letters));}
+ParameterDeclaration: ParameterDeclaration COMMA ParameterDeclaration {$$=create_node("many_children"); add_child($$, $1); add_child($$, $3);}
+    | TypeSpec ID {$$ = create_node("ParamDeclaration"); add_child($$, $1);printf("\n\n2%s\n\n", yylval.letters); add_child($$, create_literal_node("Id", $2));}
     | TypeSpec {$$=$1;}
 ;
 
@@ -150,5 +150,3 @@ Expr: Expr ASSIGN Expr {$$=NULL;}
 ;
 
 %%
-
-

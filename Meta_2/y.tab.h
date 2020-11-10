@@ -45,84 +45,84 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    REALLIT = 258,
-    INTLIT = 259,
-    RESERVED = 260,
-    BITWISEAND = 261,
-    BITWISEOR = 262,
-    BITWISEXOR = 263,
-    AND = 264,
-    ASSIGN = 265,
-    COMMA = 266,
-    DIV = 267,
-    EQ = 268,
-    GE = 269,
-    GT = 270,
-    LBRACE = 271,
-    LE = 272,
-    LPAR = 273,
-    LT = 274,
-    MINUS = 275,
-    MOD = 276,
-    NE = 277,
-    NOT = 278,
-    OR = 279,
-    PLUS = 280,
-    RBRACE = 281,
-    RPAR = 282,
-    SEMI = 283,
-    CHRLIT = 284,
-    ID = 285,
-    CHAR = 286,
-    ELSE = 287,
-    WHILE = 288,
-    IF = 289,
-    INT = 290,
-    SHORT = 291,
-    DOUBLE = 292,
-    RETURN = 293,
-    VOID = 294,
+    BITWISEAND = 258,
+    BITWISEOR = 259,
+    BITWISEXOR = 260,
+    AND = 261,
+    ASSIGN = 262,
+    COMMA = 263,
+    DIV = 264,
+    EQ = 265,
+    GE = 266,
+    GT = 267,
+    LBRACE = 268,
+    LE = 269,
+    LPAR = 270,
+    LT = 271,
+    MINUS = 272,
+    MOD = 273,
+    NE = 274,
+    NOT = 275,
+    OR = 276,
+    PLUS = 277,
+    RBRACE = 278,
+    RPAR = 279,
+    SEMI = 280,
+    CHAR = 281,
+    ELSE = 282,
+    WHILE = 283,
+    IF = 284,
+    INT = 285,
+    SHORT = 286,
+    DOUBLE = 287,
+    RETURN = 288,
+    VOID = 289,
+    REALLIT = 290,
+    INTLIT = 291,
+    RESERVED = 292,
+    ID = 293,
+    CHRLIT = 294,
     MUL = 295
   };
 #endif
 /* Tokens.  */
-#define REALLIT 258
-#define INTLIT 259
-#define RESERVED 260
-#define BITWISEAND 261
-#define BITWISEOR 262
-#define BITWISEXOR 263
-#define AND 264
-#define ASSIGN 265
-#define COMMA 266
-#define DIV 267
-#define EQ 268
-#define GE 269
-#define GT 270
-#define LBRACE 271
-#define LE 272
-#define LPAR 273
-#define LT 274
-#define MINUS 275
-#define MOD 276
-#define NE 277
-#define NOT 278
-#define OR 279
-#define PLUS 280
-#define RBRACE 281
-#define RPAR 282
-#define SEMI 283
-#define CHRLIT 284
-#define ID 285
-#define CHAR 286
-#define ELSE 287
-#define WHILE 288
-#define IF 289
-#define INT 290
-#define SHORT 291
-#define DOUBLE 292
-#define RETURN 293
-#define VOID 294
+#define BITWISEAND 258
+#define BITWISEOR 259
+#define BITWISEXOR 260
+#define AND 261
+#define ASSIGN 262
+#define COMMA 263
+#define DIV 264
+#define EQ 265
+#define GE 266
+#define GT 267
+#define LBRACE 268
+#define LE 269
+#define LPAR 270
+#define LT 271
+#define MINUS 272
+#define MOD 273
+#define NE 274
+#define NOT 275
+#define OR 276
+#define PLUS 277
+#define RBRACE 278
+#define RPAR 279
+#define SEMI 280
+#define CHAR 281
+#define ELSE 282
+#define WHILE 283
+#define IF 284
+#define INT 285
+#define SHORT 286
+#define DOUBLE 287
+#define RETURN 288
+#define VOID 289
+#define REALLIT 290
+#define INTLIT 291
+#define RESERVED 292
+#define ID 293
+#define CHRLIT 294
 #define MUL 295
 
 /* Value type.  */
