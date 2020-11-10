@@ -76,14 +76,14 @@ DeclarationsAndStatements: Statement DeclarationsAndStatements {$$=NULL;}
 FunctionDeclaration: TypeSpec FunctionDeclarator SEMI {$$=NULL;}
 ;
 
-FunctionDeclarator: ID LPAR ParameterList RPAR {$$ = create_node("many_children"); printf("\n\n1%s\n\n", yylval.letters); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);}
+FunctionDeclarator: ID LPAR ParameterList RPAR {$$ = create_node("many_children"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);}
 ;
 
 ParameterList: ParameterDeclaration  {$$ = create_node("ParamList"); add_child($$, $1);}
 ;
 
 ParameterDeclaration: ParameterDeclaration COMMA ParameterDeclaration {$$=create_node("many_children"); add_child($$, $1); add_child($$, $3);}
-    | TypeSpec ID {$$ = create_node("ParamDeclaration"); add_child($$, $1);printf("\n\n2%s\n\n", yylval.letters); add_child($$, create_literal_node("Id", $2));}
+    | TypeSpec ID {$$ = create_node("ParamDeclaration"); add_child($$, $1); add_child($$, create_literal_node("Id", $2));}
     | TypeSpec {$$=$1;}
 ;
 
