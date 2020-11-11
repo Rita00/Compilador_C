@@ -51,6 +51,7 @@
 %type <node> Statlist
 %type <node> Expr
 %type <node> ExprOnCall
+%type <node> ErrorOrStatement
 
 
 %%
@@ -94,7 +95,7 @@ ParameterDeclaration: ParameterDeclaration COMMA ParameterDeclaration {$$=create
 ;
 
 Declaration: TypeSpec Declarator SEMI {$$=create_node("many_children");  add_child($$, $2); prepend_child($$, $1);}
-    | error SEMI {$$=create_node("Null"); error = 1;}
+    | error SEMI {$$=NULL; error = 1;}
 ;
 
 TypeSpec: CHAR  {$$=create_node("Char");}
@@ -111,20 +112,23 @@ Declarator: Declarator COMMA Declarator {$$=create_node("many_children"); add_ch
 
 Statement: Expr SEMI {$$=$1;}
     | SEMI {$$=NULL;}
-    | LBRACE Statlist Statement RBRACE {$$=create_node("StatList"); add_child($$, $2); add_child($$, $3); if ($$->n_children == 0){destroy_node($$); $$ = NULL;}else if($$->n_children == 1){AST_Node aux = $$->children[0]; destroy_node($$); $$ = aux;}}
-    | LBRACE Statement RBRACE {$$=$2;}
+    | LBRACE Statlist RBRACE {$$=create_node("StatList"); add_child($$, $2); if ($$->n_children == 0){destroy_node($$); $$ = NULL;}else if($$->n_children == 1){AST_Node aux = $$->children[0]; destroy_node($$); $$ = aux;}}
     | LBRACE RBRACE {$$=NULL;}
-    | IF LPAR Expr RPAR Statement %prec NO_ELSE  {$$=create_node("If"); add_child($$, $3); if ($5 != NULL) add_child($$, $5); else add_child($$, create_node("Null")); add_child($$, create_node("Null"));}
-    | IF LPAR Expr RPAR Statement ELSE Statement {$$=create_node("If"); add_child($$, $3); if ($5 != NULL) add_child($$, $5); else add_child($$, create_node("Null")); if($7 != NULL) add_child($$, $7); else add_child($$, create_node("Null"));}
-    | WHILE LPAR Expr RPAR Statement {$$=create_node("While"); add_child($$, $3); if($5 != NULL)add_child($$, $5); else add_child($$, create_node("Null"));}
+    | IF LPAR Expr RPAR ErrorOrStatement %prec NO_ELSE  {$$=create_node("If"); add_child($$, $3); if ($5 != NULL) add_child($$, $5); else add_child($$, create_node("Null")); add_child($$, create_node("Null"));}
+    | IF LPAR Expr RPAR ErrorOrStatement ELSE ErrorOrStatement {$$=create_node("If"); add_child($$, $3); if ($5 != NULL) add_child($$, $5); else add_child($$, create_node("Null")); if($7 != NULL) add_child($$, $7); else add_child($$, create_node("Null"));}
+    | WHILE LPAR Expr RPAR ErrorOrStatement {$$=create_node("While"); add_child($$, $3); if($5 != NULL)add_child($$, $5); else add_child($$, create_node("Null"));}
     | RETURN Expr SEMI {$$=create_node("Return"); add_child($$, $2);}
     | RETURN SEMI {$$=create_node("Return"); add_child($$, create_node("Null"));}
     | LBRACE error RBRACE {$$=NULL; error = 1;}
 ;
 
-Statlist: Statlist Statement {$$ = create_node("many_children"); add_child($$, $1); add_child($$, $2);}
-    | Statement {$$=$1;}
-    | error SEMI {$$=NULL; error = 1;}
+ErrorOrStatement : Statement {$$ = $1;}
+    | error SEMI {$$ = NULL; error = 1;}
+;
+
+
+Statlist: Statlist ErrorOrStatement {$$ = create_node("many_children"); add_child($$, $1); add_child($$, $2);}
+    | ErrorOrStatement {$$ = $1;}
     ;
 
 Expr: Expr ASSIGN Expr {$$=create_node("Store"); add_child($$, $1); add_child($$, $3);}
