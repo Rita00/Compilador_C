@@ -136,7 +136,7 @@ int func(void){
         }
     }
     if(e>=a,e<=b,a<d,a>a,a==a,i!=a,!func(i+1)) getchar(a);
-    if(1&1||2|1&&24^2){ return 1; }
+    if(1&1||2|1&24^2){ return 1; }
     if(side1 + side2 > side3)
   	{
   		if(side2 + side3 > side1)

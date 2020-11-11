@@ -50,6 +50,7 @@
 %type <node> Statement
 %type <node> Statlist
 %type <node> Expr
+%type <node> ExprOnCall
 
 
 %%
@@ -113,10 +114,10 @@ Statement: Expr SEMI {$$=$1;}
     | LBRACE Statlist Statement RBRACE {$$=create_node("StatList"); add_child($$, $2); add_child($$, $3); if ($$->n_children == 0){destroy_node($$); $$ = NULL;}else if($$->n_children == 1){AST_Node aux = $$->children[0]; destroy_node($$); $$ = aux;}}
     | LBRACE Statement RBRACE {$$=$2;}
     | LBRACE RBRACE {$$=NULL;}
-    | IF LPAR Expr RPAR Statement %prec NO_ELSE  {$$=create_node("If");add_child($$, $3); add_child($$, $5); add_child($$, create_node("Null"));}
-    | IF LPAR Expr RPAR Statement ELSE Statement {$$=create_node("If"); add_child($$, $3); add_child($$, $5); add_child($$, $7);}
-    | WHILE LPAR Expr RPAR Statement {$$=create_node("While");add_child($$, $3); add_child($$, $5);}
-    | RETURN Expr SEMI {$$=create_node("Return");add_child($$, $2);}
+    | IF LPAR Expr RPAR Statement %prec NO_ELSE  {$$=create_node("If"); add_child($$, $3); if ($5 != NULL) add_child($$, $5); else add_child($$, create_node("Null")); add_child($$, create_node("Null"));}
+    | IF LPAR Expr RPAR Statement ELSE Statement {$$=create_node("If"); add_child($$, $3); if ($5 != NULL) add_child($$, $5); else add_child($$, create_node("Null")); if($7 != NULL) add_child($$, $7); else add_child($$, create_node("Null"));}
+    | WHILE LPAR Expr RPAR Statement {$$=create_node("While"); add_child($$, $3); if($5 != NULL)add_child($$, $5); else add_child($$, create_node("Null"));}
+    | RETURN Expr SEMI {$$=create_node("Return"); add_child($$, $2);}
     | RETURN SEMI {$$=create_node("Return"); add_child($$, create_node("Null"));}
     | LBRACE error RBRACE {$$=NULL; error = 1;}
 ;
@@ -126,35 +127,67 @@ Statlist: Statlist Statement {$$ = create_node("many_children"); add_child($$, $
     | error SEMI {$$=NULL; error = 1;}
     ;
 
-Expr: Expr ASSIGN Expr {$$=create_node("Store");add_child($$, $1);add_child($$, $3);}
-    | Expr COMMA Expr {$$=create_node("Comma");add_child($$, $1);add_child($$, $3);}
-    | Expr PLUS Expr {$$=create_node("Add");add_child($$, $1);add_child($$, $3);}
-    | Expr MINUS Expr {$$=create_node("Sub");add_child($$, $1);add_child($$, $3);} 
-    | Expr MUL Expr {$$=create_node("Mul");add_child($$, $1);add_child($$, $3);}
-    | Expr DIV Expr {$$=create_node("Div");add_child($$, $1);add_child($$, $3);}
-    | Expr MOD Expr {$$=create_node("Mod");add_child($$, $1);add_child($$, $3);}
-    | Expr OR Expr {$$=create_node("Or");add_child($$, $1);add_child($$, $3);}
-    | Expr AND Expr {$$=create_node("And");add_child($$, $1);add_child($$, $3);}
-    | Expr BITWISEAND Expr {$$=create_node("BitWiseAnd");add_child($$, $1);add_child($$, $3);}
-    | Expr BITWISEOR Expr {$$=create_node("BitWiseOr");add_child($$, $1);add_child($$, $3);}
+Expr: Expr ASSIGN Expr {$$=create_node("Store"); add_child($$, $1); add_child($$, $3);}
+    | Expr COMMA Expr {$$=create_node("Comma"); add_child($$, $1); add_child($$, $3);}
+    | Expr PLUS Expr {$$=create_node("Add"); add_child($$, $1); add_child($$, $3);}
+    | Expr MINUS Expr {$$=create_node("Sub"); add_child($$, $1); add_child($$, $3);} 
+    | Expr MUL Expr {$$=create_node("Mul"); add_child($$, $1); add_child($$, $3);}
+    | Expr DIV Expr {$$=create_node("Div"); add_child($$, $1); add_child($$, $3);}
+    | Expr MOD Expr {$$=create_node("Mod"); add_child($$, $1); add_child($$, $3);}
+    | Expr OR Expr {$$=create_node("Or"); add_child($$, $1); add_child($$, $3);}
+    | Expr AND Expr {$$=create_node("And"); add_child($$, $1); add_child($$, $3);}
+    | Expr BITWISEAND Expr {$$=create_node("BitWiseAnd"); add_child($$, $1);add_child($$, $3);}
+    | Expr BITWISEOR Expr {$$=create_node("BitWiseOr"); add_child($$, $1);add_child($$, $3);}
     | Expr BITWISEXOR Expr {$$=create_node("BitWiseXor");add_child($$, $1);add_child($$, $3);}
-    | Expr EQ Expr {$$=create_node("Eq");add_child($$, $1);add_child($$, $3);}
-    | Expr NE Expr {$$=create_node("Ne");add_child($$, $1);add_child($$, $3);}
-    | Expr LE Expr {$$=create_node("Le");add_child($$, $1);add_child($$, $3);}
-    | Expr GE Expr {$$=create_node("Ge");add_child($$, $1);add_child($$, $3);}
-    | Expr LT Expr {$$=create_node("Lt");add_child($$, $1);add_child($$, $3);}
-    | Expr GT Expr {$$=create_node("Gt");add_child($$, $1);add_child($$, $3);}
-    | PLUS Expr %prec MAX_PREC {$$=create_node("Plus");add_child($$, $2);}
-    | MINUS Expr %prec MAX_PREC {$$=create_node("Minus");add_child($$, $2);}
-    | NOT Expr %prec MAX_PREC {$$=create_node("Not");add_child($$, $2);}
+    | Expr EQ Expr {$$=create_node("Eq"); add_child($$, $1); add_child($$, $3);}
+    | Expr NE Expr {$$=create_node("Ne"); add_child($$, $1); add_child($$, $3);}
+    | Expr LE Expr {$$=create_node("Le"); add_child($$, $1); add_child($$, $3);}
+    | Expr GE Expr {$$=create_node("Ge"); add_child($$, $1); add_child($$, $3);}
+    | Expr LT Expr {$$=create_node("Lt"); add_child($$, $1); add_child($$, $3);}
+    | Expr GT Expr {$$=create_node("Gt"); add_child($$, $1); add_child($$, $3);}
+    | PLUS Expr %prec MAX_PREC {$$=create_node("Plus"); add_child($$, $2);}
+    | MINUS Expr %prec MAX_PREC {$$=create_node("Minus"); add_child($$, $2);}
+    | NOT Expr %prec MAX_PREC {$$=create_node("Not"); add_child($$, $2);}
     | ID LPAR RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1));}
-    | ID LPAR Expr RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1)); add_child($$, remove_commas($3));}
+    | ID LPAR ExprOnCall RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);}
     | ID  {$$=$$=create_literal_node("Id", $1);}
     | INTLIT {$$=create_literal_node("IntLit", $1);} 
     | CHRLIT {$$=create_literal_node("ChrLit", $1);}
     | REALLIT {$$=create_literal_node("RealLit", $1);}
     | LPAR Expr RPAR {$$=$2;}
-    | ID LPAR error RPAR {$$=create_node("Call");add_child($$, create_node("Null")); error = 1;}
+    | ID LPAR error RPAR {$$=create_node("Call"); add_child($$, create_node("Null")); error = 1;}
+    | LPAR error RPAR {$$=NULL; error = 1;}
+;
+
+ExprOnCall: ExprOnCall ASSIGN ExprOnCall {$$=create_node("Store"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall COMMA ExprOnCall {$$=create_node("many_children"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall PLUS ExprOnCall {$$=create_node("Add"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall MINUS ExprOnCall {$$=create_node("Sub"); add_child($$, $1); add_child($$, $3);} 
+    | ExprOnCall MUL ExprOnCall {$$=create_node("Mul"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall DIV ExprOnCall {$$=create_node("Div"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall MOD ExprOnCall {$$=create_node("Mod"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall OR ExprOnCall {$$=create_node("Or"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall AND ExprOnCall {$$=create_node("And"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall BITWISEAND ExprOnCall {$$=create_node("BitWiseAnd"); add_child($$, $1);add_child($$, $3);}
+    | ExprOnCall BITWISEOR ExprOnCall {$$=create_node("BitWiseOr"); add_child($$, $1);add_child($$, $3);}
+    | ExprOnCall BITWISEXOR ExprOnCall {$$=create_node("BitWiseXor");add_child($$, $1);add_child($$, $3);}
+    | ExprOnCall EQ ExprOnCall {$$=create_node("Eq"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall NE ExprOnCall {$$=create_node("Ne"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall LE ExprOnCall {$$=create_node("Le"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall GE ExprOnCall {$$=create_node("Ge"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall LT ExprOnCall {$$=create_node("Lt"); add_child($$, $1); add_child($$, $3);}
+    | ExprOnCall GT ExprOnCall {$$=create_node("Gt"); add_child($$, $1); add_child($$, $3);}
+    | PLUS ExprOnCall %prec MAX_PREC {$$=create_node("Plus"); add_child($$, $2);}
+    | MINUS ExprOnCall %prec MAX_PREC {$$=create_node("Minus"); add_child($$, $2);}
+    | NOT ExprOnCall %prec MAX_PREC {$$=create_node("Not"); add_child($$, $2);}
+    | ID LPAR RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1));}
+    | ID LPAR ExprOnCall RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);}
+    | ID  {$$=$$=create_literal_node("Id", $1);}
+    | INTLIT {$$=create_literal_node("IntLit", $1);} 
+    | CHRLIT {$$=create_literal_node("ChrLit", $1);}
+    | REALLIT {$$=create_literal_node("RealLit", $1);}
+    | LPAR Expr RPAR {$$=$2;}
+    | ID LPAR error RPAR {$$=create_node("Call"); add_child($$, create_node("Null")); error = 1;}
     | LPAR error RPAR {$$=NULL; error = 1;}
 ;
 

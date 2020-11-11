@@ -58,18 +58,6 @@ void prepend_child(AST_Node root, AST_Node child){ //resolver frees
     destroy_node(child);
 }
 
-AST_Node remove_commas(AST_Node root){ // recursively eliminate comma nodes so that all their childs are child to one single node
-    if(strcmp(root->token, "Comma")){
-        return root;
-    }
-    AST_Node new_node = create_node("many_children");
-    for(int i = 0; i < root->n_children; i++){
-        add_child(new_node, remove_commas(root->children[i]));
-    }
-    destroy_node(root);
-    return new_node;
-}
-
 void destroy_node(AST_Node root){
     free(root->token);
     free(root->children);
