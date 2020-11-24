@@ -1650,7 +1650,7 @@ yyreduce:
     {
   case 2:
 #line 61 "uccompiler.y"
-                                  {root = create_node("Program"); add_child(root, (yyvsp[0].node)); if (!error && flag == 't'){print_AST(root, 0);} gtable=create_global_table(root); if (!error && flag == 's'){print_global_table(gtable); free_AST(root);}}
+                                  {root = create_node("Program"); add_child(root, (yyvsp[0].node)); if (!error && flag == 't'){print_AST(root, 0);}  gtable=create_global_table(root); if (!error && flag == 's'){print_global_table(gtable); free_AST(root);}}
 #line 1655 "y.tab.c"
     break;
 

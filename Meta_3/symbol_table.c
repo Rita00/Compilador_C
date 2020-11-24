@@ -5,16 +5,17 @@
 
 
 //Insere um novo identificador na cauda de uma lista ligada de simbolo
-table_element *insert_el(table_element * target, char *str, char* t, int nparam, char** tparam)
+table_element *insert_el(table_element * target, char *str, char* t, int nparam, char** tparam, int isDefined)
 {
 	table_element *newSymbol=(table_element*) malloc(sizeof(table_element));
 	table_element *aux;
 	table_element* previous;
 
-	strcpy(newSymbol->name, str);
-	strcpy(newSymbol->type,t);
+	strcpy(newSymbol->name,str);
+	strcpy(newSymbol->type, t);
 	newSymbol->nparam=nparam;
 	newSymbol->tparam=tparam;
+	newSymbol->isDefined=isDefined;
 	newSymbol->next=NULL;	
 
 	if(target)	//Se table ja tem elementos
@@ -64,26 +65,27 @@ return NULL;
 table_element *create_global_table(AST_Node root){
 	table_element *table = calloc(1, sizeof(struct _t1));
 	for (int i = 0; i < root->n_children; i++) {
-        	if(strcmp(root->children[i]->token,"FuncDefinition")==0){
-        		char *aux = root->children[i]->children[1]->token;
-        		char *id = (char*)calloc(1,sizeof(aux)-4*sizeof(char));
+        	if(strcmp(root->children[i]->token,"FuncDefinition")==0 || (strcmp(root->children[i]->token,"FuncDeclaration")==0)){
+				int isDefined; 
+				(strcmp(root->children[i]->token,"FuncDefinition")==0)?(isDefined = 1 ): (isDefined = 0);	
+				char *aux = root->children[i]->children[1]->token;
+        		char *id = (char *) calloc(sizeof(aux) - 3, sizeof(char));
         		strncpy(id,aux+3,strlen(aux)-4);
 				if(root->children[i]->n_children>2){
 					char *params[root->children[i]->children[2]->n_children];
 					for(int j = 0; j< root->children[i]->children[2]->n_children; j++){
 						strcpy(params[j],root->children[i]->children[2]->children[j]->children[0]->token);
 					}
-					printf("cona");
-					insert_el(table, id, root->children[i]->children[0]->token,root->children[i]->children[2]->n_children, params);
+					insert_el(table, id, root->children[i]->children[0]->token,root->children[i]->children[2]->n_children, params,isDefined);
 				}
-				else{insert_el(table, id, root->children[i]->children[0]->token,0,NULL);}				
+				else{insert_el(table, id, root->children[i]->children[0]->token,0,NULL,isDefined);}				
         	}
 			else if(strcmp(root->children[i]->token,"Declaration")==0){
 				char *aux = root->children[i]->children[1]->token;
-        		char *id = (char*)calloc(1,sizeof(aux)-4*sizeof(char));
+        		char *id = (char *) calloc(sizeof(aux) - 3, sizeof(char));
         		strncpy(id,aux+3,strlen(aux)-4);
 				char *params[1];
-				insert_el(table, id, root->children[i]->children[0]->token,0,NULL);
+				insert_el(table, id, root->children[i]->children[0]->token,0,NULL,0);
 			}
   	}
 	return table;
