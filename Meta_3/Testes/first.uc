@@ -1,5 +1,7 @@
 int a = 2;
+
 int cona(int c);
+
 int main(void) {
   char i = 'A';
   while (i <= 'Z')

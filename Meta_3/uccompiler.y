@@ -58,7 +58,19 @@
 
 %%
 
-Program: FunctionsAndDeclarations {root = create_node("Program"); add_child(root, $1); if (!error && flag == 't'){print_AST(root, 0);}  gtable=create_global_table(root); if (!error && flag == 's'){print_global_table(gtable); free_AST(root);}}
+Program: FunctionsAndDeclarations {
+        root = create_node("Program"); 
+        add_child(root, $1); 
+        if (!error && flag == 's'){
+            gtable=create_global_table(root);
+            print_global_table(gtable); 
+            free_table(gtable);
+        }
+        if (!error && (flag == 't' || flag == 's')){
+            print_AST(root, 0);
+        }
+        free_AST(root); 
+    }
 ;
 
 FunctionsAndDeclarations: FunctionDefinition {$$=$1;}

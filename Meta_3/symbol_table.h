@@ -4,20 +4,23 @@
 #include <stdio.h>
 #include <string.h>
 #include "ast.h"
+#include "FunctionTable.h"
 
 
 
 typedef struct _t1{
-	char name[32];
-	char type[32];
+	char *name;
+	char *type;
 	int nparam;
 	char **tparam;
 	int isDefined; //0 -> funcdeclaration	1-> definicao
 	struct _t1 *next;
+	functionsList table;
 } table_element;
 
-table_element *insert_el(table_element * target, char *str, char* t, int nparam, char** taparam, int isDefined);
+char insert_el(table_element **target, char *name, char *type, int nparam, char **tparam, int isDefined, functionsList list);
 table_element *search_el(table_element * target, char *str);
+char is_definition_of_declared(table_element *target, table_element *new);
 void print_global_table(table_element *target);
 table_element *create_global_table(AST_Node root);
 void free_table(table_element* root);
