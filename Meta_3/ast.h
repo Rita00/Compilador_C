@@ -15,6 +15,7 @@ struct _ast_Node {
     int n_children;
     AST_Node *children; // array dinamico que guarda os nós filhos
     AST_Node parent;
+    char *expType;
     //TODO n_linha e n_coluna
 };
 
