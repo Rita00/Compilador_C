@@ -98,32 +98,33 @@ void print_AST2(AST_Node root, int n_tabs) { //anotada
     }
 }
 
-void add_type_to_expressions(AST_Node node, table_element *table) {
-    table_element *aux;
+void search_for_declaration(AST_Node node, char* id, char*type){
+    if(strcmp(node->token,"Declaration")==0){
+        if(strncmp(node->children[1]->token+3,id,strlen(node->children[1]->token)-4)==0){
+            type = strdup(node->children[0]->token);
+        }
+    }
+    else if(strncmp(node->token+3,id,strlen(node->token)-4)==0){
+        type = strdup("undef");
+    }
+    if(!type){
+        for (int i = 0; i < node->n_children; i++) {
+            search_for_declaration(node->children[i], id, type);
+        }
+    }
 
+}
+void add_type_to_expressions(AST_Node node) {
     if (node->expType && strlen(node->expType)>3 && strncmp(node->expType, "Expression",strlen("Expression")) == 0) {
         for(int i = 0; i<node->n_children;i++){
-            add_type_to_expressions(node->children[i],table); //Para comecar pelas folhas caso a expression tenha filhos expressions
+            add_type_to_expressions(node->children[i]); //Para comecar pelas folhas caso a expression tenha filhos expressions
         }
-        if(strcmp(node->token,"Id")==0){ //procura declarations
-            int found = 0;
-            for (aux = table; aux; aux = aux->next) {
-                if (aux->isDefined){
-                    while (aux->table != NULL) {
-                        if(strcmp(node->token,aux->table->variable)==0){
-                            node->expType = strdup(aux->table->type);
-                            found = 1;
-                        }
-                        aux->table = aux->table->next;
-                    }
-                }
-                else if(strcmp(node->token,aux->name)==0){
-                    node->expType = strdup(aux->table->type);
-                    found = 1;
-                }
-            } //Erro: 1. Se encontrar mais q uma declaration 
-              //Erro: 2. Se nao encontrar declaration nenhuma
-            //Problema: isto corre quando a table ja esta feita
+        if(strcmp(node->expType,"ExpressionId")==0){ //procura declarations
+            char * type;
+            char *id = (char *) calloc(strlen(node->token) - 3, sizeof(char));
+            strncpy(id, node->token, strlen(node->token) - 4);
+            search_for_declaration(node,id,type);
+            node->expType = type;
         }
         else if(strcmp(node->expType,"ExpressionArit")==0){ //operacoes aritmeticas binarias (ex: int + double = double) 
             if(strcmp(node->children[0]->expType,"double") || strcmp(node->children[1]->expType,"double")){
@@ -146,7 +147,7 @@ void add_type_to_expressions(AST_Node node, table_element *table) {
 
     } else {
         for(int i = 0; i < node->n_children; i++){
-            add_type_to_expressions(node->children[i],table);
+            add_type_to_expressions(node->children[i]);
         }
     }
 }

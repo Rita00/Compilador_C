@@ -598,17 +598,17 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    61,    61,    76,    77,    78,    79,    80,    81,    84,
-      87,    88,    91,    92,    93,    94,    97,   100,   103,   106,
-     107,   108,   111,   112,   115,   116,   117,   118,   119,   122,
-     123,   124,   127,   128,   129,   130,   131,   132,   133,   134,
-     135,   136,   139,   140,   144,   145,   148,   149,   150,   151,
-     152,   153,   154,   155,   156,   157,   158,   159,   160,   161,
-     162,   163,   164,   165,   166,   167,   168,   169,   170,   171,
-     172,   173,   174,   175,   176,   177,   180,   181,   182,   183,
-     184,   185,   186,   187,   188,   189,   190,   191,   192,   193,
-     194,   195,   196,   197,   198,   199,   200,   201,   202,   203,
-     204,   205,   206,   207,   208,   209
+       0,    61,    61,    78,    79,    80,    81,    82,    83,    86,
+      89,    90,    93,    94,    95,    96,    99,   102,   105,   108,
+     109,   110,   113,   114,   117,   118,   119,   120,   121,   124,
+     125,   126,   129,   130,   131,   132,   133,   134,   135,   136,
+     137,   138,   141,   142,   146,   147,   150,   151,   152,   153,
+     154,   155,   156,   157,   158,   159,   160,   161,   162,   163,
+     164,   165,   166,   167,   168,   169,   170,   171,   172,   173,
+     174,   175,   176,   177,   178,   179,   182,   183,   184,   185,
+     186,   187,   188,   189,   190,   191,   192,   193,   194,   195,
+     196,   197,   198,   199,   200,   201,   202,   203,   204,   205,
+     206,   207,   208,   209,   210,   211
 };
 #endif
 
@@ -1656,6 +1656,8 @@ yyreduce:
         if (!error && flag == 's'){
             gtable=create_global_table(root);
             print_global_table(gtable); 
+            add_type_to_expressions(root);
+            print_AST2(root,0);
             free_table(gtable);
         }
         if (!error && (flag == 't' || flag == 's')){
@@ -1663,629 +1665,629 @@ yyreduce:
         }
         free_AST(root); 
     }
-#line 1667 "y.tab.c"
+#line 1669 "y.tab.c"
     break;
 
   case 3:
-#line 76 "uccompiler.y"
+#line 78 "uccompiler.y"
                                              {(yyval.node)=(yyvsp[0].node);}
-#line 1673 "y.tab.c"
+#line 1675 "y.tab.c"
     break;
 
   case 4:
-#line 77 "uccompiler.y"
+#line 79 "uccompiler.y"
                           {(yyval.node)=(yyvsp[0].node);}
-#line 1679 "y.tab.c"
+#line 1681 "y.tab.c"
     break;
 
   case 5:
-#line 78 "uccompiler.y"
+#line 80 "uccompiler.y"
                   {(yyval.node)=(yyvsp[0].node);}
-#line 1685 "y.tab.c"
+#line 1687 "y.tab.c"
     break;
 
   case 6:
-#line 79 "uccompiler.y"
+#line 81 "uccompiler.y"
                                                   {(yyval.node) = create_node("many_children"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1691 "y.tab.c"
+#line 1693 "y.tab.c"
     break;
 
   case 7:
-#line 80 "uccompiler.y"
+#line 82 "uccompiler.y"
                                                    {(yyval.node) = create_node("many_children"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1697 "y.tab.c"
+#line 1699 "y.tab.c"
     break;
 
   case 8:
-#line 81 "uccompiler.y"
+#line 83 "uccompiler.y"
                                            {(yyval.node) = create_node("many_children"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1703 "y.tab.c"
+#line 1705 "y.tab.c"
     break;
 
   case 9:
-#line 84 "uccompiler.y"
+#line 86 "uccompiler.y"
                                                              {(yyval.node)=create_node("FuncDefinition"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1709 "y.tab.c"
+#line 1711 "y.tab.c"
     break;
 
   case 10:
-#line 87 "uccompiler.y"
+#line 89 "uccompiler.y"
                                                       {(yyval.node)=create_node("FuncBody"); add_child((yyval.node), (yyvsp[-1].node));}
-#line 1715 "y.tab.c"
+#line 1717 "y.tab.c"
     break;
 
   case 11:
-#line 88 "uccompiler.y"
+#line 90 "uccompiler.y"
                     {(yyval.node)=create_node("FuncBody");}
-#line 1721 "y.tab.c"
+#line 1723 "y.tab.c"
     break;
 
   case 12:
-#line 91 "uccompiler.y"
+#line 93 "uccompiler.y"
                                                                {(yyval.node)=create_node("many_children");add_child((yyval.node), (yyvsp[-1].node));add_child((yyval.node), (yyvsp[0].node));}
-#line 1727 "y.tab.c"
+#line 1729 "y.tab.c"
     break;
 
   case 13:
-#line 92 "uccompiler.y"
+#line 94 "uccompiler.y"
                                             {(yyval.node)=create_node("many_children"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1733 "y.tab.c"
+#line 1735 "y.tab.c"
     break;
 
   case 14:
-#line 93 "uccompiler.y"
+#line 95 "uccompiler.y"
                  {(yyval.node)=(yyvsp[0].node);}
-#line 1739 "y.tab.c"
+#line 1741 "y.tab.c"
     break;
 
   case 15:
-#line 94 "uccompiler.y"
+#line 96 "uccompiler.y"
                   {(yyval.node)=(yyvsp[0].node);}
-#line 1745 "y.tab.c"
+#line 1747 "y.tab.c"
     break;
 
   case 16:
-#line 97 "uccompiler.y"
+#line 99 "uccompiler.y"
                                                       {(yyval.node)=create_node("FuncDeclaration"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[-1].node));}
-#line 1751 "y.tab.c"
+#line 1753 "y.tab.c"
     break;
 
   case 17:
-#line 100 "uccompiler.y"
+#line 102 "uccompiler.y"
                                                {(yyval.node) = create_node("many_children"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));}
-#line 1757 "y.tab.c"
+#line 1759 "y.tab.c"
     break;
 
   case 18:
-#line 103 "uccompiler.y"
+#line 105 "uccompiler.y"
                                      {(yyval.node) = create_node("ParamList"); add_child((yyval.node), (yyvsp[0].node));}
-#line 1763 "y.tab.c"
+#line 1765 "y.tab.c"
     break;
 
   case 19:
-#line 106 "uccompiler.y"
+#line 108 "uccompiler.y"
                                                                       {(yyval.node)=create_node("many_children"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1769 "y.tab.c"
+#line 1771 "y.tab.c"
     break;
 
   case 20:
-#line 107 "uccompiler.y"
+#line 109 "uccompiler.y"
                   {(yyval.node) = create_node("ParamDeclaration"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), create_literal_node("Id", (yyvsp[0].letters)));}
-#line 1775 "y.tab.c"
+#line 1777 "y.tab.c"
     break;
 
   case 21:
-#line 108 "uccompiler.y"
+#line 110 "uccompiler.y"
                {(yyval.node) = create_node("ParamDeclaration"); add_child((yyval.node), (yyvsp[0].node)); }
-#line 1781 "y.tab.c"
+#line 1783 "y.tab.c"
     break;
 
   case 22:
-#line 111 "uccompiler.y"
+#line 113 "uccompiler.y"
                                       {(yyval.node)=create_node("many_children");  add_child((yyval.node), (yyvsp[-1].node)); prepend_child((yyval.node), (yyvsp[-2].node));}
-#line 1787 "y.tab.c"
+#line 1789 "y.tab.c"
     break;
 
   case 23:
-#line 112 "uccompiler.y"
+#line 114 "uccompiler.y"
                  {(yyval.node)=NULL; error = 1;}
-#line 1793 "y.tab.c"
+#line 1795 "y.tab.c"
     break;
 
   case 24:
-#line 115 "uccompiler.y"
+#line 117 "uccompiler.y"
                 {(yyval.node)=create_node("Char");}
-#line 1799 "y.tab.c"
+#line 1801 "y.tab.c"
     break;
 
   case 25:
-#line 116 "uccompiler.y"
+#line 118 "uccompiler.y"
            {(yyval.node)=create_node("Int");}
-#line 1805 "y.tab.c"
+#line 1807 "y.tab.c"
     break;
 
   case 26:
-#line 117 "uccompiler.y"
+#line 119 "uccompiler.y"
             {(yyval.node)=create_node("Void");}
-#line 1811 "y.tab.c"
+#line 1813 "y.tab.c"
     break;
 
   case 27:
-#line 118 "uccompiler.y"
+#line 120 "uccompiler.y"
              {(yyval.node)=create_node("Short");}
-#line 1817 "y.tab.c"
+#line 1819 "y.tab.c"
     break;
 
   case 28:
-#line 119 "uccompiler.y"
+#line 121 "uccompiler.y"
              {(yyval.node)=create_node("Double");}
-#line 1823 "y.tab.c"
+#line 1825 "y.tab.c"
     break;
 
   case 29:
-#line 122 "uccompiler.y"
+#line 124 "uccompiler.y"
                                         {(yyval.node)=create_node("many_children"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1829 "y.tab.c"
+#line 1831 "y.tab.c"
     break;
 
   case 30:
-#line 123 "uccompiler.y"
+#line 125 "uccompiler.y"
           {(yyval.node)=create_node("Declaration"); add_child((yyval.node), create_literal_node("Id", (yyvsp[0].letters)));}
-#line 1835 "y.tab.c"
+#line 1837 "y.tab.c"
     break;
 
   case 31:
-#line 124 "uccompiler.y"
+#line 126 "uccompiler.y"
                      {(yyval.node)=create_node("Declaration"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].letters))); add_child((yyval.node), (yyvsp[0].node));}
-#line 1841 "y.tab.c"
+#line 1843 "y.tab.c"
     break;
 
   case 32:
-#line 127 "uccompiler.y"
+#line 129 "uccompiler.y"
                      {(yyval.node)=(yyvsp[-1].node);}
-#line 1847 "y.tab.c"
+#line 1849 "y.tab.c"
     break;
 
   case 33:
-#line 128 "uccompiler.y"
+#line 130 "uccompiler.y"
            {(yyval.node)=NULL;}
-#line 1853 "y.tab.c"
+#line 1855 "y.tab.c"
     break;
 
   case 34:
-#line 129 "uccompiler.y"
+#line 131 "uccompiler.y"
                              {(yyval.node)=create_node("StatList"); add_child((yyval.node), (yyvsp[-1].node)); if ((yyval.node)->n_children == 0){destroy_node((yyval.node)); (yyval.node) = NULL;}else if((yyval.node)->n_children == 1){AST_Node aux = (yyval.node)->children[0]; destroy_node((yyval.node)); (yyval.node) = aux;}}
-#line 1859 "y.tab.c"
+#line 1861 "y.tab.c"
     break;
 
   case 35:
-#line 130 "uccompiler.y"
+#line 132 "uccompiler.y"
                     {(yyval.node)=NULL;}
-#line 1865 "y.tab.c"
+#line 1867 "y.tab.c"
     break;
 
   case 36:
-#line 131 "uccompiler.y"
+#line 133 "uccompiler.y"
                                                         {(yyval.node)=create_node("If"); add_child((yyval.node), (yyvsp[-2].node)); if ((yyvsp[0].node) != NULL) add_child((yyval.node), (yyvsp[0].node)); else add_child((yyval.node), create_node("Null")); add_child((yyval.node), create_node("Null"));}
-#line 1871 "y.tab.c"
+#line 1873 "y.tab.c"
     break;
 
   case 37:
-#line 132 "uccompiler.y"
+#line 134 "uccompiler.y"
                                                                {(yyval.node)=create_node("If"); add_child((yyval.node), (yyvsp[-4].node)); if ((yyvsp[-2].node) != NULL) add_child((yyval.node), (yyvsp[-2].node)); else add_child((yyval.node), create_node("Null")); if((yyvsp[0].node) != NULL) add_child((yyval.node), (yyvsp[0].node)); else add_child((yyval.node), create_node("Null"));}
-#line 1877 "y.tab.c"
+#line 1879 "y.tab.c"
     break;
 
   case 38:
-#line 133 "uccompiler.y"
+#line 135 "uccompiler.y"
                                             {(yyval.node)=create_node("While"); add_child((yyval.node), (yyvsp[-2].node)); if((yyvsp[0].node) != NULL)add_child((yyval.node), (yyvsp[0].node)); else add_child((yyval.node), create_node("Null"));}
-#line 1883 "y.tab.c"
+#line 1885 "y.tab.c"
     break;
 
   case 39:
-#line 134 "uccompiler.y"
+#line 136 "uccompiler.y"
                        {(yyval.node)=create_node("Return"); add_child((yyval.node), (yyvsp[-1].node));}
-#line 1889 "y.tab.c"
+#line 1891 "y.tab.c"
     break;
 
   case 40:
-#line 135 "uccompiler.y"
+#line 137 "uccompiler.y"
                   {(yyval.node)=create_node("Return"); add_child((yyval.node), create_node("Null"));}
-#line 1895 "y.tab.c"
+#line 1897 "y.tab.c"
     break;
 
   case 41:
-#line 136 "uccompiler.y"
+#line 138 "uccompiler.y"
                           {(yyval.node)=NULL; error = 1;}
-#line 1901 "y.tab.c"
+#line 1903 "y.tab.c"
     break;
 
   case 42:
-#line 139 "uccompiler.y"
+#line 141 "uccompiler.y"
                              {(yyval.node) = (yyvsp[0].node);}
-#line 1907 "y.tab.c"
+#line 1909 "y.tab.c"
     break;
 
   case 43:
-#line 140 "uccompiler.y"
+#line 142 "uccompiler.y"
                  {(yyval.node) = NULL; error = 1;}
-#line 1913 "y.tab.c"
+#line 1915 "y.tab.c"
     break;
 
   case 44:
-#line 144 "uccompiler.y"
+#line 146 "uccompiler.y"
                                     {(yyval.node) = create_node("many_children"); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1919 "y.tab.c"
+#line 1921 "y.tab.c"
     break;
 
   case 45:
-#line 145 "uccompiler.y"
+#line 147 "uccompiler.y"
                        {(yyval.node) = (yyvsp[0].node);}
-#line 1925 "y.tab.c"
+#line 1927 "y.tab.c"
     break;
 
   case 46:
-#line 148 "uccompiler.y"
-                       {(yyval.node)=create_node("Store"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1931 "y.tab.c"
+#line 150 "uccompiler.y"
+                       {(yyval.node)=create_node("Store"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionR");}
+#line 1933 "y.tab.c"
     break;
 
   case 47:
-#line 149 "uccompiler.y"
-                      {(yyval.node)=create_node("Comma"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1937 "y.tab.c"
+#line 151 "uccompiler.y"
+                      {(yyval.node)=create_node("Comma"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionR");}
+#line 1939 "y.tab.c"
     break;
 
   case 48:
-#line 150 "uccompiler.y"
-                     {(yyval.node)=create_node("Add"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1943 "y.tab.c"
+#line 152 "uccompiler.y"
+                     {(yyval.node)=create_node("Add"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
+#line 1945 "y.tab.c"
     break;
 
   case 49:
-#line 151 "uccompiler.y"
-                      {(yyval.node)=create_node("Sub"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1949 "y.tab.c"
+#line 153 "uccompiler.y"
+                      {(yyval.node)=create_node("Sub"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
+#line 1951 "y.tab.c"
     break;
 
   case 50:
-#line 152 "uccompiler.y"
-                    {(yyval.node)=create_node("Mul"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1955 "y.tab.c"
+#line 154 "uccompiler.y"
+                    {(yyval.node)=create_node("Mul"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
+#line 1957 "y.tab.c"
     break;
 
   case 51:
-#line 153 "uccompiler.y"
-                    {(yyval.node)=create_node("Div"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1961 "y.tab.c"
+#line 155 "uccompiler.y"
+                    {(yyval.node)=create_node("Div"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
+#line 1963 "y.tab.c"
     break;
 
   case 52:
-#line 154 "uccompiler.y"
-                    {(yyval.node)=create_node("Mod"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1967 "y.tab.c"
+#line 156 "uccompiler.y"
+                    {(yyval.node)=create_node("Mod"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
+#line 1969 "y.tab.c"
     break;
 
   case 53:
-#line 155 "uccompiler.y"
-                   {(yyval.node)=create_node("Or"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1973 "y.tab.c"
+#line 157 "uccompiler.y"
+                   {(yyval.node)=create_node("Or"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 1975 "y.tab.c"
     break;
 
   case 54:
-#line 156 "uccompiler.y"
-                    {(yyval.node)=create_node("And"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1979 "y.tab.c"
+#line 158 "uccompiler.y"
+                    {(yyval.node)=create_node("And"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 1981 "y.tab.c"
     break;
 
   case 55:
-#line 157 "uccompiler.y"
-                           {(yyval.node)=create_node("BitWiseAnd"); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1985 "y.tab.c"
+#line 159 "uccompiler.y"
+                           {(yyval.node)=create_node("BitWiseAnd"); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
+#line 1987 "y.tab.c"
     break;
 
   case 56:
-#line 158 "uccompiler.y"
-                          {(yyval.node)=create_node("BitWiseOr"); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1991 "y.tab.c"
+#line 160 "uccompiler.y"
+                          {(yyval.node)=create_node("BitWiseOr"); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
+#line 1993 "y.tab.c"
     break;
 
   case 57:
-#line 159 "uccompiler.y"
-                           {(yyval.node)=create_node("BitWiseXor");add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 1997 "y.tab.c"
+#line 161 "uccompiler.y"
+                           {(yyval.node)=create_node("BitWiseXor");add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
+#line 1999 "y.tab.c"
     break;
 
   case 58:
-#line 160 "uccompiler.y"
-                   {(yyval.node)=create_node("Eq"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2003 "y.tab.c"
+#line 162 "uccompiler.y"
+                   {(yyval.node)=create_node("Eq"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2005 "y.tab.c"
     break;
 
   case 59:
-#line 161 "uccompiler.y"
-                   {(yyval.node)=create_node("Ne"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2009 "y.tab.c"
+#line 163 "uccompiler.y"
+                   {(yyval.node)=create_node("Ne"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2011 "y.tab.c"
     break;
 
   case 60:
-#line 162 "uccompiler.y"
-                   {(yyval.node)=create_node("Le"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2015 "y.tab.c"
+#line 164 "uccompiler.y"
+                   {(yyval.node)=create_node("Le"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2017 "y.tab.c"
     break;
 
   case 61:
-#line 163 "uccompiler.y"
-                   {(yyval.node)=create_node("Ge"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2021 "y.tab.c"
+#line 165 "uccompiler.y"
+                   {(yyval.node)=create_node("Ge"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2023 "y.tab.c"
     break;
 
   case 62:
-#line 164 "uccompiler.y"
-                   {(yyval.node)=create_node("Lt"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2027 "y.tab.c"
+#line 166 "uccompiler.y"
+                   {(yyval.node)=create_node("Lt"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2029 "y.tab.c"
     break;
 
   case 63:
-#line 165 "uccompiler.y"
-                   {(yyval.node)=create_node("Gt"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2033 "y.tab.c"
+#line 167 "uccompiler.y"
+                   {(yyval.node)=create_node("Gt"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2035 "y.tab.c"
     break;
 
   case 64:
-#line 166 "uccompiler.y"
-                               {(yyval.node)=create_node("Plus"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2039 "y.tab.c"
+#line 168 "uccompiler.y"
+                               {(yyval.node)=create_node("Plus"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression1");}
+#line 2041 "y.tab.c"
     break;
 
   case 65:
-#line 167 "uccompiler.y"
-                                {(yyval.node)=create_node("Minus"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2045 "y.tab.c"
+#line 169 "uccompiler.y"
+                                {(yyval.node)=create_node("Minus"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression1");}
+#line 2047 "y.tab.c"
     break;
 
   case 66:
-#line 168 "uccompiler.y"
-                              {(yyval.node)=create_node("Not"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2051 "y.tab.c"
+#line 170 "uccompiler.y"
+                              {(yyval.node)=create_node("Not"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2053 "y.tab.c"
     break;
 
   case 67:
-#line 169 "uccompiler.y"
-                   {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].letters)));(yyval.node)->expType = strdup("Expression");}
-#line 2057 "y.tab.c"
+#line 171 "uccompiler.y"
+                   {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].letters)));(yyval.node)->expType = strdup("Expression1");}
+#line 2059 "y.tab.c"
     break;
 
   case 68:
-#line 170 "uccompiler.y"
-                              {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));(yyval.node)->expType = strdup("Expression");}
-#line 2063 "y.tab.c"
+#line 172 "uccompiler.y"
+                              {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));(yyval.node)->expType = strdup("Expression1");}
+#line 2065 "y.tab.c"
     break;
 
   case 69:
-#line 171 "uccompiler.y"
-          {(yyval.node)=(yyval.node)=create_literal_node("Id", (yyvsp[0].letters));(yyval.node)->expType = strdup("Expression");}
-#line 2069 "y.tab.c"
+#line 173 "uccompiler.y"
+          {(yyval.node)=(yyval.node)=create_literal_node("Id", (yyvsp[0].letters));(yyval.node)->expType = strdup("ExpressionId");}
+#line 2071 "y.tab.c"
     break;
 
   case 70:
-#line 172 "uccompiler.y"
-             {(yyval.node)=create_literal_node("IntLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("Expression");}
-#line 2075 "y.tab.c"
+#line 174 "uccompiler.y"
+             {(yyval.node)=create_literal_node("IntLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("int");}
+#line 2077 "y.tab.c"
     break;
 
   case 71:
-#line 173 "uccompiler.y"
-             {(yyval.node)=create_literal_node("ChrLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("Expression");}
-#line 2081 "y.tab.c"
+#line 175 "uccompiler.y"
+             {(yyval.node)=create_literal_node("ChrLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("int");}
+#line 2083 "y.tab.c"
     break;
 
   case 72:
-#line 174 "uccompiler.y"
-              {(yyval.node)=create_literal_node("RealLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("Expression");}
-#line 2087 "y.tab.c"
+#line 176 "uccompiler.y"
+              {(yyval.node)=create_literal_node("RealLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("double");}
+#line 2089 "y.tab.c"
     break;
 
   case 73:
-#line 175 "uccompiler.y"
-                     {(yyval.node)=(yyvsp[-1].node);(yyval.node)->expType = strdup("Expression");}
-#line 2093 "y.tab.c"
+#line 177 "uccompiler.y"
+                     {(yyval.node)=(yyvsp[-1].node);}
+#line 2095 "y.tab.c"
     break;
 
   case 74:
-#line 176 "uccompiler.y"
-                         {(yyval.node)=create_node("Call"); add_child((yyval.node), create_node("Null")); error = 1;(yyval.node)->expType = strdup("Expression");}
-#line 2099 "y.tab.c"
+#line 178 "uccompiler.y"
+                         {(yyval.node)=create_node("Call"); add_child((yyval.node), create_node("Null")); error = 1;(yyval.node)->expType = strdup("Expression1");}
+#line 2101 "y.tab.c"
     break;
 
   case 75:
-#line 177 "uccompiler.y"
+#line 179 "uccompiler.y"
                       {(yyval.node)=NULL; error = 1;}
-#line 2105 "y.tab.c"
+#line 2107 "y.tab.c"
     break;
 
   case 76:
-#line 180 "uccompiler.y"
+#line 182 "uccompiler.y"
                                          {(yyval.node)=create_node("Store"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2111 "y.tab.c"
+#line 2113 "y.tab.c"
     break;
 
   case 77:
-#line 181 "uccompiler.y"
+#line 183 "uccompiler.y"
                                   {(yyval.node)=create_node("many_children"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2117 "y.tab.c"
+#line 2119 "y.tab.c"
     break;
 
   case 78:
-#line 182 "uccompiler.y"
-                                 {(yyval.node)=create_node("Add"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2123 "y.tab.c"
+#line 184 "uccompiler.y"
+                                 {(yyval.node)=create_node("Add"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
+#line 2125 "y.tab.c"
     break;
 
   case 79:
-#line 183 "uccompiler.y"
-                                  {(yyval.node)=create_node("Sub"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2129 "y.tab.c"
+#line 185 "uccompiler.y"
+                                  {(yyval.node)=create_node("Sub"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
+#line 2131 "y.tab.c"
     break;
 
   case 80:
-#line 184 "uccompiler.y"
-                                {(yyval.node)=create_node("Mul"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2135 "y.tab.c"
+#line 186 "uccompiler.y"
+                                {(yyval.node)=create_node("Mul"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
+#line 2137 "y.tab.c"
     break;
 
   case 81:
-#line 185 "uccompiler.y"
-                                {(yyval.node)=create_node("Div"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2141 "y.tab.c"
+#line 187 "uccompiler.y"
+                                {(yyval.node)=create_node("Div"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
+#line 2143 "y.tab.c"
     break;
 
   case 82:
-#line 186 "uccompiler.y"
-                                {(yyval.node)=create_node("Mod"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2147 "y.tab.c"
+#line 188 "uccompiler.y"
+                                {(yyval.node)=create_node("Mod"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
+#line 2149 "y.tab.c"
     break;
 
   case 83:
-#line 187 "uccompiler.y"
-                               {(yyval.node)=create_node("Or"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2153 "y.tab.c"
+#line 189 "uccompiler.y"
+                               {(yyval.node)=create_node("Or"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2155 "y.tab.c"
     break;
 
   case 84:
-#line 188 "uccompiler.y"
-                                {(yyval.node)=create_node("And"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2159 "y.tab.c"
+#line 190 "uccompiler.y"
+                                {(yyval.node)=create_node("And"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2161 "y.tab.c"
     break;
 
   case 85:
-#line 189 "uccompiler.y"
-                                       {(yyval.node)=create_node("BitWiseAnd"); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2165 "y.tab.c"
+#line 191 "uccompiler.y"
+                                       {(yyval.node)=create_node("BitWiseAnd"); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
+#line 2167 "y.tab.c"
     break;
 
   case 86:
-#line 190 "uccompiler.y"
-                                      {(yyval.node)=create_node("BitWiseOr"); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2171 "y.tab.c"
+#line 192 "uccompiler.y"
+                                      {(yyval.node)=create_node("BitWiseOr"); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
+#line 2173 "y.tab.c"
     break;
 
   case 87:
-#line 191 "uccompiler.y"
-                                       {(yyval.node)=create_node("BitWiseXor");add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2177 "y.tab.c"
+#line 193 "uccompiler.y"
+                                       {(yyval.node)=create_node("BitWiseXor");add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
+#line 2179 "y.tab.c"
     break;
 
   case 88:
-#line 192 "uccompiler.y"
-                               {(yyval.node)=create_node("Eq"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2183 "y.tab.c"
+#line 194 "uccompiler.y"
+                               {(yyval.node)=create_node("Eq"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2185 "y.tab.c"
     break;
 
   case 89:
-#line 193 "uccompiler.y"
-                               {(yyval.node)=create_node("Ne"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2189 "y.tab.c"
+#line 195 "uccompiler.y"
+                               {(yyval.node)=create_node("Ne"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2191 "y.tab.c"
     break;
 
   case 90:
-#line 194 "uccompiler.y"
-                               {(yyval.node)=create_node("Le"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2195 "y.tab.c"
+#line 196 "uccompiler.y"
+                               {(yyval.node)=create_node("Le"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2197 "y.tab.c"
     break;
 
   case 91:
-#line 195 "uccompiler.y"
-                               {(yyval.node)=create_node("Ge"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2201 "y.tab.c"
+#line 197 "uccompiler.y"
+                               {(yyval.node)=create_node("Ge"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2203 "y.tab.c"
     break;
 
   case 92:
-#line 196 "uccompiler.y"
-                               {(yyval.node)=create_node("Lt"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2207 "y.tab.c"
+#line 198 "uccompiler.y"
+                               {(yyval.node)=create_node("Lt"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2209 "y.tab.c"
     break;
 
   case 93:
-#line 197 "uccompiler.y"
-                               {(yyval.node)=create_node("Gt"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2213 "y.tab.c"
+#line 199 "uccompiler.y"
+                               {(yyval.node)=create_node("Gt"); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2215 "y.tab.c"
     break;
 
   case 94:
-#line 198 "uccompiler.y"
-                                     {(yyval.node)=create_node("Plus"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2219 "y.tab.c"
+#line 200 "uccompiler.y"
+                                     {(yyval.node)=create_node("Plus"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression1");}
+#line 2221 "y.tab.c"
     break;
 
   case 95:
-#line 199 "uccompiler.y"
-                                      {(yyval.node)=create_node("Minus"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2225 "y.tab.c"
+#line 201 "uccompiler.y"
+                                      {(yyval.node)=create_node("Minus"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression1");}
+#line 2227 "y.tab.c"
     break;
 
   case 96:
-#line 200 "uccompiler.y"
-                                    {(yyval.node)=create_node("Not"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
-#line 2231 "y.tab.c"
+#line 202 "uccompiler.y"
+                                    {(yyval.node)=create_node("Not"); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("int");}
+#line 2233 "y.tab.c"
     break;
 
   case 97:
-#line 201 "uccompiler.y"
-                   {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].letters)));(yyval.node)->expType = strdup("Expression");}
-#line 2237 "y.tab.c"
+#line 203 "uccompiler.y"
+                   {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].letters)));(yyval.node)->expType = strdup("Expression1");}
+#line 2239 "y.tab.c"
     break;
 
   case 98:
-#line 202 "uccompiler.y"
-                              {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));(yyval.node)->expType = strdup("Expression");}
-#line 2243 "y.tab.c"
+#line 204 "uccompiler.y"
+                              {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));(yyval.node)->expType = strdup("Expression1");}
+#line 2245 "y.tab.c"
     break;
 
   case 99:
-#line 203 "uccompiler.y"
-          {(yyval.node)=(yyval.node)=create_literal_node("Id", (yyvsp[0].letters));(yyval.node)->expType = strdup("Expression");}
-#line 2249 "y.tab.c"
+#line 205 "uccompiler.y"
+          {(yyval.node)=(yyval.node)=create_literal_node("Id", (yyvsp[0].letters));(yyval.node)->expType = strdup("ExpressionId");}
+#line 2251 "y.tab.c"
     break;
 
   case 100:
-#line 204 "uccompiler.y"
-             {(yyval.node)=create_literal_node("IntLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("Expression");}
-#line 2255 "y.tab.c"
+#line 206 "uccompiler.y"
+             {(yyval.node)=create_literal_node("IntLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("int");}
+#line 2257 "y.tab.c"
     break;
 
   case 101:
-#line 205 "uccompiler.y"
-             {(yyval.node)=create_literal_node("ChrLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("Expression");}
-#line 2261 "y.tab.c"
+#line 207 "uccompiler.y"
+             {(yyval.node)=create_literal_node("ChrLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("int");}
+#line 2263 "y.tab.c"
     break;
 
   case 102:
-#line 206 "uccompiler.y"
-              {(yyval.node)=create_literal_node("RealLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("Expression");}
-#line 2267 "y.tab.c"
+#line 208 "uccompiler.y"
+              {(yyval.node)=create_literal_node("RealLit", (yyvsp[0].letters));(yyval.node)->expType = strdup("double");}
+#line 2269 "y.tab.c"
     break;
 
   case 103:
-#line 207 "uccompiler.y"
-                     {(yyval.node)=(yyvsp[-1].node);(yyval.node)->expType = strdup("Expression");}
-#line 2273 "y.tab.c"
+#line 209 "uccompiler.y"
+                     {(yyval.node)=(yyvsp[-1].node);}
+#line 2275 "y.tab.c"
     break;
 
   case 104:
-#line 208 "uccompiler.y"
-                         {(yyval.node)=create_node("Call"); add_child((yyval.node), create_node("Null")); error = 1;(yyval.node)->expType = strdup("Expression");}
-#line 2279 "y.tab.c"
+#line 210 "uccompiler.y"
+                         {(yyval.node)=create_node("Call"); add_child((yyval.node), create_node("Null")); error = 1;(yyval.node)->expType = strdup("Expression1");}
+#line 2281 "y.tab.c"
     break;
 
   case 105:
-#line 209 "uccompiler.y"
+#line 211 "uccompiler.y"
                       {(yyval.node)=NULL; error = 1;}
-#line 2285 "y.tab.c"
+#line 2287 "y.tab.c"
     break;
 
 
-#line 2289 "y.tab.c"
+#line 2291 "y.tab.c"
 
       default: break;
     }
@@ -2517,5 +2519,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 213 "uccompiler.y"
+#line 215 "uccompiler.y"
 

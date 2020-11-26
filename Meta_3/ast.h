@@ -33,4 +33,10 @@ void destroy_node(AST_Node root);
 
 void print_AST(AST_Node root, int n_tabs);
 
+void print_AST2(AST_Node root, int n_tabs);
+
+void search_for_declaration(AST_Node node, char* id, char*type);
+
+void add_type_to_expressions(AST_Node node);
+
 #endif //UNTITLED_AST_H
