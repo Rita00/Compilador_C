@@ -166,5 +166,64 @@ void free_table(table_element *root) {
     }
 }
 
+void search_for_declaration(AST_Node node, table_element *table){
+    char *id = (char *) calloc(strlen(node->token) - 3, sizeof(char));
+    strncpy(id, node->token + 3, strlen(node->token) - 4);
+    char* type = strdup("undef");
+    table_element *aux;
+    int found = 0;
+    node->nparam = 0;
+    for (aux = table; aux; aux = aux->next) {
+        if(strcmp(id,aux->name)==0){
+            node->expType = strdup(aux->type);
+            if(aux->nparam>0){
+                node->tparam = aux->tparam;
+                node->nparam = aux->nparam;
+            }
+            found = 1;
+        }
+        else if (aux->isDefined){
+            functionsList aux2 = aux->table;
+            while (aux2 != NULL) {
+                 if(strcmp(id,aux2->variable)==0){
+                        node->expType = strdup(aux2->type);
+                        found = 1;
+                }
+                aux2 = aux2->next;
+            }
+        }
+        
+    } 
+}
+void add_type_to_expressions(AST_Node node, table_element *table) {
+    for(int i = 0; i < node->n_children; i++){
+        add_type_to_expressions(node->children[i],table);
+    }
+    if(node->expType && strncmp(node->expType,"Expression",strlen("Expression"))==0){
+        if(strcmp(node->expType,"ExpressionId")==0){ //procura declarations
+            char *id = (char *) calloc(strlen(node->token) - 3, sizeof(char));
+            strncpy(id, node->token + 3, strlen(node->token) - 4);
+            search_for_declaration(node,table); 
+        }
+        else if(strcmp(node->expType,"ExpressionArit")==0){ //operacoes aritmeticas binarias (ex: int + double = double) 
+            if(strcmp(node->children[0]->expType,"double")==0 || strcmp(node->children[1]->expType,"double")==0){
+                node->expType = strdup("double");  
+            }
+            else{
+                node->expType = strdup("int");  
+            }
+        }
+        else if(strcmp(node->expType,"ExpressionR")==0){ //operacoes binarias que ficam com o valor da direita (igual e virgula) 
+            node->expType = strdup(node->children[1]->expType);  
+        }
+        else if(strcmp(node->expType,"ExpressionIntInt")==0){ //operacoes binarias que so funcionam se os dois lados forem ints
+            node->expType = strdup("int");
+            //Erro: se um dos filhos for double  
+        }
+        else if(strcmp(node->expType,"Expression1")==0){ //operacoes so com um membro (positivo, negativo, call)
+            node->expType = strdup(node->children[0]->expType);  
+        }
+    }
+}
 
 

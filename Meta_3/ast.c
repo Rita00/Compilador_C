@@ -1,7 +1,6 @@
 
 
 #include "ast.h"
-#include "symbol_table.h"
 AST_Node create_node(char *token) { //TODO n_linha e n_coluna
     AST_Node new_node = calloc(1, sizeof(struct _ast_Node));
     new_node->token = strdup(token);
@@ -88,7 +87,17 @@ void print_AST2(AST_Node root, int n_tabs) { //anotada
         printf("..");
     }
     if(root->expType && strcmp(root->expType,"undef")){
-        printf("%s - %s\n", root->token, root->expType);
+        if(root->nparam==0){
+            printf("%s - %s\n", root->token, root->expType);
+        }
+        else{
+            char params[32 * root->nparam];
+            strcpy(params, root->tparam[0]);
+            for (int i = 1; i < root->nparam; i++) {
+                sprintf(params, "%s,%s", params, root->tparam[i]);
+            }
+            printf("%s - %s(%s)\n", root->token, root->expType, params);
+        }
     }
     else{
       printf("%s\n", root->token);  
@@ -96,60 +105,4 @@ void print_AST2(AST_Node root, int n_tabs) { //anotada
     for (int i = 0; i < root->n_children; i++) {
         print_AST2(root->children[i], n_tabs + 1);
     }
-}
-
-char* search_for_declaration(AST_Node node, char* id, char*type){
-    if(strcmp(node->token,"Declaration")==0){
-        if(strcmp(node->children[1]->token,id)==0){
-            type = strdup(node->children[0]->token);
-        }
-    }
-    else if(strcmp(node->token,id)==0){
-        type = strdup("undef");
-    }
-    else{
-        for (int i = 0; i < node->n_children; i++) {
-            if(!type){
-                type = search_for_declaration(node->children[i], id, type);
-            }
-        }
-    }
-    return type;
-}
-void add_type_to_expressions(AST_Node node, AST_Node root) {
-    for(int i = 0; i < node->n_children; i++){
-        add_type_to_expressions(node->children[i],root);
-    }
-    
-    if (node->expType && strlen(node->expType)>3 && strncmp(node->expType, "Expression",strlen("Expression")) == 0) {
-        if(strcmp(node->expType,"ExpressionId")==0){ //procura declarations
-            if(strcmp(node->token,"Id(putchar)")==0||strcmp(node->token,"Id(getchar)")==0){ //mudar para procurar na tabela de globais?
-               node->expType = strdup("int"); 
-            }
-            else{
-                char * type = NULL;
-                type = strdup(search_for_declaration(root,node->token,type));
-                node->expType = type;
-            }
-        }
-        else if(strcmp(node->expType,"ExpressionArit")==0){ //operacoes aritmeticas binarias (ex: int + double = double) 
-            if(strcmp(node->children[0]->expType,"double")==0 || strcmp(node->children[1]->expType,"double")==0){
-                node->expType = strdup("double");  
-            }
-            else{
-                node->expType = strdup(node->children[0]->expType);  
-            }
-        }
-        else if(strcmp(node->expType,"ExpressionR")==0){ //operacoes binarias que ficam com o valor da direita (igual e virgula) 
-            node->expType = strdup(node->children[1]->expType);  
-        }
-        else if(strcmp(node->expType,"ExpressionIntInt")==0){ //operacoes binarias que so funcionam se os dois lados forem ints
-            node->expType = strdup("int");
-            //Erro: se um dos filhos for double  
-        }
-        else if(strcmp(node->expType,"Expression1")==0){ //operacoes so com um membro (positivo, negativo, call)
-            node->expType = strdup(node->children[0]->expType);  
-        }
-
-    } 
 }

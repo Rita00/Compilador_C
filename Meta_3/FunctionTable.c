@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdio.h>
 #include "FunctionTable.h"
-#include "ast.h"
 
 void lowerString(char *str);
 
