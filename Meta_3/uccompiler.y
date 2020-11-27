@@ -64,7 +64,7 @@ Program: FunctionsAndDeclarations {
         if (!error && flag == 's'){
             gtable=create_global_table(root);
             print_global_table(gtable); 
-            add_type_to_expressions(root,gtable);
+            add_type_to_expressions(root,gtable,NULL);
             print_AST2(root,0);
             free_table(gtable);
         }

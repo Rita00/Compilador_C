@@ -166,15 +166,35 @@ void free_table(table_element *root) {
     }
 }
 
-void search_for_declaration(AST_Node node, table_element *table){
+void search_for_declaration(AST_Node node, table_element *table, char*functionName){
     char *id = (char *) calloc(strlen(node->token) - 3, sizeof(char));
     strncpy(id, node->token + 3, strlen(node->token) - 4);
-    char* type = strdup("undef");
+    node->expType = strdup("undef");
     table_element *aux;
     int found = 0;
     node->nparam = 0;
     for (aux = table; aux; aux = aux->next) {
-        if(strcmp(id,aux->name)==0){
+        if(aux->isDefined){
+            if(strcmp(id,aux->name)==0){
+                node->expType = strdup(aux->type);
+                if(aux->nparam>0){
+                    node->tparam = aux->tparam;
+                    node->nparam = aux->nparam;
+                }
+                found = 1;
+            }
+            if (!strcmp(aux->name,functionName)){
+                functionsList aux2 = aux->table;
+                while (aux2 != NULL) {
+                    if(strcmp(id,aux2->variable)==0){
+                            node->expType = strdup(aux2->type);
+                            found = 1;
+                    }
+                    aux2 = aux2->next;
+                }
+            }
+        }
+        else if(strcmp(id,aux->name)==0){
             node->expType = strdup(aux->type);
             if(aux->nparam>0){
                 node->tparam = aux->tparam;
@@ -182,28 +202,22 @@ void search_for_declaration(AST_Node node, table_element *table){
             }
             found = 1;
         }
-        else if (aux->isDefined){
-            functionsList aux2 = aux->table;
-            while (aux2 != NULL) {
-                 if(strcmp(id,aux2->variable)==0){
-                        node->expType = strdup(aux2->type);
-                        found = 1;
-                }
-                aux2 = aux2->next;
-            }
-        }
         
     } 
 }
-void add_type_to_expressions(AST_Node node, table_element *table) {
+void add_type_to_expressions(AST_Node node, table_element *table, char * currentFunc) {
+    if(!strcmp(node->token,"FuncDefinition")){
+        currentFunc = (char *) calloc(strlen(node->children[1]->token) - 3, sizeof(char));
+        strncpy(currentFunc, node->children[1]->token + 3, strlen(node->children[1]->token) - 4);
+    }
     for(int i = 0; i < node->n_children; i++){
-        add_type_to_expressions(node->children[i],table);
+        add_type_to_expressions(node->children[i],table, currentFunc);
     }
     if(node->expType && strncmp(node->expType,"Expression",strlen("Expression"))==0){
         if(strcmp(node->expType,"ExpressionId")==0){ //procura declarations
             char *id = (char *) calloc(strlen(node->token) - 3, sizeof(char));
             strncpy(id, node->token + 3, strlen(node->token) - 4);
-            search_for_declaration(node,table); 
+            search_for_declaration(node,table,currentFunc); 
         }
         else if(strcmp(node->expType,"ExpressionArit")==0){ //operacoes aritmeticas binarias (ex: int + double = double) 
             if(strcmp(node->children[0]->expType,"double")==0 || strcmp(node->children[1]->expType,"double")==0){

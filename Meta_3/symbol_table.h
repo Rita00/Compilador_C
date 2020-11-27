@@ -23,6 +23,6 @@ char is_definition_of_declared(table_element *target, table_element *new);
 void print_global_table(table_element *target);
 table_element *create_global_table(AST_Node root);
 void free_table(table_element* root);
-void search_for_declaration(AST_Node node, table_element *table);
-void add_type_to_expressions(AST_Node node, table_element *table);
+void search_for_declaration(AST_Node node, table_element *table, char* functionName);
+void add_type_to_expressions(AST_Node node, table_element *table, char* currentFunc);
 #endif
