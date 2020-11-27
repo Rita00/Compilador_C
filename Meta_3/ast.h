@@ -35,8 +35,8 @@ void print_AST(AST_Node root, int n_tabs);
 
 void print_AST2(AST_Node root, int n_tabs);
 
-void search_for_declaration(AST_Node node, char* id, char*type);
+char* search_for_declaration(AST_Node node, char* id, char*type);
 
-void add_type_to_expressions(AST_Node node);
+void add_type_to_expressions(AST_Node node, AST_Node root);
 
 #endif //UNTITLED_AST_H

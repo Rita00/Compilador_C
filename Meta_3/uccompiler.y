@@ -64,11 +64,11 @@ Program: FunctionsAndDeclarations {
         if (!error && flag == 's'){
             gtable=create_global_table(root);
             print_global_table(gtable); 
-            add_type_to_expressions(root);
+            add_type_to_expressions(root,root);
             print_AST2(root,0);
             free_table(gtable);
         }
-        if (!error && (flag == 't' || flag == 's')){
+        if (!error && (flag == 't' )){//|| flag == 's')){
             print_AST(root, 0);
         }
         free_AST(root); 
@@ -168,8 +168,8 @@ Expr: Expr ASSIGN Expr {$$=create_node("Store"); add_child($$, $1); add_child($$
     | PLUS Expr %prec MAX_PREC {$$=create_node("Plus"); add_child($$, $2);$$->expType = strdup("Expression1");}
     | MINUS Expr %prec MAX_PREC {$$=create_node("Minus"); add_child($$, $2);$$->expType = strdup("Expression1");}
     | NOT Expr %prec MAX_PREC {$$=create_node("Not"); add_child($$, $2);$$->expType = strdup("int");}
-    | ID LPAR RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1));$$->expType = strdup("Expression1");}
-    | ID LPAR ExprOnCall RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);$$->expType = strdup("Expression1");}
+    | ID LPAR RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1));$$->expType = strdup("Expression1");$$->children[0]->expType = strdup("ExpressionId");}
+    | ID LPAR ExprOnCall RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);$$->expType = strdup("Expression1");$$->children[0]->expType = strdup("ExpressionId");}
     | ID  {$$=$$=create_literal_node("Id", $1);$$->expType = strdup("ExpressionId");}
     | INTLIT {$$=create_literal_node("IntLit", $1);$$->expType = strdup("int");} 
     | CHRLIT {$$=create_literal_node("ChrLit", $1);$$->expType = strdup("int");}
@@ -200,8 +200,8 @@ ExprOnCall: ExprOnCall ASSIGN ExprOnCall {$$=create_node("Store"); add_child($$,
     | PLUS ExprOnCall %prec MAX_PREC {$$=create_node("Plus"); add_child($$, $2);$$->expType = strdup("Expression1");}
     | MINUS ExprOnCall %prec MAX_PREC {$$=create_node("Minus"); add_child($$, $2);$$->expType = strdup("Expression1");}
     | NOT ExprOnCall %prec MAX_PREC {$$=create_node("Not"); add_child($$, $2);$$->expType = strdup("int");}
-    | ID LPAR RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1));$$->expType = strdup("Expression1");}
-    | ID LPAR ExprOnCall RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);$$->expType = strdup("Expression1");}
+    | ID LPAR RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1));$$->expType = strdup("Expression1");$$->children[0]->expType = strdup("ExpressionId");}
+    | ID LPAR ExprOnCall RPAR {$$=create_node("Call"); add_child($$, create_literal_node("Id", $1)); add_child($$, $3);$$->expType = strdup("Expression1");$$->children[0]->expType = strdup("ExpressionId");}
     | ID  {$$=$$=create_literal_node("Id", $1);$$->expType = strdup("ExpressionId");}
     | INTLIT {$$=create_literal_node("IntLit", $1);$$->expType = strdup("int");} 
     | CHRLIT {$$=create_literal_node("ChrLit", $1);$$->expType = strdup("int");}

@@ -1656,11 +1656,11 @@ yyreduce:
         if (!error && flag == 's'){
             gtable=create_global_table(root);
             print_global_table(gtable); 
-            add_type_to_expressions(root);
+            add_type_to_expressions(root,root);
             print_AST2(root,0);
             free_table(gtable);
         }
-        if (!error && (flag == 't' || flag == 's')){
+        if (!error && (flag == 't' )){//|| flag == 's')){
             print_AST(root, 0);
         }
         free_AST(root); 
@@ -2054,13 +2054,13 @@ yyreduce:
 
   case 67:
 #line 171 "uccompiler.y"
-                   {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].letters)));(yyval.node)->expType = strdup("Expression1");}
+                   {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].letters)));(yyval.node)->expType = strdup("Expression1");(yyval.node)->children[0]->expType = strdup("ExpressionId");}
 #line 2059 "y.tab.c"
     break;
 
   case 68:
 #line 172 "uccompiler.y"
-                              {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));(yyval.node)->expType = strdup("Expression1");}
+                              {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));(yyval.node)->expType = strdup("Expression1");(yyval.node)->children[0]->expType = strdup("ExpressionId");}
 #line 2065 "y.tab.c"
     break;
 
@@ -2234,13 +2234,13 @@ yyreduce:
 
   case 97:
 #line 203 "uccompiler.y"
-                   {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].letters)));(yyval.node)->expType = strdup("Expression1");}
+                   {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].letters)));(yyval.node)->expType = strdup("Expression1");(yyval.node)->children[0]->expType = strdup("ExpressionId");}
 #line 2239 "y.tab.c"
     break;
 
   case 98:
 #line 204 "uccompiler.y"
-                              {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));(yyval.node)->expType = strdup("Expression1");}
+                              {(yyval.node)=create_node("Call"); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].letters))); add_child((yyval.node), (yyvsp[-1].node));(yyval.node)->expType = strdup("Expression1");(yyval.node)->children[0]->expType = strdup("ExpressionId");}
 #line 2245 "y.tab.c"
     break;
 
