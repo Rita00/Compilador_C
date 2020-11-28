@@ -37,7 +37,7 @@ functionsList create_TableNode(char *varName, char *varType, char isParam, AST_N
     new_node->type = strdup(varType);
     lowerString(new_node->type);
     new_node->isParam = isParam;
-    if (strcmp(varType, "Void") == 0)
+    if (strcmp(varType, "Void") == 0 && strcmp(varName, "return") != 0)
         printf("Line %d, col %d: Invalid use of void type in declaration\n", node->n_linha,
                node->n_coluna);
     return new_node;

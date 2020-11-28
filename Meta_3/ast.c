@@ -86,7 +86,7 @@ void print_AST2(AST_Node root, int n_tabs) { //anotada
     for (int i = 0; i < n_tabs; i++) {
         printf("..");
     }
-    if(root->expType && strcmp(root->expType,"undef")){
+    if(root->expType && root->expType != NULL){
         if(root->nparam==0){
             printf("%s - %s\n", root->token, root->expType);
         }
