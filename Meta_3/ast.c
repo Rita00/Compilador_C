@@ -1,17 +1,17 @@
-
-
 #include "ast.h"
-AST_Node create_node(char *token) { //TODO n_linha e n_coluna
+AST_Node create_node(char *token, int n_linha, int n_coluna) {
     AST_Node new_node = calloc(1, sizeof(struct _ast_Node));
     new_node->token = strdup(token);
+    new_node->n_linha = n_linha;
+    new_node->n_coluna = n_coluna;
     return new_node;
 }
 
-AST_Node create_literal_node(char *token, char * content){
+AST_Node create_literal_node(char *token, char * content, int n_linha, int n_coluna){
     char aux[10000];
     sprintf(aux, "%s(%s)", token, content);
     free(content);
-    return create_node(aux);
+    return create_node(aux, n_linha, n_coluna);
 }
 
 void add_child(AST_Node target, AST_Node child) {
@@ -44,9 +44,9 @@ void add_child(AST_Node target, AST_Node child) {
     
 }
 
-void prepend_child(AST_Node root, AST_Node child){ //resolver frees
+void prepend_child(AST_Node root, AST_Node child, int n_linha, int n_coluna){ //resolver frees
      for(int i = 0; i < root->n_children; i++) {
-        AST_Node new_child = create_node(child->token);
+        AST_Node new_child = create_node(child->token, n_linha, n_coluna);
         new_child->parent = root->children[i];
         AST_Node *new_array = calloc(root->children[i]->n_children + 1, sizeof(AST_Node));
         memcpy(new_array+1, root->children[i]->children, root->children[i]->n_children*sizeof(AST_Node));

@@ -1,67 +1,367 @@
+Line 0, col 0: Conflicting types (got double, expected short)
+Line 6, col 13: Unknown symbol log10
+Line 6, col 13: Symbol log10 is not a function
+Line 7, col 26: Unknown symbol pow
+Line 7, col 26: Symbol pow is not a function
+Line 10, col 2: Unknown symbol area
+Line 10, col 9: Unknown symbol PI
+Line 10, col 12: Unknown symbol radius
+Line 10, col 19: Unknown symbol radius
+Line 11, col 3: Unknown symbol circumference
+Line 11, col 22: Unknown symbol PI
+Line 11, col 25: Unknown symbol radius
+Line 12, col 4: Unknown symbol diameter
+Line 12, col 19: Unknown symbol radius
+Line 13, col 3: Unknown symbol circumference
+Line 13, col 23: Unknown symbol PI
+Line 13, col 28: Unknown symbol radius
+Line 14, col 3: Unknown symbol area
+Line 14, col 10: Unknown symbol PI
+Line 14, col 15: Unknown symbol radius
+Line 14, col 24: Unknown symbol radius
+Line 15, col 5: Unknown symbol Perimeter
+Line 16, col 3: Unknown symbol s
+Line 17, col 3: Unknown symbol Area
+Line 17, col 10: Unknown symbol sqrt
+Line 17, col 15: Unknown symbol s
+Line 17, col 18: Unknown symbol s
+Line 17, col 24: Unknown symbol s
+Line 17, col 30: Unknown symbol s
+Line 17, col 10: Symbol sqrt is not a function
+Line 18, col 1: Unknown symbol area
+Line 18, col 9: Unknown symbol base
+Line 18, col 16: Unknown symbol height
+Line 20, col 4: Unknown symbol side1
+Line 20, col 13: Unknown symbol side2
+Line 20, col 22: Unknown symbol side2
+Line 20, col 31: Unknown symbol side3
+Line 22, col 19: Unknown symbol log10
+Line 22, col 19: Symbol log10 is not a function
+Line 24, col 26: Unknown symbol pow
+Line 24, col 26: Symbol pow is not a function
+Line 25, col 5: Unknown symbol i
+Line 27, col 5: Unknown symbol side1
+Line 27, col 14: Unknown symbol side2
+Line 27, col 23: Unknown symbol side2
+Line 27, col 32: Unknown symbol side3
+Line 27, col 41: Unknown symbol side1
+Line 27, col 50: Unknown symbol side3
+Line 29, col 16: Unknown symbol side1
+Line 29, col 24: Unknown symbol side2
+Line 29, col 32: Unknown symbol side3
+Line 29, col 43: Unknown symbol side2
+Line 29, col 51: Unknown symbol side3
+Line 29, col 59: Unknown symbol side1
+Line 29, col 70: Unknown symbol side1
+Line 29, col 78: Unknown symbol side3
+Line 29, col 86: Unknown symbol side2
+Line 31, col 8: Unknown symbol i
+Line 35, col 3: Unknown symbol i
+Line 37, col 4: Unknown symbol i
+Line 38, col 16: Unknown symbol angle1
+Line 38, col 25: Unknown symbol angle2
+Line 38, col 34: Unknown symbol angle3
+Line 42, col 3: Wrong number of arguments to function putchar (got 0, required 1)
+Line 43, col 15: Unknown symbol angle1
+Line 43, col 24: Unknown symbol angle2
+Line 43, col 33: Unknown symbol angle3
+Line 49, col 11: Unknown symbol angle1
+Line 49, col 20: Unknown symbol angle2
+Line 49, col 29: Unknown symbol angle3
+Line 51, col 4: Unknown symbol CIFuture
+Line 51, col 15: Unknown symbol PAmount
+Line 51, col 26: Unknown symbol pow
+Line 51, col 36: Unknown symbol ROI
+Line 51, col 46: Unknown symbol Time_Period
+Line 51, col 26: Symbol pow is not a function
+Line 52, col 4: Unknown symbol CI
+Line 52, col 9: Unknown symbol CIFuture
+Line 52, col 20: Unknown symbol PAmount
+Line 52, col 30: Unknown symbol cube
+Line 52, col 37: Unknown symbol number
+Line 52, col 46: Unknown symbol number
+Line 52, col 55: Unknown symbol number
+Line 53, col 6: Unknown symbol cube
+Line 53, col 27: Unknown symbol number
+Line 54, col 8: Unknown symbol Temp
+Line 55, col 10: Unknown symbol Temp
+Line 57, col 12: Unknown symbol Units
+Line 59, col 14: Unknown symbol Amount
+Line 59, col 23: Unknown symbol Units
+Line 60, col 5: Unknown symbol Sur_Charge
+Line 62, col 13: Unknown symbol Units
+Line 68, col 5: Unknown symbol Amount
+Line 68, col 22: Unknown symbol Units
+Line 69, col 5: Unknown symbol Sur_Charge
+Line 71, col 8: Unknown symbol Units
+Line 74, col 5: Unknown symbol Amount
+Line 74, col 18: Conflicting types (got double, expected int)
+Line 74, col 31: Unknown symbol Units
+Line 75, col 5: Unknown symbol Sur_Charge
+Line 79, col 14: Unknown symbol Num1
+Line 79, col 21: Unknown symbol i
+Line 79, col 31: Unknown symbol Num2
+Line 79, col 38: Unknown symbol i
+Line 80, col 13: Unknown symbol GCD
+Line 80, col 19: Unknown symbol i
+Line 82, col 6: Unknown symbol Amount
+Line 82, col 19: Conflicting types (got double, expected int)
+Line 82, col 28: Conflicting types (got double, expected int)
+Line 82, col 38: Unknown symbol Units
+Line 83, col 6: Unknown symbol Sur_Charge
+Line 87, col 14: Unknown symbol Num2
+Line 88, col 3: Unknown symbol Temp
+Line 88, col 10: Unknown symbol Num2
+Line 89, col 3: Unknown symbol Num2
+Line 89, col 10: Unknown symbol Num1
+Line 89, col 17: Unknown symbol Num2
+Line 90, col 3: Unknown symbol Num1
+Line 90, col 10: Unknown symbol Temp
+Line 92, col 5: Unknown symbol GCD
+Line 92, col 11: Unknown symbol Num1
+Line 96, col 7: Unknown symbol Times
+Line 96, col 15: Unknown symbol Times
+Line 97, col 7: Unknown symbol Temp
+Line 97, col 14: Unknown symbol Temp
+Line 100, col 3: Unknown symbol Temp
+Line 101, col 10: Unknown symbol Temp
+Line 103, col 6: Unknown symbol Reminder
+Line 103, col 17: Unknown symbol Temp
+Line 104, col 18: Unknown symbol pow
+Line 104, col 22: Unknown symbol Reminder
+Line 104, col 32: Unknown symbol Times
+Line 104, col 18: Symbol pow is not a function
+Line 105, col 6: Unknown symbol Temp
+Line 105, col 13: Unknown symbol Temp
+Line 118, col 5: Wrong number of arguments to function func (got 6, required 1)
+Line 122, col 10: Unknown symbol Area
+Line 122, col 23: Unknown symbol width
+Line 122, col 31: Unknown symbol height
+Line 123, col 7: Unknown symbol sqrt
+Line 123, col 13: Unknown symbol width
+Line 123, col 19: Unknown symbol width
+Line 123, col 29: Unknown symbol height
+Line 123, col 36: Unknown symbol height
+Line 123, col 7: Symbol sqrt is not a function
+Line 124, col 3: Unknown symbol Perimeter
+Line 124, col 15: Unknown symbol width
+Line 124, col 23: Unknown symbol height
+Line 125, col 11: Unknown symbol Area
+Line 125, col 25: Unknown symbol base1
+Line 125, col 33: Unknown symbol base2
+Line 125, col 42: Unknown symbol height
+Line 126, col 3: Unknown symbol Median
+Line 126, col 19: Unknown symbol base1
+Line 126, col 26: Unknown symbol base2
+Line 128, col 26: Unknown symbol z
+Line 129, col 20: Unknown symbol abc
+Line 132, col 21: Unknown symbol Perimeter
+Line 132, col 38: Unknown symbol length
+Line 132, col 47: Unknown symbol width
+Line 135, col 33: Unknown symbol inforestudante
+Line 135, col 17: Wrong number of arguments to function func (got 3, required 1)
+Line 138, col 8: Unknown symbol e
+Line 138, col 13: Unknown symbol e
+Line 140, col 8: Unknown symbol side1
+Line 140, col 16: Unknown symbol side2
+Line 140, col 24: Unknown symbol side3
+Line 142, col 8: Unknown symbol side2
+Line 142, col 16: Unknown symbol side3
+Line 142, col 24: Unknown symbol side1
+Line 148, col 17: Unknown symbol Area
+Line 148, col 24: Unknown symbol width
+Line 148, col 32: Unknown symbol height
+Line 149, col 3: Unknown symbol Perimeter
+Line 149, col 19: Unknown symbol width
+Line 149, col 27: Unknown symbol height
+Line 150, col 3: Unknown symbol Area
+Line 150, col 10: Unknown symbol length
+Line 150, col 19: Unknown symbol width
+Line 151, col 9: Unknown symbol side1
+Line 151, col 17: Unknown symbol side3
+Line 151, col 25: Unknown symbol side2
+Line 154, col 21: Unknown symbol Area
+Line 154, col 29: Unknown symbol sqrt
+Line 154, col 29: Symbol sqrt is not a function
+Line 154, col 41: Unknown symbol side
+Line 154, col 46: Unknown symbol side
+Line 155, col 3: Unknown symbol Perimeter
+Line 155, col 17: Unknown symbol side
+Line 156, col 3: Unknown symbol Semi
+Line 156, col 10: Unknown symbol Perimeter
+Line 157, col 3: Unknown symbol Altitude
+Line 157, col 15: Unknown symbol sqrt
+Line 157, col 15: Symbol sqrt is not a function
+Line 157, col 26: Unknown symbol side
+Line 172, col 15: Unknown symbol number
+Line 172, col 38: Unknown symbol number
+Line 173, col 11: Unknown symbol cube
+Line 173, col 32: Unknown symbol number
+Line 175, col 13: Unknown symbol Total
+Line 175, col 21: Unknown symbol english
+Line 175, col 31: Unknown symbol chemistry
+Line 175, col 43: Unknown symbol computers
+Line 175, col 55: Unknown symbol physics
+Line 175, col 65: Unknown symbol maths
+Line 176, col 5: Unknown symbol Percentage
+Line 176, col 19: Unknown symbol Total
+Line 179, col 12: Unknown symbol Number
+Line 179, col 21: Unknown symbol Number
+Line 186, col 5: Unknown symbol Total
+Line 187, col 5: Unknown symbol Average
+Line 187, col 15: Unknown symbol Total
+Line 188, col 5: Unknown symbol Percentage
+Line 188, col 19: Unknown symbol Total
+Line 190, col 15: Unknown symbol sqrt
+Line 190, col 15: Symbol sqrt is not a function
+Line 191, col 24: Conflicting types (got double, expected int)
+Line 195, col 5: Unknown symbol discriminant
+Line 196, col 8: Unknown symbol si
+Line 196, col 14: Unknown symbol PAmount
+Line 196, col 24: Unknown symbol ROI
+Line 196, col 30: Unknown symbol Time_Period
+Line 199, col 7: Unknown symbol discriminant
+Line 201, col 16: Unknown symbol i
+Line 203, col 9: Unknown symbol Even_Sum
+Line 203, col 20: Unknown symbol Even_Sum
+Line 203, col 31: Unknown symbol i
+Line 207, col 5: Unknown symbol Odd_Sum
+Line 207, col 15: Unknown symbol Odd_Sum
+Line 207, col 25: Unknown symbol i
+Line 209, col 5: Unknown symbol root1
+Line 209, col 19: Unknown symbol sqrt
+Line 209, col 24: Unknown symbol discriminant
+Line 209, col 19: Symbol sqrt is not a function
+Line 210, col 5: Unknown symbol root2
+Line 210, col 19: Unknown symbol sqrt
+Line 210, col 24: Unknown symbol discriminant
+Line 210, col 19: Symbol sqrt is not a function
+Line 211, col 11: Unknown symbol root1
+Line 211, col 19: Unknown symbol root2
+Line 212, col 11: Unknown symbol root1
+Line 212, col 19: Unknown symbol root2
+Line 213, col 11: Unknown symbol imaginary
+Line 213, col 23: Unknown symbol sqrt
+Line 213, col 29: Unknown symbol discriminant
+Line 213, col 23: Symbol sqrt is not a function
+Line 215, col 14: Unknown symbol discriminant
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+a	short
+b	short
+c	short
+d	short
+p	double
+h	int
+l	int
+main	int(int)
+Calculte_Cude	int(int)
+func	int(void)
+calc	int(int)
+anotherone	int(int,int)
+
+===== Function main Symbol Table =====
+return	int
+argc	int	param
+Number	int
+FirstDigit	int
+Count	int
+LastDigit	int
+Sum	int
+
+===== Function Calculte_Cude Symbol Table =====
+return	int
+Number	int	param
+
+===== Function func Symbol Table =====
+return	int
+i	int
+j	int
+var	int
+v	int
+
+===== Function calc Symbol Table =====
+return	int
+Number	int	param
+english	int
+chemistry	int
+computers	int
+physics	int
+maths	int
+number	double
+result	double
+a	char
+
+===== Function anotherone Symbol Table =====
+return	int
+a	int	param
+b	int	param
+
 Program
 ..Declaration
 ....Short
 ....Id(a)
-....IntLit(0)
+....IntLit(0) - int
 ..Declaration
 ....Short
 ....Id(b)
-....IntLit(0)
+....IntLit(0) - int
 ..Declaration
 ....Short
 ....Id(c)
-....IntLit(1)
+....IntLit(1) - int
 ..Declaration
 ....Short
 ....Id(d)
-....Add
-......Sub
-........Mul
-..........Mul
-............Id(a)
-............Id(b)
-..........IntLit(1)
-........Plus
-..........IntLit(3)
-......Div
-........Id(d)
-........IntLit(1)
+....Add - int
+......Sub - int
+........Mul - int
+..........Mul - short
+............Id(a) - short
+............Id(b) - short
+..........IntLit(1) - int
+........Plus - int
+..........IntLit(3) - int
+......Div - int
+........Id(d) - short
+........IntLit(1) - int
 ..Declaration
 ....Double
 ....Id(d)
 ..Declaration
 ....Double
 ....Id(p)
-....Div
-......Mul
-........Mul
-..........IntLit(1)
-..........Add
-............Mul
-..............Minus
-................IntLit(1)
-..............IntLit(2)
-............Mul
-..............Div
-................IntLit(3)
-................IntLit(33)
-..............IntLit(2)
-........IntLit(3)
-......IntLit(2)
+....Div - int
+......Mul - int
+........Mul - int
+..........IntLit(1) - int
+..........Add - int
+............Mul - int
+..............Minus - int
+................IntLit(1) - int
+..............IntLit(2) - int
+............Mul - int
+..............Div - int
+................IntLit(3) - int
+................IntLit(33) - int
+..............IntLit(2) - int
+........IntLit(3) - int
+......IntLit(2) - int
 ..Declaration
 ....Int
 ....Id(h)
-....Mod
-......IntLit(10)
-......IntLit(2)
+....Mod - int
+......IntLit(10) - int
+......IntLit(2) - int
 ..Declaration
 ....Int
 ....Id(l)
-....Mul
-......Mod
-........IntLit(9)
-........IntLit(2)
-......IntLit(2)
+....Mul - int
+......Mod - int
+........IntLit(9) - int
+........IntLit(2) - int
+......IntLit(2) - int
 ..FuncDefinition
 ....Int
 ....Id(main)
@@ -85,30 +385,30 @@ Program
 ......Declaration
 ........Int
 ........Id(Sum)
-........IntLit(0)
-......Store
-........Id(Count)
+........IntLit(0) - int
+......Store - int
+........Id(Count) - int
 ........Call
 ..........Id(log10)
-..........Id(Number)
-......Store
-........Id(FirstDigit)
+..........Id(Number) - int
+......Store - int
+........Id(FirstDigit) - int
 ........Div
-..........Id(Number)
+..........Id(Number) - int
 ..........Call
 ............Id(pow)
-............IntLit(10)
-............Id(Count)
-......Store
-........Id(LastDigit)
-........Mod
-..........Id(Number)
-..........IntLit(10)
-......Store
-........Id(Sum)
-........Add
-..........Id(FirstDigit)
-..........Id(LastDigit)
+............IntLit(10) - int
+............Id(Count) - int
+......Store - int
+........Id(LastDigit) - int
+........Mod - int
+..........Id(Number) - int
+..........IntLit(10) - int
+......Store - int
+........Id(Sum) - int
+........Add - int
+..........Id(FirstDigit) - int
+..........Id(LastDigit) - int
 ......Store
 ........Id(area)
 ........Mul
@@ -120,19 +420,19 @@ Program
 ........Id(circumference)
 ........Mul
 ..........Mul
-............IntLit(2)
+............IntLit(2) - int
 ............Id(PI)
 ..........Id(radius)
 ......Store
 ........Id(diameter)
 ........Mul
-..........IntLit(2)
+..........IntLit(2) - int
 ..........Id(radius)
 ......Store
 ........Id(circumference)
 ........Mul
 ..........Mul
-............IntLit(2)
+............IntLit(2) - int
 ............Id(PI)
 ..........Id(radius)
 ......Store
@@ -144,20 +444,20 @@ Program
 ..........Id(radius)
 ......Store
 ........Id(Perimeter)
-........Add
-..........Add
-............Id(a)
-............Id(b)
-..........Id(c)
+........Add - short
+..........Add - short
+............Id(a) - short
+............Id(b) - short
+..........Id(c) - short
 ......Store
 ........Id(s)
-........Div
-..........Add
-............Add
-..............Id(a)
-..............Id(b)
-............Id(c)
-..........IntLit(2)
+........Div - int
+..........Add - short
+............Add - short
+..............Id(a) - short
+..............Id(b) - short
+............Id(c) - short
+..........IntLit(2) - int
 ......Store
 ........Id(Area)
 ........Call
@@ -168,120 +468,120 @@ Program
 ................Id(s)
 ................Sub
 ..................Id(s)
-..................Id(a)
+..................Id(a) - short
 ..............Sub
 ................Id(s)
-................Id(b)
+................Id(b) - short
 ............Sub
 ..............Id(s)
-..............Id(c)
+..............Id(c) - short
 ......Store
 ........Id(area)
 ........Div
 ..........Mul
 ............Id(base)
 ............Id(height)
-..........IntLit(2)
-......Store
-........Id(c)
-........Sub
-..........IntLit(180)
-..........Add
-............Id(a)
-............Id(b)
+..........IntLit(2) - int
+......Store - short
+........Id(c) - short
+........Sub - int
+..........IntLit(180) - int
+..........Add - short
+............Id(a) - short
+............Id(b) - short
 ......If
-........And
-..........Eq
+........And - int
+..........Eq - int
 ............Id(side1)
 ............Id(side2)
-..........Eq
+..........Eq - int
 ............Id(side2)
 ............Id(side3)
 ........StatList
-..........Store
-............Id(Count)
+..........Store - int
+............Id(Count) - int
 ............Call
 ..............Id(log10)
-..............Id(Number)
-..........Store
-............Id(FirstDigit)
+..............Id(Number) - int
+..........Store - int
+............Id(FirstDigit) - int
 ............Div
-..............Id(Number)
+..............Id(Number) - int
 ..............Call
 ................Id(pow)
-................IntLit(10)
-................Id(Count)
+................IntLit(10) - int
+................Id(Count) - int
 ..........Store
 ............Id(i)
-............IntLit(2)
+............IntLit(2) - int
 ........Null
 ......If
-........Or
-..........Or
-............Eq
+........Or - int
+..........Or - int
+............Eq - int
 ..............Id(side1)
 ..............Id(side2)
-............Eq
+............Eq - int
 ..............Id(side2)
 ..............Id(side3)
-..........Eq
+..........Eq - int
 ............Id(side1)
 ............Id(side3)
 ........StatList
 ..........If
-............And
-..............And
-................Gt
+............And - int
+..............And - int
+................Gt - int
 ..................Add
 ....................Id(side1)
 ....................Id(side2)
 ..................Id(side3)
-................Gt
+................Gt - int
 ..................Add
 ....................Id(side2)
 ....................Id(side3)
 ..................Id(side1)
-..............Gt
+..............Gt - int
 ................Add
 ..................Id(side1)
 ..................Id(side3)
 ................Id(side2)
 ............Store
 ..............Id(i)
-..............IntLit(1)
+..............IntLit(1) - int
 ............Store
 ..............Id(i)
-..............IntLit(1)
+..............IntLit(1) - int
 ..........Store
 ............Id(i)
-............IntLit(1)
-..........Store
-............Id(Sum)
+............IntLit(1) - int
+..........Store - int
+............Id(Sum) - int
 ............Add
 ..............Add
 ................Id(angle1)
 ................Id(angle2)
 ..............Id(angle3)
 ........StatList
-..........Call
-............Id(putchar)
-..........Store
-............Id(Sum)
+..........Call - int
+............Id(putchar) - int(int)
+..........Store - int
+............Id(Sum) - int
 ............Add
 ..............Add
 ................Id(angle1)
 ................Id(angle2)
 ..............Id(angle3)
 ..........If
-............Eq
-..............Id(Sum)
-..............IntLit(180)
-............Call
-..............Id(func)
-..............Id(Sum)
+............Eq - int
+..............Id(Sum) - int
+..............IntLit(180) - int
+............Call - int
+..............Id(func) - int(void)
+..............Id(Sum) - int
 ............Null
-......Store
-........Id(Sum)
+......Store - int
+........Id(Sum) - int
 ........Add
 ..........Add
 ............Id(angle1)
@@ -294,10 +594,10 @@ Program
 ..........Call
 ............Id(pow)
 ............Add
-..............IntLit(1)
+..............IntLit(1) - int
 ..............Div
 ................Id(ROI)
-................IntLit(100)
+................IntLit(100) - int
 ............Id(Time_Period)
 ......Store
 ........Id(CI)
@@ -313,89 +613,89 @@ Program
 ..........Id(number)
 ......Store
 ........Id(cube)
-........Call
-..........Id(Calculte_Cude)
+........Call - int
+..........Id(Calculte_Cude) - int(int)
 ..........Id(number)
 ......Store
 ........Id(Temp)
-........Id(Number)
+........Id(Number) - int
 ......While
-........Ne
+........Ne - int
 ..........Id(Temp)
-..........IntLit(0)
+..........IntLit(0) - int
 ........StatList
 ..........If
-............Lt
+............Lt - int
 ..............Id(Units)
-..............IntLit(50)
+..............IntLit(50) - int
 ............StatList
 ..............Store
 ................Id(Amount)
 ................Mul
 ..................Id(Units)
-..................RealLit(2.60)
+..................RealLit(2.60) - double
 ..............Store
 ................Id(Sur_Charge)
-................IntLit(25)
+................IntLit(25) - int
 ............If
-..............Le
+..............Le - int
 ................Id(Units)
-................IntLit(100)
+................IntLit(100) - int
 ..............StatList
 ................While
-..................Ge
-....................Id(FirstDigit)
-....................IntLit(10)
-..................Store
-....................Id(FirstDigit)
-....................Div
-......................Id(FirstDigit)
-......................IntLit(10)
+..................Ge - int
+....................Id(FirstDigit) - int
+....................IntLit(10) - int
+..................Store - int
+....................Id(FirstDigit) - int
+....................Div - int
+......................Id(FirstDigit) - int
+......................IntLit(10) - int
 ................Store
 ..................Id(Amount)
 ..................Add
-....................IntLit(130)
+....................IntLit(130) - int
 ....................Mul
 ......................Sub
 ........................Id(Units)
-........................IntLit(50)
-......................RealLit(3.25)
+........................IntLit(50) - int
+......................RealLit(3.25) - double
 ................Store
 ..................Id(Sur_Charge)
-..................IntLit(35)
+..................IntLit(35) - int
 ..............Null
 ..........If
-............Le
+............Le - int
 ..............Id(Units)
-..............IntLit(200)
+..............IntLit(200) - int
 ............StatList
 ..............Store
 ................Id(Amount)
 ................Add
-..................Add
-....................IntLit(130)
-....................RealLit(162.50)
+..................Add - double
+....................IntLit(130) - int
+....................RealLit(162.50) - double
 ..................Mul
 ....................Sub
 ......................Id(Units)
-......................IntLit(100)
-....................RealLit(5.26)
+......................IntLit(100) - int
+....................RealLit(5.26) - double
 ..............Store
 ................Id(Sur_Charge)
-................IntLit(45)
+................IntLit(45) - int
 ............StatList
 ..............If
-................And
-..................Eq
-....................Mod
+................And - int
+..................Eq - int
+....................Mod - int
 ......................Id(Num1)
 ......................Id(i)
-....................IntLit(0)
-..................Eq
-....................Mod
+....................IntLit(0) - int
+..................Eq - int
+....................Mod - int
 ......................Id(Num2)
 ......................Id(i)
-....................IntLit(0)
+....................IntLit(0) - int
 ................Store
 ..................Id(GCD)
 ..................Id(i)
@@ -403,35 +703,35 @@ Program
 ..............Store
 ................Id(Amount)
 ................Add
-..................Add
-....................Add
-......................IntLit(130)
-......................RealLit(162.50)
-....................IntLit(526)
+..................Add - double
+....................Add - double
+......................IntLit(130) - int
+......................RealLit(162.50) - double
+....................IntLit(526) - int
 ..................Mul
 ....................Sub
 ......................Id(Units)
-......................IntLit(200)
-....................RealLit(7.75)
+......................IntLit(200) - int
+....................RealLit(7.75) - double
 ..............Store
 ................Id(Sur_Charge)
-................IntLit(55)
+................IntLit(55) - int
 ..........While
-............Gt
-..............Id(Number)
-..............IntLit(0)
+............Gt - int
+..............Id(Number) - int
+..............IntLit(0) - int
 ............StatList
 ..............While
-................Ne
+................Ne - int
 ..................Id(Num2)
-..................IntLit(0)
+..................IntLit(0) - int
 ................StatList
 ..................Store
 ....................Id(Temp)
 ....................Id(Num2)
 ..................Store
 ....................Id(Num2)
-....................Mod
+....................Mod - int
 ......................Id(Num1)
 ......................Id(Num2)
 ..................Store
@@ -440,43 +740,43 @@ Program
 ..............Store
 ................Id(GCD)
 ................Id(Num1)
-..............Store
-................Id(Number)
-................Div
-..................Id(Number)
-..................IntLit(10)
-..............Store
-................Id(Count)
-................Add
-..................Id(Count)
-..................IntLit(1)
+..............Store - int
+................Id(Number) - int
+................Div - int
+..................Id(Number) - int
+..................IntLit(10) - int
+..............Store - int
+................Id(Count) - int
+................Add - int
+..................Id(Count) - int
+..................IntLit(1) - int
 ..........Store
 ............Id(Times)
 ............Add
 ..............Id(Times)
-..............IntLit(1)
+..............IntLit(1) - int
 ..........Store
 ............Id(Temp)
 ............Div
 ..............Id(Temp)
-..............IntLit(10)
+..............IntLit(10) - int
 ......Store
 ........Id(Temp)
-........Id(Number)
+........Id(Number) - int
 ......While
-........Gt
+........Gt - int
 ..........Id(Temp)
-..........IntLit(0)
+..........IntLit(0) - int
 ........StatList
 ..........Store
 ............Id(Reminder)
-............Mod
+............Mod - int
 ..............Id(Temp)
-..............IntLit(10)
-..........Store
-............Id(Sum)
+..............IntLit(10) - int
+..........Store - int
+............Id(Sum) - int
 ............Add
-..............Id(Sum)
+..............Id(Sum) - int
 ..............Call
 ................Id(pow)
 ................Id(Reminder)
@@ -485,7 +785,7 @@ Program
 ............Id(Temp)
 ............Div
 ..............Id(Temp)
-..............IntLit(10)
+..............IntLit(10) - int
 ..FuncDefinition
 ....Int
 ....Id(Calculte_Cude)
@@ -495,11 +795,11 @@ Program
 ........Id(Number)
 ....FuncBody
 ......Return
-........Mul
-..........Mul
-............Id(Number)
-............Id(Number)
-..........Id(Number)
+........Mul - int
+..........Mul - int
+............Id(Number) - int
+............Id(Number) - int
+..........Id(Number) - int
 ..FuncDefinition
 ....Int
 ....Id(func)
@@ -510,72 +810,72 @@ Program
 ......Declaration
 ........Int
 ........Id(i)
-........Add
-..........Id(i)
-..........IntLit(1)
+........Add - int
+..........Id(i) - int
+..........IntLit(1) - int
 ......Declaration
 ........Int
 ........Id(j)
-........Add
-..........Id(i)
-..........IntLit(23)
+........Add - int
+..........Id(i) - int
+..........IntLit(23) - int
 ......Declaration
 ........Int
 ........Id(var)
 ......Declaration
 ........Int
 ........Id(v)
-......Call
-........Id(func)
-........Add
-..........Id(j)
-..........IntLit(1)
-........IntLit(2)
-........IntLit(4)
-........IntLit(5)
-........Id(j)
-........Mul
-..........Mul
-............IntLit(4)
-............IntLit(3)
-..........IntLit(2)
-......Comma
-........Comma
-..........Comma
-............IntLit(3)
-............IntLit(4)
-..........Comma
-............Comma
-..............IntLit(5)
-..............IntLit(6)
-............Comma
-..............Comma
-................IntLit(2)
-................IntLit(5)
-..............IntLit(2)
-........Mul
-..........IntLit(0)
-..........IntLit(4)
+......Call - int
+........Id(func) - int(void)
+........Add - int
+..........Id(j) - int
+..........IntLit(1) - int
+........IntLit(2) - int
+........IntLit(4) - int
+........IntLit(5) - int
+........Id(j) - int
+........Mul - int
+..........Mul - int
+............IntLit(4) - int
+............IntLit(3) - int
+..........IntLit(2) - int
+......Comma - int
+........Comma - int
+..........Comma - int
+............IntLit(3) - int
+............IntLit(4) - int
+..........Comma - int
+............Comma - int
+..............IntLit(5) - int
+..............IntLit(6) - int
+............Comma - int
+..............Comma - int
+................IntLit(2) - int
+................IntLit(5) - int
+..............IntLit(2) - int
+........Mul - int
+..........IntLit(0) - int
+..........IntLit(4) - int
 ......While
-........Div
-..........Mul
-............Mul
-..............IntLit(10)
-..............Minus
-................IntLit(2)
-............Minus
-..............IntLit(7)
-..........IntLit(2)
+........Div - int
+..........Mul - int
+............Mul - int
+..............IntLit(10) - int
+..............Minus - int
+................IntLit(2) - int
+............Minus - int
+..............IntLit(7) - int
+..........IntLit(2) - int
 ........StatList
 ..........Store
 ............Id(Area)
 ............Mul
 ..............Mul
-................RealLit(0.5)
+................RealLit(0.5) - double
 ................Id(width)
 ..............Id(height)
-..........Store
-............Id(c)
+..........Store - short
+............Id(c) - short
 ............Call
 ..............Id(sqrt)
 ..............Add
@@ -591,12 +891,12 @@ Program
 ..............Add
 ................Id(width)
 ................Id(height)
-..............Id(c)
+..............Id(c) - short
 ..........Store
 ............Id(Area)
 ............Mul
 ..............Mul
-................RealLit(0.5)
+................RealLit(0.5) - double
 ................Add
 ..................Id(base1)
 ..................Id(base2)
@@ -604,167 +904,167 @@ Program
 ..........Store
 ............Id(Median)
 ............Mul
-..............RealLit(0.5)
+..............RealLit(0.5) - double
 ..............Add
 ................Id(base1)
 ................Id(base2)
 ..........While
-............Sub
-..............Add
-................Mod
-..................Mul
-....................Minus
-......................IntLit(1)
-....................IntLit(8)
-..................IntLit(3)
-................IntLit(1)
-..............IntLit(1)
+............Sub - int
+..............Add - int
+................Mod - int
+..................Mul - int
+....................Minus - int
+......................IntLit(1) - int
+....................IntLit(8) - int
+..................IntLit(3) - int
+................IntLit(1) - int
+..............IntLit(1) - int
 ............If
-..............Or
-................Or
-..................And
-....................And
-......................Gt
-........................Id(a)
-........................IntLit(2)
-......................Lt
-........................Id(a)
-........................IntLit(2)
-....................Gt
+..............Or - int
+................Or - int
+..................And - int
+....................And - int
+......................Gt - int
+........................Id(a) - short
+........................IntLit(2) - int
+......................Lt - int
+........................Id(a) - short
+........................IntLit(2) - int
+....................Gt - int
 ......................Id(z)
-......................IntLit(9)
-..................And
-....................Eq
-......................Mul
-........................Mul
-..........................IntLit(3)
-..........................IntLit(3)
-........................IntLit(3)
-......................IntLit(2)
-....................IntLit(1)
-................And
-..................IntLit(1)
-..................Div
-....................Mul
-......................Mul
-........................Mul
-..........................Mul
-............................Mul
-..............................Mul
-................................IntLit(1)
-................................IntLit(1)
-..............................IntLit(1)
-............................IntLit(1)
-..........................IntLit(1)
-........................IntLit(1)
-......................IntLit(1)
-....................IntLit(1)
+......................IntLit(9) - int
+..................And - int
+....................Eq - int
+......................Mul - int
+........................Mul - int
+..........................IntLit(3) - int
+..........................IntLit(3) - int
+........................IntLit(3) - int
+......................IntLit(2) - int
+....................IntLit(1) - int
+................And - int
+..................IntLit(1) - int
+..................Div - int
+....................Mul - int
+......................Mul - int
+........................Mul - int
+..........................Mul - int
+............................Mul - int
+..............................Mul - int
+................................IntLit(1) - int
+................................IntLit(1) - int
+..............................IntLit(1) - int
+............................IntLit(1) - int
+..........................IntLit(1) - int
+........................IntLit(1) - int
+......................IntLit(1) - int
+....................IntLit(1) - int
 ..............If
 ................Id(abc)
 ................StatList
 ..................While
-....................IntLit(1)
-....................Call
-......................Id(putchar)
-......................ChrLit('a')
-..................Store
-....................Id(a)
-....................Add
-......................Sub
-........................Div
-..........................Id(a)
-..........................Id(a)
-........................Id(a)
-......................Mul
-........................Id(a)
-........................Id(a)
+....................IntLit(1) - int
+....................Call - int
+......................Id(putchar) - int(int)
+......................ChrLit('a') - int
+..................Store - short
+....................Id(a) - short
+....................Add - short
+......................Sub - short
+........................Div - short
+..........................Id(a) - short
+..........................Id(a) - short
+........................Id(a) - short
+......................Mul - short
+........................Id(a) - short
+........................Id(a) - short
 ..................Store
 ....................Id(Perimeter)
 ....................Mul
-......................IntLit(2)
+......................IntLit(2) - int
 ......................Add
 ........................Id(length)
 ........................Id(width)
-................Call
-..................Id(func)
-..................RealLit(111111.2e2)
+................Call - int
+..................Id(func) - int(void)
+..................RealLit(111111.2e2) - double
 ..................Id(inforestudante)
-..................Mod
-....................Id(i)
-....................IntLit(2)
+..................Mod - int
+....................Id(i) - int
+....................IntLit(2) - int
 ..............Null
 ......If
-........Comma
-..........Comma
-............Comma
-..............Comma
-................Comma
-..................Comma
-....................Ge
+........Comma - int
+..........Comma - int
+............Comma - int
+..............Comma - int
+................Comma - int
+..................Comma - int
+....................Ge - int
 ......................Id(e)
-......................Id(a)
-....................Le
+......................Id(a) - short
+....................Le - int
 ......................Id(e)
-......................Id(b)
-..................Lt
-....................Id(a)
-....................Id(d)
-................Gt
-..................Id(a)
-..................Id(a)
-..............Eq
-................Id(a)
-................Id(a)
-............Ne
-..............Id(i)
-..............Id(a)
-..........Not
-............Call
-..............Id(func)
-..............Add
-................Id(i)
-................IntLit(1)
-........Call
-..........Id(getchar)
-..........Id(a)
+......................Id(b) - short
+..................Lt - int
+....................Id(a) - short
+....................Id(d) - short
+................Gt - int
+..................Id(a) - short
+..................Id(a) - short
+..............Eq - int
+................Id(a) - short
+................Id(a) - short
+............Ne - int
+..............Id(i) - int
+..............Id(a) - short
+..........Not - int
+............Call - int
+..............Id(func) - int(void)
+..............Add - int
+................Id(i) - int
+................IntLit(1) - int
+........Call - int
+..........Id(getchar) - int(void)
+..........Id(a) - short
 ........Null
 ......If
-........Or
-..........BitWiseAnd
-............IntLit(1)
-............IntLit(1)
-..........And
-............BitWiseOr
-..............IntLit(2)
-..............IntLit(1)
-............BitWiseXor
-..............IntLit(24)
-..............IntLit(2)
+........Or - int
+..........BitWiseAnd - int
+............IntLit(1) - int
+............IntLit(1) - int
+..........BitWiseOr - int
+............IntLit(2) - int
+............BitWiseXor - int
+..............BitWiseAnd - int
+................IntLit(1) - int
+................IntLit(24) - int
+..............IntLit(2) - int
 ........Return
-..........IntLit(1)
+..........IntLit(1) - int
 ........Null
 ......If
-........Gt
+........Gt - int
 ..........Add
 ............Id(side1)
 ............Id(side2)
 ..........Id(side3)
 ........If
-..........Gt
+..........Gt - int
 ............Add
 ..............Id(side2)
 ..............Id(side3)
 ............Id(side1)
 ..........StatList
 ............If
-..............Ne
-................Mod
-..................Id(i)
-..................IntLit(2)
-................IntLit(0)
-..............Call
-................Id(putchar)
-................Id(i)
+..............Ne - int
+................Mod - int
+..................Id(i) - int
+..................IntLit(2) - int
+................IntLit(0) - int
+..............Call - int
+................Id(putchar) - int(int)
+................Id(i) - int
 ..............Null
 ............Store
 ..............Id(Area)
@@ -774,7 +1074,7 @@ Program
 ............Store
 ..............Id(Perimeter)
 ..............Mul
-................IntLit(2)
+................IntLit(2) - int
 ................Add
 ..................Id(width)
 ..................Id(height)
@@ -784,74 +1084,74 @@ Program
 ................Id(length)
 ................Id(width)
 ............If
-..............Gt
+..............Gt - int
 ................Add
 ..................Id(side1)
 ..................Id(side3)
 ................Id(side2)
 ..............StatList
-................Call
-..................Id(getchar)
+................Call - int
+..................Id(getchar) - int(void)
 ................Store
 ..................Id(Area)
 ..................Mul
 ....................Div
 ......................Call
 ........................Id(sqrt)
-........................IntLit(3)
-......................IntLit(4)
+........................IntLit(3) - int
+......................IntLit(4) - int
 ....................Mul
 ......................Id(side)
 ......................Id(side)
 ................Store
 ..................Id(Perimeter)
 ..................Mul
-....................IntLit(3)
+....................IntLit(3) - int
 ....................Id(side)
 ................Store
 ..................Id(Semi)
 ..................Div
 ....................Id(Perimeter)
-....................IntLit(2)
+....................IntLit(2) - int
 ................Store
 ..................Id(Altitude)
 ..................Mul
 ....................Div
 ......................Call
 ........................Id(sqrt)
-........................IntLit(3)
-......................IntLit(2)
+........................IntLit(3) - int
+......................IntLit(2) - int
 ....................Id(side)
-..............Call
-................Id(getchar)
-..........Call
-............Id(getchar)
+..............Call - int
+................Id(getchar) - int(void)
+..........Call - int
+............Id(getchar) - int(void)
 ........StatList
 ..........If
-............And
-..............Eq
-................Mod
+............And - int
+..............Eq - int
+................Mod - int
 ..................Id(number)
-..................IntLit(5)
-................IntLit(0)
-..............Eq
-................Mod
+..................IntLit(5) - int
+................IntLit(0) - int
+..............Eq - int
+................Mod - int
 ..................Id(number)
-..................IntLit(11)
-................IntLit(0)
-............Store
-..............Id(a)
-..............Add
-................Id(a)
-................IntLit(1)
+..................IntLit(11) - int
+................IntLit(0) - int
+............Store - short
+..............Id(a) - short
+..............Add - int
+................Id(a) - short
+................IntLit(1) - int
 ............Null
 ..........Store
 ............Id(cube)
-............Call
-..............Id(Calculte_Cude)
+............Call - int
+..............Id(Calculte_Cude) - int(int)
 ..............Id(number)
-..........Call
-............Id(getchar)
+..........Call - int
+............Id(getchar) - int(void)
 ..........Store
 ............Id(Total)
 ............Add
@@ -868,14 +1168,14 @@ Program
 ............Mul
 ..............Div
 ................Id(Total)
-................IntLit(500)
-..............IntLit(100)
+................IntLit(500) - int
+..............IntLit(100) - int
 ......Return
 ........Sub
 ..........Mul
 ............Id(Number)
 ............Id(Number)
-..........IntLit(111)
+..........IntLit(111) - int
 ..FuncDefinition
 ....Int
 ....Id(calc)
@@ -907,42 +1207,42 @@ Program
 ........Id(result)
 ......Store
 ........Id(Total)
-........Add
-..........Add
-............Add
-..............Add
-................Id(english)
-................Id(chemistry)
-..............Id(computers)
-............Id(physics)
-..........Id(maths)
+........Add - int
+..........Add - int
+............Add - int
+..............Add - int
+................Id(english) - int
+................Id(chemistry) - int
+..............Id(computers) - int
+............Id(physics) - int
+..........Id(maths) - int
 ......Store
 ........Id(Average)
 ........Div
 ..........Id(Total)
-..........IntLit(5)
+..........IntLit(5) - int
 ......Store
 ........Id(Percentage)
 ........Mul
 ..........Div
 ............Id(Total)
-............IntLit(500)
-..........IntLit(100)
+............IntLit(500) - int
+..........IntLit(100) - int
 ......Declaration
 ........Char
 ........Id(a)
-........ChrLit('a')
-......Store
-........Id(result)
+........ChrLit('a') - int
+......Store - double
+........Id(result) - double
 ........Call
 ..........Id(sqrt)
-..........Id(number)
+..........Id(number) - double
 ......Return
-........Div
-..........Mul
-............Id(Number)
-............Id(Number)
-..........Id(result)
+........Div - double
+..........Mul - int
+............Id(Number) - int
+............Id(Number) - int
+..........Id(result) - double
 ..FuncDefinition
 ....Int
 ....Id(anotherone)
@@ -956,15 +1256,15 @@ Program
 ....FuncBody
 ......Store
 ........Id(discriminant)
-........Sub
-..........Mul
-............Id(b)
-............Id(b)
-..........Mul
-............Mul
-..............IntLit(4)
-..............Id(a)
-............Id(c)
+........Sub - int
+..........Mul - int
+............Id(b) - int
+............Id(b) - int
+..........Mul - int
+............Mul - int
+..............IntLit(4) - int
+..............Id(a) - int
+............Id(c) - short
 ......Store
 ........Id(si)
 ........Div
@@ -973,18 +1273,18 @@ Program
 ..............Id(PAmount)
 ..............Id(ROI)
 ............Id(Time_Period)
-..........IntLit(100)
+..........IntLit(100) - int
 ......If
-........Gt
+........Gt - int
 ..........Id(discriminant)
-..........IntLit(0)
+..........IntLit(0) - int
 ........StatList
 ..........If
-............Eq
-..............Mod
+............Eq - int
+..............Mod - int
 ................Id(i)
-................IntLit(2)
-..............IntLit(0)
+................IntLit(2) - int
+..............IntLit(0) - int
 ............Store
 ..............Id(Even_Sum)
 ..............Add
@@ -998,47 +1298,47 @@ Program
 ..........Store
 ............Id(root1)
 ............Add
-..............Minus
-................Id(b)
+..............Minus - int
+................Id(b) - int
 ..............Div
 ................Call
 ..................Id(sqrt)
 ..................Id(discriminant)
-................Mul
-..................IntLit(2)
-..................Id(a)
+................Mul - int
+..................IntLit(2) - int
+..................Id(a) - int
 ..........Store
 ............Id(root2)
 ............Sub
-..............Minus
-................Id(b)
+..............Minus - int
+................Id(b) - int
 ..............Div
 ................Call
 ..................Id(sqrt)
 ..................Id(discriminant)
-................Mul
-..................IntLit(2)
-..................Id(a)
+................Mul - int
+..................IntLit(2) - int
+..................Id(a) - int
 ..........Store
 ............Id(root1)
 ............Store
 ..............Id(root2)
-..............Div
-................Minus
-..................Id(b)
-................Mul
-..................IntLit(2)
-..................Id(a)
+..............Div - int
+................Minus - int
+..................Id(b) - int
+................Mul - int
+..................IntLit(2) - int
+..................Id(a) - int
 ..........Store
 ............Id(root1)
 ............Store
 ..............Id(root2)
-..............Div
-................Minus
-..................Id(b)
-................Mul
-..................IntLit(2)
-..................Id(a)
+..............Div - int
+................Minus - int
+..................Id(b) - int
+................Mul - int
+..................IntLit(2) - int
+..................Id(a) - int
 ..........Store
 ............Id(imaginary)
 ............Div
@@ -1046,9 +1346,9 @@ Program
 ................Id(sqrt)
 ................Minus
 ..................Id(discriminant)
-..............Mul
-................IntLit(2)
-................Id(a)
+..............Mul - int
+................IntLit(2) - int
+................Id(a) - int
 ........Null
 ......Return
 ........Id(discriminant)

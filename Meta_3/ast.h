@@ -18,16 +18,17 @@ struct _ast_Node {
     char *expType;
     int nparam;
     char** tparam;
-    //TODO n_linha e n_coluna
+    int n_linha;
+    int n_coluna;
 };
 
-AST_Node create_node(char *token);
+AST_Node create_node(char *token, int n_linha, int n_coluna);
 
-AST_Node create_literal_node(char *token, char * content);
+AST_Node create_literal_node(char *token, char * content, int n_linha, int n_coluna);
 
 void add_child(AST_Node target, AST_Node child);
 
-void prepend_child(AST_Node root, AST_Node child);
+void prepend_child(AST_Node root, AST_Node child, int n_linha, int n_coluna);
 
 void free_AST(AST_Node root);
 

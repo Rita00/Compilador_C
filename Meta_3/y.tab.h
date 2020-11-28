@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
-   Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,9 +30,6 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
-
 #ifndef YY_YY_Y_TAB_H_INCLUDED
 # define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
@@ -49,102 +45,106 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    BITWISEAND = 258,
-    BITWISEOR = 259,
-    BITWISEXOR = 260,
-    AND = 261,
-    ASSIGN = 262,
-    COMMA = 263,
-    DIV = 264,
-    EQ = 265,
-    GE = 266,
-    GT = 267,
-    LBRACE = 268,
-    LE = 269,
-    LPAR = 270,
-    LT = 271,
-    MINUS = 272,
-    MOD = 273,
-    NE = 274,
-    NOT = 275,
-    OR = 276,
-    PLUS = 277,
-    RBRACE = 278,
-    RPAR = 279,
-    SEMI = 280,
-    CHAR = 281,
-    ELSE = 282,
-    WHILE = 283,
-    IF = 284,
-    INT = 285,
-    SHORT = 286,
-    DOUBLE = 287,
-    RETURN = 288,
-    VOID = 289,
-    REALLIT = 290,
-    INTLIT = 291,
-    RESERVED = 292,
-    ID = 293,
-    CHRLIT = 294,
-    MUL = 295,
+    MUL = 258,
+    BITWISEAND = 259,
+    BITWISEOR = 260,
+    BITWISEXOR = 261,
+    AND = 262,
+    ASSIGN = 263,
+    COMMA = 264,
+    DIV = 265,
+    EQ = 266,
+    GE = 267,
+    GT = 268,
+    LBRACE = 269,
+    LE = 270,
+    LPAR = 271,
+    LT = 272,
+    MINUS = 273,
+    MOD = 274,
+    NE = 275,
+    NOT = 276,
+    OR = 277,
+    PLUS = 278,
+    RBRACE = 279,
+    RPAR = 280,
+    SEMI = 281,
+    CHAR = 282,
+    ELSE = 283,
+    WHILE = 284,
+    IF = 285,
+    INT = 286,
+    SHORT = 287,
+    DOUBLE = 288,
+    RETURN = 289,
+    VOID = 290,
+    REALLIT = 291,
+    INTLIT = 292,
+    RESERVED = 293,
+    ID = 294,
+    CHRLIT = 295,
     NO_ELSE = 296,
     MAX_PREC = 297
   };
 #endif
 /* Tokens.  */
-#define BITWISEAND 258
-#define BITWISEOR 259
-#define BITWISEXOR 260
-#define AND 261
-#define ASSIGN 262
-#define COMMA 263
-#define DIV 264
-#define EQ 265
-#define GE 266
-#define GT 267
-#define LBRACE 268
-#define LE 269
-#define LPAR 270
-#define LT 271
-#define MINUS 272
-#define MOD 273
-#define NE 274
-#define NOT 275
-#define OR 276
-#define PLUS 277
-#define RBRACE 278
-#define RPAR 279
-#define SEMI 280
-#define CHAR 281
-#define ELSE 282
-#define WHILE 283
-#define IF 284
-#define INT 285
-#define SHORT 286
-#define DOUBLE 287
-#define RETURN 288
-#define VOID 289
-#define REALLIT 290
-#define INTLIT 291
-#define RESERVED 292
-#define ID 293
-#define CHRLIT 294
-#define MUL 295
+#define MUL 258
+#define BITWISEAND 259
+#define BITWISEOR 260
+#define BITWISEXOR 261
+#define AND 262
+#define ASSIGN 263
+#define COMMA 264
+#define DIV 265
+#define EQ 266
+#define GE 267
+#define GT 268
+#define LBRACE 269
+#define LE 270
+#define LPAR 271
+#define LT 272
+#define MINUS 273
+#define MOD 274
+#define NE 275
+#define NOT 276
+#define OR 277
+#define PLUS 278
+#define RBRACE 279
+#define RPAR 280
+#define SEMI 281
+#define CHAR 282
+#define ELSE 283
+#define WHILE 284
+#define IF 285
+#define INT 286
+#define SHORT 287
+#define DOUBLE 288
+#define RETURN 289
+#define VOID 290
+#define REALLIT 291
+#define INTLIT 292
+#define RESERVED 293
+#define ID 294
+#define CHRLIT 295
 #define NO_ELSE 296
 #define MAX_PREC 297
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
 union YYSTYPE
 {
-#line 35 "uccompiler.y"
+#line 35 "uccompiler.y" /* yacc.c:1909  */
 
     struct _ast_Node *node;
-    char *letters;
+    struct {
+        int linha, coluna;
+        char *letters;
+    } data;
 
-#line 146 "y.tab.h"
-
+#line 146 "y.tab.h" /* yacc.c:1909  */
 };
+
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

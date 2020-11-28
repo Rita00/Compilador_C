@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cbb97bdc-896a-4ac9-96bd-b0a9d7037338" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Meta_3/ast.c" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/ast.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Meta_3/ast.h" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/ast.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Meta_3/lex.yy.c" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/lex.yy.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Meta_3/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/run.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Meta_3/symbol_table.c" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/symbol_table.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Meta_3/symbol_table.h" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/symbol_table.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Meta_3/uccompiler" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/uccompiler" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Meta_3/uccompiler.l" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/uccompiler.l" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Meta_3/uccompiler.y" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/uccompiler.y" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Meta_3/y.tab.c" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/y.tab.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Meta_3/y.tab.h" beforeDir="false" afterPath="$PROJECT_DIR$/Meta_3/y.tab.h" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ktq8qMOZ8JKPdzjLf6gM1XKC1C" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cbb97bdc-896a-4ac9-96bd-b0a9d7037338" name="Default Changelist" comment="" />
+      <created>1606530078954</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1606530078954</updated>
+      <workItem from="1606530080104" duration="51000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1606530130663">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1606530130663" />
+    <state x="93" y="93" width="1350" height="638" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1606530130663">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1606530130663" />
+  </component>
+</project>

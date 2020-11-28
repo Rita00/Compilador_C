@@ -10,8 +10,9 @@ struct functions {
 };
 
 functionsList search_locals(functionsList list, AST_Node node);
-functionsList create_TableNode(char *varName, char *varType, char isParam);
-functionsList addVariable(char *varName, char *varType, char isParam, functionsList list);
+functionsList search_localNode(functionsList list, char *name);
+functionsList create_TableNode(char *varName, char *varType, char isParam, AST_Node node, functionsList list);
+functionsList addVariable(char *varName, char *varType, char isParam, functionsList list, AST_Node node);
 void freeFunctionsList(functionsList list);
 void printFunctionsList(functionsList list, char *name);
 

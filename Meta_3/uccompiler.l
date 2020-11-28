@@ -14,6 +14,7 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 	void upperString(char* str);
 	void lowerString(char* str);
 	void detect(char* text);
+	void store_data(char store_letters);
 	char *charlit;
 	int line = 1, column = 0;
 	int stateinitLine, stateinitColumn;
@@ -85,7 +86,7 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 {reserved} { 
 	if (flag == 'l') printf("RESERVED(%s)\n", yytext);
 	column+=yyleng;
-	yylval.letters = strdup(yytext);
+	store_data(1);
 	if (flag != 'l' && flag != '1')
 		return RESERVED;
 }
@@ -143,8 +144,8 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 
 \'([^\n\'\\]|\\n|\\t|\\\\|"\\\""|\\\'|\\[0-7][0-7]?[0-7]?)\' {
 	if(flag == 'l') printf("CHRLIT(%s)\n", yytext); 
+	store_data(1);
 	column += yyleng;
-	yylval.letters = strdup(yytext);
 	if (flag != 'l' && flag != '1')
 		return CHRLIT;
 }
@@ -161,24 +162,24 @@ reserved "++"|"--"|"["|"]"|auto|break|case|const|continue|default|do|long|regist
 
 [_a-zA-Z]([a-zA-Z_]|{num})* {											// Sequências alfanuméricas
 	if (flag == 'l') printf("ID(%s)\n", yytext);
+	store_data(1);
 	column += yyleng;
-	yylval.letters = strdup(yytext);
 	if (flag != 'l' && flag != '1')
 		return ID;
 }
 
 {num}+ {							
 	if (flag == 'l') printf("INTLIT(%s)\n", yytext);										// Sequências de dígitos decimais
+	store_data(1);	
 	column += yyleng;
-	yylval.letters = strdup(yytext);
 	if (flag != 'l' && flag != '1')
 		return INTLIT;
 }
 
 (({num}+".")|({num}*"."{num}+))([eE]{signal}?{num}+)?|{num}+[eE]{signal}?{num}+ {		// Números Reais
 	if (flag == 'l') printf("REALLIT(%s)\n", yytext);
+	store_data(1);
 	column += yyleng;
-	yylval.letters = strdup(yytext);
 	if (flag != 'l' && flag != '1')
 		return REALLIT;
 }
@@ -218,6 +219,7 @@ void lowerString(char* str) {
 
 void detect(char* text){
 	if (flag == 'l') printf("%s\n", text);
+	store_data(0);
 	column += yyleng;
 }
 
@@ -245,4 +247,11 @@ void yyerror (char *s) {
 
 int yywrap() {
     return 1;;
+}
+
+void store_data(char store_letters){
+	if (store_letters)
+		yylval.data.letters = strdup(yytext);
+	yylval.data.linha = line;
+	yylval.data.coluna = column + 1	;
 }
