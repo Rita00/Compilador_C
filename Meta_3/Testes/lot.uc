@@ -1,67 +1,207 @@
-void A(void);
-
-void A(void a){
-   int x;
+int f1(double a){
+return 0;
 }
+int main(void) {
+  char a = 'a';
+  short b = 2;
+  int c = 3;
+  double d = 3.0;
+    if(a=a){}
+if(a=b){}
+if(a=c){}
+if(a=d){}
+if(b=b){}
+if(b=c){}
+if(b=d){}
+if(c=c){}
+if(c=d){}
+if(d=d){}
+if(a,a){}
+if(a,b){}
+if(a,c){}
+if(a,d){}
+if(b,b){}
+if(b,c){}
+if(b,d){}
+if(c,c){}
+if(c,d){}
+if(d,d){}
+if(a+a){}
+if(a+b){}
+if(a+c){}
+if(a+d){}
+if(b+b){}
+if(b+c){}
+if(b+d){}
+if(c+c){}
+if(c+d){}
+if(d+d){}
+if(a*a){}
+if(a*b){}
+if(a*c){}
+if(a*d){}
+if(b*b){}
+if(b*c){}
+if(b*d){}
+if(c*c){}
+if(c*d){}
+if(d*d){}
+if(a-a){}
+if(a-b){}
+if(a-c){}
+if(a-d){}
+if(b-b){}
+if(b-c){}
+if(b-d){}
+if(c-c){}
+if(c-d){}
+if(d-d){}
+if(a%a){}
+if(a%b){}
+if(a%c){}
+if(a%d){}
+if(b%b){}
+if(b%c){}
+if(b%d){}
+if(c%c){}
+if(c%d){}
+if(d%d){}
+if(a/a){}
+if(a/b){}
+if(a/c){}
+if(a/d){}
+if(b/b){}
+if(b/c){}
+if(b/d){}
+if(c/c){}
+if(c/d){}
+if(d/d){}
+if(a||a){}
+if(a||b){}
+if(a||c){}
+if(a||d){}
+if(b||b){}
+if(b||c){}
+if(b||d){}
+if(c||c){}
+if(c||d){}
+if(d||d){}
+if(a&&a){}
+if(a&&b){}
+if(a&&c){}
+if(a&&d){}
+if(b&&b){}
+if(b&&c){}
+if(b&&d){}
+if(c&&c){}
+if(c&&d){}
+if(d&&d){}
+if(a<=a){}
+if(a<=b){}
+if(a<=c){}
+if(a<=d){}
+if(b<=b){}
+if(b<=c){}
+if(b<=d){}
+if(c<=c){}
+if(c<=d){}
+if(d<=d){}
+if(a<a){}
+if(a<b){}
+if(a<c){}
+if(a<d){}
+if(b<b){}
+if(b<c){}
+if(b<d){}
+if(c<c){}
+if(c<d){}
+if(d<d){}
+if(a>=a){}
+if(a>=b){}
+if(a>=c){}
+if(a>=d){}
+if(b>=b){}
+if(b>=c){}
+if(b>=d){}
+if(c>=c){}
+if(c>=d){}
+if(d>=d){}
+if(a>a){}
+if(a>b){}
+if(a>c){}
+if(a>d){}
+if(b>b){}
+if(b>c){}
+if(b>d){}
+if(c>c){}
+if(c>d){}
+if(d>d){}
+if(a==a){}
+if(a==b){}
+if(a==c){}
+if(a==d){}
+if(b==b){}
+if(b==c){}
+if(b==d){}
+if(c==c){}
+if(c==d){}
+if(d==d){}
+if(a!=a){}
+if(a!=b){}
+if(a!=c){}
+if(a!=d){}
+if(b!=b){}
+if(b!=c){}
+if(b!=d){}
+if(c!=c){}
+if(c!=d){}
+if(d!=d){}
+if(a&a){}
+if(a&b){}
+if(a&c){}
+if(a&d){}
+if(b&b){}
+if(b&c){}
+if(b&d){}
+if(c&c){}
+if(c&d){}
+if(d&d){}
+if(a|a){}
+if(a|b){}
+if(a|c){}
+if(a|d){}
+if(b|b){}
+if(b|c){}
+if(b|d){}
+if(c|c){}
+if(c|d){}
+if(d|d){}
+if(a^a){}
+if(a^b){}
+if(a^c){}
+if(a^d){}
+if(b^b){}
+if(b^c){}
+if(b^d){}
+if(c^c){}
+if(c^d){}
+if(d^d){}
+if(+a){}
+if(+b){}
+if(+c){}
+if(+d){}
+if(-a){}
+if(-b){}
+if(-c){}
+if(-d){}
+if(!a){}
+if(!b){}
+if(!c){}
+if(f1()){}
+if(f1(a)){}
+if(f1(b)){}
+if(f1(a,b)){}
 
-int B(int a){
-   int x;
-   x=2;
-   a=3;
-}
 
-int B(int);
-
-
-int C(int);
-int C(int);
-
-int C(int a){}
-
-
-int D(int);
-int D(int);
-
-int D(int a){}
-int D(int a){}
-
-
-
-int E(int);
-
-int E(int a){}
-int E(int a){}
-
-
-int F(double);
-int F(int a){}
-
-
-
-int G(short a);
-short G(int){}
-
-int H(short a);
-int H(short a, short b);
-
-
-int I(int,int);
-int I(int);
-
-int J(short a){}
-int J(short a, short b){}
-
-
-int K(short a, short b){}
-int K(short a){}
-
-void L(void){
-
-}
-
-void L(void);
-
-void M(int, void);
-void M(int a, void b){
-
+  return 0;
 }

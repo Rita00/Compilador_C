@@ -66,7 +66,6 @@ Program: FunctionsAndDeclarations {
         add_child(root, $1); 
         if (!error && flag == 's'){
             gtable=create_global_table(root);
-            add_type_to_expressions(root,gtable,NULL);
             print_global_table(gtable); 
             print_AST2(root,0);
             free_table(gtable);
