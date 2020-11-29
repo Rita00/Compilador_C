@@ -30,7 +30,7 @@ char
 insert_el(table_element **target, char *name, char *type, int nparam, char **tparam, int isDefined, functionsList list,
           AST_Node node) {
     table_element *aux = search_el(*target, name);
-    if (aux != NULL && (aux->isDefined || aux->nparam == 0) && strcmp(node->token, "FuncDeclaration") != 0) {
+    if (aux != NULL && aux->isDefined && strcmp(node->token, "FuncDeclaration") != 0) {
         printf("Line %d, col %d: Symbol %s already defined\n", node->children[1]->n_linha, node->children[1]->n_coluna,
                name);
         return -1;
@@ -50,7 +50,7 @@ insert_el(table_element **target, char *name, char *type, int nparam, char **tpa
 
     for (aux = *target; aux; aux = aux->next) {
         if (!strcmp(aux->name, name)) {
-            if(newSymbol->nparam == 0){
+            if(newSymbol->nparam == 0 && strcmp(aux->type, newSymbol->type) != 0){
                 printf("Line %d, col %d: Symbol %s already defined\n", node->children[1]->n_linha,
                        node->children[1]->n_coluna, name);
                 return 0;
@@ -236,13 +236,13 @@ table_element *create_global_table(AST_Node root) {
             char *aux = FuncDe->children[1]->token;
             char *id = (char *) calloc(strlen(aux) - 3, sizeof(char));
             strncpy(id, aux + 3, strlen(aux) - 4);
-            error = insert_el(&table, id, root->children[i]->children[0]->token, 0, NULL, 0, NULL, root->children[i]);
-            free(id);
             if (strcmp(FuncDe->children[0]->token, "Void") == 0) {
                 printf("Line %d, col %d: Invalid use of void type in declaration\n", FuncDe->children[0]->n_linha,
                        FuncDe->children[0]->n_coluna);
+            }else{
+                error = insert_el(&table, id, root->children[i]->children[0]->token, 0, NULL, 0, NULL, root->children[i]);
             }
-
+            free(id);
         }
         if (error == -1) {
             fix_call(FuncDe);
@@ -319,6 +319,15 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
             char *id_variavel = (char *) calloc(strlen(aux_variavel) - 3, sizeof(char));
             strncpy(id_variavel, aux_variavel + 3, strlen(aux_variavel) - 4);
             function->table = addVariable(id_variavel, node->children[0]->token, 0, function->table, node->children[0]);
+            if(node->n_children > 2){
+                add_type_to_expressions(node->children[2], table, currentFunc);
+                if(strcmp(node->children[2]->expType, "double") == 0 && strcmp(node->children[0]->token, "Double") != 0){
+                    char *tipo = strdup(node->children[0]->token);
+                    lowerString(tipo);
+                    printf("Line %d, col %d: Conflicting types (got double, expected %s)\n",node->children[1]->n_linha, node->children[1]->n_coluna, tipo);
+                    free(tipo);
+                }
+            }
         }
     }
     if (node->expType != NULL && strcmp(node->expType, "ExpressionCall") == 0) {
