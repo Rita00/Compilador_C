@@ -143,6 +143,7 @@ table_element *search_el(table_element *target, char *str, char *limit_function)
         end_condition = NULL;
     } else {
         end_condition = search_el(target, limit_function, NULL);
+        end_condition = NULL;
     }
     for (aux = target; aux != end_condition; aux = aux->next) {
         if (strcmp(aux->name, str) == 0)
@@ -274,9 +275,9 @@ void search_for_declaration(AST_Node node, table_element *table, char *functionN
             }
             return;
         }
-        if (functionName != NULL && strcmp(aux->name, functionName) == 0) {
-            break;
-        }
+        //if (functionName != NULL && strcmp(aux->name, functionName) == 0) {
+          //  break;
+        //}
     }
     printf("Line %d, col %d: Unknown symbol %s\n", node->n_linha, node->n_coluna, id);
     node->expType = strdup("undef");
@@ -340,14 +341,14 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
     } else if (strcmp(node->token, "Return") == 0) {
         add_type_to_expressions(node->children[0], table, currentFunc);
         functionsList aux = search_el(table, currentFunc, NULL)->table;
-        if (strcmp(aux->variable, "return") == 0 && node->children[0]->expType != NULL &&
-            strcmp(aux->type, node->children[0]->expType) != 0 && strcmp(node->children[0]->expType, "undef") != 0) {
-            printf("Line %d, col %d: Conflicting types (got %s, expected %s)\n", node->children[0]->n_linha,
-                   node->children[0]->n_coluna, node->children[0]->expType, aux->type);
+        if (strcmp(aux->variable, "return") == 0 && node->children[0]->expType != NULL && strcmp(aux->type, "double") != 0 && strcmp(node->children[0]->expType, "double") == 0) {
+            printf("Line %d, col %d: Conflicting types (got %s, expected %s)\n", node->children[0]->n_linha,node->children[0]->n_coluna, node->children[0]->expType, aux->type);
         } else if (strcmp(aux->variable, "return") == 0 && node->children[0]->expType == NULL &&
                    strcmp(aux->type, "void") != 0) {
             printf("Line %d, col %d: Conflicting types (got void, expected %s)\n", node->n_linha, node->n_coluna,
                    aux->type);
+        }else if(strcmp(aux->variable, "return") == 0 && node->children[0]->expType != NULL && node->children[0]->nparam > 0){
+            printf("Line %d, col %d: Conflicting types (got %s, expected %s)\n", node->children[0]->n_linha,node->children[0]->n_coluna, get_node_full_type(node->children[0]), aux->type);
         }
     } else if (node->expType != NULL && strcmp(node->expType, "undef") == 0) {
         //fix_call
