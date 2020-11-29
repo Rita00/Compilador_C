@@ -2010,13 +2010,13 @@ yyreduce:
 
   case 76:
 #line 185 "uccompiler.y" /* yacc.c:1646  */
-    { (yyval.node)=create_node("Store", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
+    { (yyval.node)=create_node("Store", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionR");}
 #line 2015 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
 #line 186 "uccompiler.y" /* yacc.c:1646  */
-    {(yyval.node)=create_node("many_children", 0, 0); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression");}
+    {(yyval.node)=create_node("many_children", 0, 0); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionR");}
 #line 2021 "y.tab.c" /* yacc.c:1646  */
     break;
 

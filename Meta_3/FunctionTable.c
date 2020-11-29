@@ -29,7 +29,7 @@ functionsList search_localNode(functionsList list, char *name) {
 
 functionsList create_TableNode(char *varName, char *varType, char isParam, AST_Node node, functionsList list) {
     if (search_localNode(list, varName) != NULL) {
-        printf("Line %d, col %d: Symbol %s already defined\n", node->n_linha, node->n_coluna, varName);
+        printf("Line %d, col %d: Symbol %s already defined\n", node->parent->children[1]->n_linha, node->parent->children[1]->n_coluna, varName);
         return NULL;
     }
     functionsList new_node = calloc(1, sizeof(struct functions));
@@ -37,9 +37,11 @@ functionsList create_TableNode(char *varName, char *varType, char isParam, AST_N
     new_node->type = strdup(varType);
     lowerString(new_node->type);
     new_node->isParam = isParam;
-    if (strcmp(varType, "Void") == 0 && strcmp(varName, "return") != 0)
-        printf("Line %d, col %d: Invalid use of void type in declaration\n", node->n_linha,
-               node->n_coluna);
+    if (strcmp(varType, "Void") == 0 && strcmp(varName, "return") != 0 ){
+        printf("Line %d, col %d: Invalid use of void type in declaration\n", node->n_linha, node->n_coluna);
+        return NULL;
+    }
+
     return new_node;
 }
 

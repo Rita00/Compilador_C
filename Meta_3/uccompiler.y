@@ -182,8 +182,8 @@ Expr: Expr ASSIGN Expr {$$=create_node("Store", $2.linha, $2.coluna); add_child(
     | LPAR error RPAR {$$=NULL; error = 1;}
 ;
 
-ExprOnCall: ExprOnCall ASSIGN ExprOnCall { $$=create_node("Store", $2.linha, $2.coluna); add_child($$, $1); add_child($$, $3);$$->expType = strdup("Expression");}
-    | ExprOnCall COMMA ExprOnCall {$$=create_node("many_children", 0, 0); add_child($$, $1); add_child($$, $3);$$->expType = strdup("Expression");}
+ExprOnCall: ExprOnCall ASSIGN ExprOnCall { $$=create_node("Store", $2.linha, $2.coluna); add_child($$, $1); add_child($$, $3);$$->expType = strdup("ExpressionR");}
+    | ExprOnCall COMMA ExprOnCall {$$=create_node("many_children", 0, 0); add_child($$, $1); add_child($$, $3);$$->expType = strdup("ExpressionR");}
     | ExprOnCall PLUS ExprOnCall {$$=create_node("Add", $2.linha, $2.coluna); add_child($$, $1); add_child($$, $3);$$->expType = strdup("ExpressionArit");}
     | ExprOnCall MINUS ExprOnCall {$$=create_node("Sub", $2.linha, $2.coluna); add_child($$, $1); add_child($$, $3);$$->expType = strdup("ExpressionArit");} 
     | ExprOnCall MUL ExprOnCall {$$=create_node("Mul", $2.linha, $2.coluna); add_child($$, $1); add_child($$, $3);$$->expType = strdup("ExpressionArit");}

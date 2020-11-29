@@ -1,17 +1,1440 @@
-Line 1, col 1: Invalid use of void type in declaration
+Line 2, col 46: Symbol d already defined
+Line 6, col 13: Unknown symbol log10
+Line 7, col 27: Unknown symbol pow
+Line 7, col 25: Operator / cannot be applied to types int, undef
+Line 10, col 2: Unknown symbol area
+Line 10, col 9: Unknown symbol PI
+Line 10, col 12: Unknown symbol radius
+Line 10, col 11: Operator * cannot be applied to types undef, undef
+Line 10, col 19: Unknown symbol radius
+Line 10, col 18: Operator * cannot be applied to types undef, undef
+Line 11, col 3: Unknown symbol circumference
+Line 11, col 22: Unknown symbol PI
+Line 11, col 20: Operator * cannot be applied to types int, undef
+Line 11, col 25: Unknown symbol radius
+Line 11, col 24: Operator * cannot be applied to types undef, undef
+Line 12, col 4: Unknown symbol diameter
+Line 12, col 19: Unknown symbol radius
+Line 12, col 17: Operator * cannot be applied to types int, undef
+Line 13, col 3: Unknown symbol circumference
+Line 13, col 23: Unknown symbol PI
+Line 13, col 21: Operator * cannot be applied to types int, undef
+Line 13, col 28: Unknown symbol radius
+Line 13, col 26: Operator * cannot be applied to types undef, undef
+Line 14, col 3: Unknown symbol area
+Line 14, col 10: Unknown symbol PI
+Line 14, col 15: Unknown symbol radius
+Line 14, col 13: Operator * cannot be applied to types undef, undef
+Line 14, col 24: Unknown symbol radius
+Line 14, col 22: Operator * cannot be applied to types undef, undef
+Line 15, col 5: Unknown symbol Perimeter
+Line 16, col 3: Unknown symbol s
+Line 17, col 3: Unknown symbol Area
+Line 17, col 10: Unknown symbol sqrt
+Line 18, col 1: Unknown symbol area
+Line 18, col 9: Unknown symbol base
+Line 18, col 16: Unknown symbol height
+Line 18, col 14: Operator * cannot be applied to types undef, undef
+Line 18, col 24: Operator / cannot be applied to types undef, int
+Line 20, col 4: Unknown symbol side1
+Line 20, col 13: Unknown symbol side2
+Line 20, col 10: Operator == cannot be applied to types undef, undef
+Line 20, col 22: Unknown symbol side2
+Line 20, col 31: Unknown symbol side3
+Line 20, col 28: Operator == cannot be applied to types undef, undef
+Line 22, col 19: Unknown symbol log10
+Line 24, col 27: Unknown symbol pow
+Line 24, col 25: Operator / cannot be applied to types int, undef
+Line 25, col 7: Unknown symbol i
+Line 27, col 5: Unknown symbol side1
+Line 27, col 14: Unknown symbol side2
+Line 27, col 11: Operator == cannot be applied to types undef, undef
+Line 27, col 23: Unknown symbol side2
+Line 27, col 32: Unknown symbol side3
+Line 27, col 29: Operator == cannot be applied to types undef, undef
+Line 27, col 41: Unknown symbol side1
+Line 27, col 50: Unknown symbol side3
+Line 27, col 47: Operator == cannot be applied to types undef, undef
+Line 29, col 16: Unknown symbol side1
+Line 29, col 24: Unknown symbol side2
+Line 29, col 22: Operator + cannot be applied to types undef, undef
+Line 29, col 32: Unknown symbol side3
+Line 29, col 30: Operator > cannot be applied to types undef, undef
+Line 29, col 43: Unknown symbol side2
+Line 29, col 51: Unknown symbol side3
+Line 29, col 49: Operator + cannot be applied to types undef, undef
+Line 29, col 59: Unknown symbol side1
+Line 29, col 57: Operator > cannot be applied to types undef, undef
+Line 29, col 70: Unknown symbol side1
+Line 29, col 78: Unknown symbol side3
+Line 29, col 76: Operator + cannot be applied to types undef, undef
+Line 29, col 86: Unknown symbol side2
+Line 29, col 84: Operator > cannot be applied to types undef, undef
+Line 31, col 9: Unknown symbol i
+Line 35, col 5: Unknown symbol i
+Line 37, col 5: Unknown symbol i
+Line 38, col 16: Unknown symbol angle1
+Line 38, col 25: Unknown symbol angle2
+Line 38, col 23: Operator + cannot be applied to types undef, undef
+Line 38, col 34: Unknown symbol angle3
+Line 38, col 32: Operator + cannot be applied to types undef, undef
+Line 42, col 5: Wrong number of arguments to function putchar (got 0, required 1)
+Line 43, col 15: Unknown symbol angle1
+Line 43, col 24: Unknown symbol angle2
+Line 43, col 22: Operator + cannot be applied to types undef, undef
+Line 43, col 33: Unknown symbol angle3
+Line 43, col 31: Operator + cannot be applied to types undef, undef
+Line 47, col 13: Unknown symbol func
+Line 49, col 12: Unknown symbol angle1
+Line 49, col 21: Unknown symbol angle2
+Line 49, col 19: Operator + cannot be applied to types undef, undef
+Line 49, col 30: Unknown symbol angle3
+Line 49, col 28: Operator + cannot be applied to types undef, undef
+Line 51, col 4: Unknown symbol CIFuture
+Line 51, col 15: Unknown symbol PAmount
+Line 51, col 26: Unknown symbol pow
+Line 51, col 23: Operator * cannot be applied to types undef, undef
+Line 52, col 4: Unknown symbol CI
+Line 52, col 9: Unknown symbol CIFuture
+Line 52, col 20: Unknown symbol PAmount
+Line 52, col 18: Operator - cannot be applied to types undef, undef
+Line 52, col 30: Unknown symbol cube
+Line 52, col 37: Unknown symbol number
+Line 52, col 46: Unknown symbol number
+Line 52, col 44: Operator * cannot be applied to types undef, undef
+Line 52, col 55: Unknown symbol number
+Line 52, col 53: Operator * cannot be applied to types undef, undef
+Line 53, col 6: Unknown symbol cube
+Line 53, col 13: Unknown symbol Calculte_Cude
+Line 54, col 8: Unknown symbol Temp
+Line 55, col 10: Unknown symbol Temp
+Line 55, col 15: Operator != cannot be applied to types undef, int
+Line 57, col 12: Unknown symbol Units
+Line 57, col 18: Operator < cannot be applied to types undef, int
+Line 59, col 14: Unknown symbol Amount
+Line 59, col 23: Unknown symbol Units
+Line 59, col 29: Operator * cannot be applied to types undef, double
+Line 60, col 7: Unknown symbol Sur_Charge
+Line 62, col 14: Unknown symbol Units
+Line 62, col 20: Operator <= cannot be applied to types undef, int
+Line 68, col 7: Unknown symbol Amount
+Line 68, col 24: Unknown symbol Units
+Line 68, col 30: Operator - cannot be applied to types undef, int
+Line 68, col 37: Operator * cannot be applied to types undef, double
+Line 68, col 20: Operator + cannot be applied to types int, undef
+Line 69, col 7: Unknown symbol Sur_Charge
+Line 71, col 9: Unknown symbol Units
+Line 71, col 15: Operator <= cannot be applied to types undef, int
+Line 74, col 7: Unknown symbol Amount
+Line 74, col 33: Unknown symbol Units
+Line 74, col 39: Operator - cannot be applied to types undef, int
+Line 74, col 47: Operator * cannot be applied to types undef, double
+Line 74, col 29: Operator + cannot be applied to types double, undef
+Line 75, col 7: Unknown symbol Sur_Charge
+Line 79, col 14: Unknown symbol Num1
+Line 79, col 21: Unknown symbol i
+Line 79, col 19: Operator % cannot be applied to types undef, undef
+Line 79, col 31: Unknown symbol Num2
+Line 79, col 38: Unknown symbol i
+Line 79, col 36: Operator % cannot be applied to types undef, undef
+Line 80, col 13: Unknown symbol GCD
+Line 80, col 19: Unknown symbol i
+Line 82, col 7: Unknown symbol Amount
+Line 82, col 39: Unknown symbol Units
+Line 82, col 45: Operator - cannot be applied to types undef, int
+Line 82, col 53: Operator * cannot be applied to types undef, double
+Line 82, col 35: Operator + cannot be applied to types double, undef
+Line 83, col 7: Unknown symbol Sur_Charge
+Line 87, col 14: Unknown symbol Num2
+Line 87, col 19: Operator != cannot be applied to types undef, int
+Line 88, col 3: Unknown symbol Temp
+Line 88, col 10: Unknown symbol Num2
+Line 89, col 3: Unknown symbol Num2
+Line 89, col 10: Unknown symbol Num1
+Line 89, col 17: Unknown symbol Num2
+Line 89, col 15: Operator % cannot be applied to types undef, undef
+Line 90, col 3: Unknown symbol Num1
+Line 90, col 10: Unknown symbol Temp
+Line 92, col 5: Unknown symbol GCD
+Line 92, col 11: Unknown symbol Num1
+Line 96, col 7: Unknown symbol Times
+Line 96, col 15: Unknown symbol Times
+Line 96, col 21: Operator + cannot be applied to types undef, int
+Line 97, col 7: Unknown symbol Temp
+Line 97, col 14: Unknown symbol Temp
+Line 97, col 19: Operator / cannot be applied to types undef, int
+Line 100, col 3: Unknown symbol Temp
+Line 101, col 10: Unknown symbol Temp
+Line 101, col 15: Operator > cannot be applied to types undef, int
+Line 103, col 6: Unknown symbol Reminder
+Line 103, col 17: Unknown symbol Temp
+Line 103, col 22: Operator % cannot be applied to types undef, int
+Line 104, col 18: Unknown symbol pow
+Line 104, col 16: Operator + cannot be applied to types int, undef
+Line 105, col 6: Unknown symbol Temp
+Line 105, col 13: Unknown symbol Temp
+Line 105, col 18: Operator / cannot be applied to types undef, int
+Line 118, col 5: Wrong number of arguments to function func (got 6, required 0)
+Line 122, col 10: Unknown symbol Area
+Line 122, col 23: Unknown symbol width
+Line 122, col 21: Operator * cannot be applied to types double, undef
+Line 122, col 31: Unknown symbol height
+Line 122, col 29: Operator * cannot be applied to types undef, undef
+Line 123, col 7: Unknown symbol sqrt
+Line 124, col 3: Unknown symbol Perimeter
+Line 124, col 15: Unknown symbol width
+Line 124, col 23: Unknown symbol height
+Line 124, col 21: Operator + cannot be applied to types undef, undef
+Line 124, col 30: Operator + cannot be applied to types undef, short
+Line 125, col 11: Unknown symbol Area
+Line 125, col 25: Unknown symbol base1
+Line 125, col 33: Unknown symbol base2
+Line 125, col 31: Operator + cannot be applied to types undef, undef
+Line 125, col 22: Operator * cannot be applied to types double, undef
+Line 125, col 42: Unknown symbol height
+Line 125, col 40: Operator * cannot be applied to types undef, undef
+Line 126, col 3: Unknown symbol Median
+Line 126, col 19: Unknown symbol base1
+Line 126, col 26: Unknown symbol base2
+Line 126, col 24: Operator + cannot be applied to types undef, undef
+Line 126, col 16: Operator * cannot be applied to types double, undef
+Line 128, col 26: Unknown symbol z
+Line 128, col 27: Operator > cannot be applied to types undef, int
+Line 129, col 20: Unknown symbol abc
+Line 129, col 20: Conflicting types (got undef, expected int)
+Line 132, col 21: Unknown symbol Perimeter
+Line 132, col 38: Unknown symbol length
+Line 132, col 47: Unknown symbol width
+Line 132, col 45: Operator + cannot be applied to types undef, undef
+Line 132, col 35: Operator * cannot be applied to types int, undef
+Line 135, col 17: Wrong number of arguments to function func (got 3, required 0)
+Line 135, col 33: Unknown symbol inforestudante
+Line 138, col 8: Unknown symbol e
+Line 138, col 9: Operator >= cannot be applied to types undef, short
+Line 138, col 13: Unknown symbol e
+Line 138, col 14: Operator <= cannot be applied to types undef, short
+Line 138, col 37: Wrong number of arguments to function func (got 1, required 0)
+Line 138, col 48: Wrong number of arguments to function getchar (got 1, required 0)
+Line 140, col 8: Unknown symbol side1
+Line 140, col 16: Unknown symbol side2
+Line 140, col 14: Operator + cannot be applied to types undef, undef
+Line 140, col 24: Unknown symbol side3
+Line 140, col 22: Operator > cannot be applied to types undef, undef
+Line 142, col 10: Unknown symbol side2
+Line 142, col 18: Unknown symbol side3
+Line 142, col 16: Operator + cannot be applied to types undef, undef
+Line 142, col 26: Unknown symbol side1
+Line 142, col 24: Operator > cannot be applied to types undef, undef
+Line 148, col 17: Unknown symbol Area
+Line 148, col 24: Unknown symbol width
+Line 148, col 32: Unknown symbol height
+Line 148, col 30: Operator * cannot be applied to types undef, undef
+Line 149, col 3: Unknown symbol Perimeter
+Line 149, col 19: Unknown symbol width
+Line 149, col 27: Unknown symbol height
+Line 149, col 25: Operator + cannot be applied to types undef, undef
+Line 149, col 17: Operator * cannot be applied to types int, undef
+Line 150, col 3: Unknown symbol Area
+Line 150, col 10: Unknown symbol length
+Line 150, col 19: Unknown symbol width
+Line 150, col 17: Operator * cannot be applied to types undef, undef
+Line 151, col 12: Unknown symbol side1
+Line 151, col 20: Unknown symbol side3
+Line 151, col 18: Operator + cannot be applied to types undef, undef
+Line 151, col 28: Unknown symbol side2
+Line 151, col 26: Operator > cannot be applied to types undef, undef
+Line 154, col 21: Unknown symbol Area
+Line 154, col 29: Unknown symbol sqrt
+Line 154, col 36: Operator / cannot be applied to types undef, int
+Line 154, col 41: Unknown symbol side
+Line 154, col 46: Unknown symbol side
+Line 154, col 45: Operator * cannot be applied to types undef, undef
+Line 154, col 39: Operator * cannot be applied to types undef, undef
+Line 155, col 3: Unknown symbol Perimeter
+Line 155, col 17: Unknown symbol side
+Line 155, col 16: Operator * cannot be applied to types int, undef
+Line 156, col 3: Unknown symbol Semi
+Line 156, col 10: Unknown symbol Perimeter
+Line 156, col 19: Operator / cannot be applied to types undef, int
+Line 157, col 3: Unknown symbol Altitude
+Line 157, col 15: Unknown symbol sqrt
+Line 157, col 22: Operator / cannot be applied to types undef, int
+Line 157, col 26: Unknown symbol side
+Line 157, col 25: Operator * cannot be applied to types undef, undef
+Line 172, col 15: Unknown symbol number
+Line 172, col 22: Operator % cannot be applied to types undef, int
+Line 172, col 38: Unknown symbol number
+Line 172, col 45: Operator % cannot be applied to types undef, int
+Line 173, col 11: Unknown symbol cube
+Line 173, col 32: Unknown symbol number
+Line 175, col 13: Unknown symbol Total
+Line 175, col 21: Unknown symbol english
+Line 175, col 31: Unknown symbol chemistry
+Line 175, col 29: Operator + cannot be applied to types undef, undef
+Line 175, col 43: Unknown symbol computers
+Line 175, col 41: Operator + cannot be applied to types undef, undef
+Line 175, col 55: Unknown symbol physics
+Line 175, col 53: Operator + cannot be applied to types undef, undef
+Line 175, col 65: Unknown symbol maths
+Line 175, col 63: Operator + cannot be applied to types undef, undef
+Line 176, col 5: Unknown symbol Percentage
+Line 176, col 19: Unknown symbol Total
+Line 176, col 25: Operator / cannot be applied to types undef, int
+Line 176, col 32: Operator * cannot be applied to types undef, int
+Line 179, col 12: Unknown symbol Number
+Line 179, col 21: Unknown symbol Number
+Line 179, col 19: Operator * cannot be applied to types undef, undef
+Line 179, col 27: Operator - cannot be applied to types undef, int
+Line 186, col 5: Unknown symbol Total
+Line 187, col 5: Unknown symbol Average
+Line 187, col 15: Unknown symbol Total
+Line 187, col 21: Operator / cannot be applied to types undef, int
+Line 188, col 5: Unknown symbol Percentage
+Line 188, col 19: Unknown symbol Total
+Line 188, col 25: Operator / cannot be applied to types undef, int
+Line 188, col 32: Operator * cannot be applied to types undef, int
+Line 190, col 16: Unknown symbol sqrt
+Line 191, col 25: Conflicting types (got double, expected int)
+Line 195, col 5: Unknown symbol discriminant
+Line 196, col 8: Unknown symbol si
+Line 196, col 14: Unknown symbol PAmount
+Line 196, col 24: Unknown symbol ROI
+Line 196, col 22: Operator * cannot be applied to types undef, undef
+Line 196, col 30: Unknown symbol Time_Period
+Line 196, col 28: Operator * cannot be applied to types undef, undef
+Line 196, col 43: Operator / cannot be applied to types undef, int
+Line 199, col 8: Unknown symbol discriminant
+Line 199, col 21: Operator > cannot be applied to types undef, int
+Line 201, col 16: Unknown symbol i
+Line 201, col 17: Operator % cannot be applied to types undef, int
+Line 203, col 9: Unknown symbol Even_Sum
+Line 203, col 20: Unknown symbol Even_Sum
+Line 203, col 31: Unknown symbol i
+Line 203, col 29: Operator + cannot be applied to types undef, undef
+Line 207, col 7: Unknown symbol Odd_Sum
+Line 207, col 17: Unknown symbol Odd_Sum
+Line 207, col 27: Unknown symbol i
+Line 207, col 25: Operator + cannot be applied to types undef, undef
+Line 209, col 7: Unknown symbol root1
+Line 209, col 21: Unknown symbol sqrt
+Line 209, col 40: Operator / cannot be applied to types undef, int
+Line 209, col 19: Operator + cannot be applied to types int, undef
+Line 210, col 7: Unknown symbol root2
+Line 210, col 21: Unknown symbol sqrt
+Line 210, col 40: Operator / cannot be applied to types undef, int
+Line 210, col 19: Operator - cannot be applied to types int, undef
+Line 211, col 11: Unknown symbol root1
+Line 211, col 19: Unknown symbol root2
+Line 212, col 11: Unknown symbol root1
+Line 212, col 19: Unknown symbol root2
+Line 213, col 11: Unknown symbol imaginary
+Line 213, col 23: Unknown symbol sqrt
+Line 213, col 43: Operator / cannot be applied to types undef, int
+Line 215, col 14: Unknown symbol discriminant
 ===== Global Symbol Table =====
 putchar	int(int)
 getchar	int(void)
-abc	void(void)
+a	short
+b	short
+c	short
+d	short
+p	double
+h	int
+l	int
+main	int(int)
+Calculte_Cude	int(int)
+func	int(void)
+calc	int(int)
+anotherone	int(int,int)
 
-===== Function abc Symbol Table =====
-return	void
+===== Function main Symbol Table =====
+return	int
+argc	int	param
+Number	int
+FirstDigit	int
+Count	int
+LastDigit	int
+Sum	int
+
+===== Function Calculte_Cude Symbol Table =====
+return	int
+Number	int	param
+
+===== Function func Symbol Table =====
+return	int
+i	int
+j	int
+var	int
+v	int
+
+===== Function calc Symbol Table =====
+return	int
+Number	int	param
+english	int
+chemistry	int
+computers	int
+physics	int
+maths	int
+number	double
+result	double
+a	char
+
+===== Function anotherone Symbol Table =====
+return	int
+a	int	param
+b	int	param
 
 Program
+..Declaration
+....Short
+....Id(a)
+....IntLit(0) - int
+..Declaration
+....Short
+....Id(b)
+....IntLit(0) - int
+..Declaration
+....Short
+....Id(c)
+....IntLit(1) - int
+..Declaration
+....Short
+....Id(d)
+....Add - int
+......Sub - int
+........Mul - int
+..........Mul - short
+............Id(a) - short
+............Id(b) - short
+..........IntLit(1) - int
+........Plus - int
+..........IntLit(3) - int
+......Div - int
+........Id(d) - short
+........IntLit(1) - int
+..Declaration
+....Double
+....Id(d)
+..Declaration
+....Double
+....Id(p)
+....Div - int
+......Mul - int
+........Mul - int
+..........IntLit(1) - int
+..........Add - int
+............Mul - int
+..............Minus - int
+................IntLit(1) - int
+..............IntLit(2) - int
+............Mul - int
+..............Div - int
+................IntLit(3) - int
+................IntLit(33) - int
+..............IntLit(2) - int
+........IntLit(3) - int
+......IntLit(2) - int
+..Declaration
+....Int
+....Id(h)
+....Mod - int
+......IntLit(10) - int
+......IntLit(2) - int
+..Declaration
+....Int
+....Id(l)
+....Mul - int
+......Mod - int
+........IntLit(9) - int
+........IntLit(2) - int
+......IntLit(2) - int
 ..FuncDefinition
-....Void
-....Id(abc)
+....Int
+....Id(main)
+....ParamList
+......ParamDeclaration
+........Int
+........Id(argc)
+....FuncBody
+......Declaration
+........Int
+........Id(Number)
+......Declaration
+........Int
+........Id(FirstDigit)
+......Declaration
+........Int
+........Id(Count)
+......Declaration
+........Int
+........Id(LastDigit)
+......Declaration
+........Int
+........Id(Sum)
+........IntLit(0) - int
+......Store - int
+........Id(Count) - int
+........Call - undef
+..........Id(log10) - undef
+..........Id(Number)
+......Store - int
+........Id(FirstDigit) - int
+........Div - undef
+..........Id(Number) - int
+..........Call - undef
+............Id(pow) - undef
+............IntLit(10)
+............Id(Count)
+......Store - int
+........Id(LastDigit) - int
+........Mod - int
+..........Id(Number) - int
+..........IntLit(10) - int
+......Store - int
+........Id(Sum) - int
+........Add - int
+..........Id(FirstDigit) - int
+..........Id(LastDigit) - int
+......Store - undef
+........Id(area) - undef
+........Mul - undef
+..........Mul - undef
+............Id(PI) - undef
+............Id(radius) - undef
+..........Id(radius) - undef
+......Store - undef
+........Id(circumference) - undef
+........Mul - undef
+..........Mul - undef
+............IntLit(2) - int
+............Id(PI) - undef
+..........Id(radius) - undef
+......Store - undef
+........Id(diameter) - undef
+........Mul - undef
+..........IntLit(2) - int
+..........Id(radius) - undef
+......Store - undef
+........Id(circumference) - undef
+........Mul - undef
+..........Mul - undef
+............IntLit(2) - int
+............Id(PI) - undef
+..........Id(radius) - undef
+......Store - undef
+........Id(area) - undef
+........Mul - undef
+..........Mul - undef
+............Id(PI) - undef
+............Id(radius) - undef
+..........Id(radius) - undef
+......Store - undef
+........Id(Perimeter) - undef
+........Add - short
+..........Add - short
+............Id(a) - short
+............Id(b) - short
+..........Id(c) - short
+......Store - undef
+........Id(s) - undef
+........Div - int
+..........Add - short
+............Add - short
+..............Id(a) - short
+..............Id(b) - short
+............Id(c) - short
+..........IntLit(2) - int
+......Store - undef
+........Id(Area) - undef
+........Call - undef
+..........Id(sqrt) - undef
+..........Mul
+............Mul
+..............Mul
+................Id(s)
+................Sub
+..................Id(s)
+..................Id(a)
+..............Sub
+................Id(s)
+................Id(b)
+............Sub
+..............Id(s)
+..............Id(c)
+......Store - undef
+........Id(area) - undef
+........Div - undef
+..........Mul - undef
+............Id(base) - undef
+............Id(height) - undef
+..........IntLit(2) - int
+......Store - short
+........Id(c) - short
+........Sub - int
+..........IntLit(180) - int
+..........Add - short
+............Id(a) - short
+............Id(b) - short
+......If
+........And - int
+..........Eq - int
+............Id(side1) - undef
+............Id(side2) - undef
+..........Eq - int
+............Id(side2) - undef
+............Id(side3) - undef
+........StatList
+..........Store - int
+............Id(Count) - int
+............Call - undef
+..............Id(log10) - undef
+..............Id(Number)
+..........Store - int
+............Id(FirstDigit) - int
+............Div - undef
+..............Id(Number) - int
+..............Call - undef
+................Id(pow) - undef
+................IntLit(10)
+................Id(Count)
+..........Store - undef
+............Id(i) - undef
+............IntLit(2) - int
+........Null
+......If
+........Or - int
+..........Or - int
+............Eq - int
+..............Id(side1) - undef
+..............Id(side2) - undef
+............Eq - int
+..............Id(side2) - undef
+..............Id(side3) - undef
+..........Eq - int
+............Id(side1) - undef
+............Id(side3) - undef
+........StatList
+..........If
+............And - int
+..............And - int
+................Gt - int
+..................Add - undef
+....................Id(side1) - undef
+....................Id(side2) - undef
+..................Id(side3) - undef
+................Gt - int
+..................Add - undef
+....................Id(side2) - undef
+....................Id(side3) - undef
+..................Id(side1) - undef
+..............Gt - int
+................Add - undef
+..................Id(side1) - undef
+..................Id(side3) - undef
+................Id(side2) - undef
+............Store - undef
+..............Id(i) - undef
+..............IntLit(1) - int
+............Store - undef
+..............Id(i) - undef
+..............IntLit(1) - int
+..........Store - undef
+............Id(i) - undef
+............IntLit(1) - int
+..........Store - int
+............Id(Sum) - int
+............Add - undef
+..............Add - undef
+................Id(angle1) - undef
+................Id(angle2) - undef
+..............Id(angle3) - undef
+........StatList
+..........Call - int
+............Id(putchar) - int(int)
+..........Store - int
+............Id(Sum) - int
+............Add - undef
+..............Add - undef
+................Id(angle1) - undef
+................Id(angle2) - undef
+..............Id(angle3) - undef
+..........If
+............Eq - int
+..............Id(Sum) - int
+..............IntLit(180) - int
+............Call - undef
+..............Id(func) - undef
+..............Id(Sum)
+............Null
+......Store - int
+........Id(Sum) - int
+........Add - undef
+..........Add - undef
+............Id(angle1) - undef
+............Id(angle2) - undef
+..........Id(angle3) - undef
+......Store - undef
+........Id(CIFuture) - undef
+........Mul - undef
+..........Id(PAmount) - undef
+..........Call - undef
+............Id(pow) - undef
+............Add
+..............IntLit(1)
+..............Div
+................Id(ROI)
+................IntLit(100)
+............Id(Time_Period)
+......Store - undef
+........Id(CI) - undef
+........Sub - undef
+..........Id(CIFuture) - undef
+..........Id(PAmount) - undef
+......Store - undef
+........Id(cube) - undef
+........Mul - undef
+..........Mul - undef
+............Id(number) - undef
+............Id(number) - undef
+..........Id(number) - undef
+......Store - undef
+........Id(cube) - undef
+........Call - undef
+..........Id(Calculte_Cude) - undef
+..........Id(number)
+......Store - undef
+........Id(Temp) - undef
+........Id(Number) - int
+......While
+........Ne - int
+..........Id(Temp) - undef
+..........IntLit(0) - int
+........StatList
+..........If
+............Lt - int
+..............Id(Units) - undef
+..............IntLit(50) - int
+............StatList
+..............Store - undef
+................Id(Amount) - undef
+................Mul - undef
+..................Id(Units) - undef
+..................RealLit(2.60) - double
+..............Store - undef
+................Id(Sur_Charge) - undef
+................IntLit(25) - int
+............If
+..............Le - int
+................Id(Units) - undef
+................IntLit(100) - int
+..............StatList
+................While
+..................Ge - int
+....................Id(FirstDigit) - int
+....................IntLit(10) - int
+..................Store - int
+....................Id(FirstDigit) - int
+....................Div - int
+......................Id(FirstDigit) - int
+......................IntLit(10) - int
+................Store - undef
+..................Id(Amount) - undef
+..................Add - undef
+....................IntLit(130) - int
+....................Mul - undef
+......................Sub - undef
+........................Id(Units) - undef
+........................IntLit(50) - int
+......................RealLit(3.25) - double
+................Store - undef
+..................Id(Sur_Charge) - undef
+..................IntLit(35) - int
+..............Null
+..........If
+............Le - int
+..............Id(Units) - undef
+..............IntLit(200) - int
+............StatList
+..............Store - undef
+................Id(Amount) - undef
+................Add - undef
+..................Add - double
+....................IntLit(130) - int
+....................RealLit(162.50) - double
+..................Mul - undef
+....................Sub - undef
+......................Id(Units) - undef
+......................IntLit(100) - int
+....................RealLit(5.26) - double
+..............Store - undef
+................Id(Sur_Charge) - undef
+................IntLit(45) - int
+............StatList
+..............If
+................And - int
+..................Eq - int
+....................Mod - int
+......................Id(Num1) - undef
+......................Id(i) - undef
+....................IntLit(0) - int
+..................Eq - int
+....................Mod - int
+......................Id(Num2) - undef
+......................Id(i) - undef
+....................IntLit(0) - int
+................Store - undef
+..................Id(GCD) - undef
+..................Id(i) - undef
+................Null
+..............Store - undef
+................Id(Amount) - undef
+................Add - undef
+..................Add - double
+....................Add - double
+......................IntLit(130) - int
+......................RealLit(162.50) - double
+....................IntLit(526) - int
+..................Mul - undef
+....................Sub - undef
+......................Id(Units) - undef
+......................IntLit(200) - int
+....................RealLit(7.75) - double
+..............Store - undef
+................Id(Sur_Charge) - undef
+................IntLit(55) - int
+..........While
+............Gt - int
+..............Id(Number) - int
+..............IntLit(0) - int
+............StatList
+..............While
+................Ne - int
+..................Id(Num2) - undef
+..................IntLit(0) - int
+................StatList
+..................Store - undef
+....................Id(Temp) - undef
+....................Id(Num2) - undef
+..................Store - undef
+....................Id(Num2) - undef
+....................Mod - int
+......................Id(Num1) - undef
+......................Id(Num2) - undef
+..................Store - undef
+....................Id(Num1) - undef
+....................Id(Temp) - undef
+..............Store - undef
+................Id(GCD) - undef
+................Id(Num1) - undef
+..............Store - int
+................Id(Number) - int
+................Div - int
+..................Id(Number) - int
+..................IntLit(10) - int
+..............Store - int
+................Id(Count) - int
+................Add - int
+..................Id(Count) - int
+..................IntLit(1) - int
+..........Store - undef
+............Id(Times) - undef
+............Add - undef
+..............Id(Times) - undef
+..............IntLit(1) - int
+..........Store - undef
+............Id(Temp) - undef
+............Div - undef
+..............Id(Temp) - undef
+..............IntLit(10) - int
+......Store - undef
+........Id(Temp) - undef
+........Id(Number) - int
+......While
+........Gt - int
+..........Id(Temp) - undef
+..........IntLit(0) - int
+........StatList
+..........Store - undef
+............Id(Reminder) - undef
+............Mod - int
+..............Id(Temp) - undef
+..............IntLit(10) - int
+..........Store - int
+............Id(Sum) - int
+............Add - undef
+..............Id(Sum) - int
+..............Call - undef
+................Id(pow) - undef
+................Id(Reminder)
+................Id(Times)
+..........Store - undef
+............Id(Temp) - undef
+............Div - undef
+..............Id(Temp) - undef
+..............IntLit(10) - int
+..FuncDefinition
+....Int
+....Id(Calculte_Cude)
+....ParamList
+......ParamDeclaration
+........Int
+........Id(Number)
+....FuncBody
+......Return
+........Mul - int
+..........Mul - int
+............Id(Number) - int
+............Id(Number) - int
+..........Id(Number) - int
+..FuncDefinition
+....Int
+....Id(func)
 ....ParamList
 ......ParamDeclaration
 ........Void
 ....FuncBody
+......Declaration
+........Int
+........Id(i)
+........Add - int
+..........Id(i) - int
+..........IntLit(1) - int
+......Declaration
+........Int
+........Id(j)
+........Add - int
+..........Id(i) - int
+..........IntLit(23) - int
+......Declaration
+........Int
+........Id(var)
+......Declaration
+........Int
+........Id(v)
+......Call - int
+........Id(func) - int(void)
+........Add - int
+..........Id(j) - int
+..........IntLit(1) - int
+........IntLit(2) - int
+........IntLit(4) - int
+........IntLit(5) - int
+........Id(j) - int
+........Mul - int
+..........Mul - int
+............IntLit(4) - int
+............IntLit(3) - int
+..........IntLit(2) - int
+......Comma - int
+........Comma - int
+..........Comma - int
+............IntLit(3) - int
+............IntLit(4) - int
+..........Comma - int
+............Comma - int
+..............IntLit(5) - int
+..............IntLit(6) - int
+............Comma - int
+..............Comma - int
+................IntLit(2) - int
+................IntLit(5) - int
+..............IntLit(2) - int
+........Mul - int
+..........IntLit(0) - int
+..........IntLit(4) - int
+......While
+........Div - int
+..........Mul - int
+............Mul - int
+..............IntLit(10) - int
+..............Minus - int
+................IntLit(2) - int
+............Minus - int
+..............IntLit(7) - int
+..........IntLit(2) - int
+........StatList
+..........Store - undef
+............Id(Area) - undef
+............Mul - undef
+..............Mul - undef
+................RealLit(0.5) - double
+................Id(width) - undef
+..............Id(height) - undef
+..........Store - short
+............Id(c) - short
+............Call - undef
+..............Id(sqrt) - undef
+..............Add
+................Mul
+..................Id(width)
+..................Id(width)
+................Mul
+..................Id(height)
+..................Id(height)
+..........Store - undef
+............Id(Perimeter) - undef
+............Add - undef
+..............Add - undef
+................Id(width) - undef
+................Id(height) - undef
+..............Id(c) - short
+..........Store - undef
+............Id(Area) - undef
+............Mul - undef
+..............Mul - undef
+................RealLit(0.5) - double
+................Add - undef
+..................Id(base1) - undef
+..................Id(base2) - undef
+..............Id(height) - undef
+..........Store - undef
+............Id(Median) - undef
+............Mul - undef
+..............RealLit(0.5) - double
+..............Add - undef
+................Id(base1) - undef
+................Id(base2) - undef
+..........While
+............Sub - int
+..............Add - int
+................Mod - int
+..................Mul - int
+....................Minus - int
+......................IntLit(1) - int
+....................IntLit(8) - int
+..................IntLit(3) - int
+................IntLit(1) - int
+..............IntLit(1) - int
+............If
+..............Or - int
+................Or - int
+..................And - int
+....................And - int
+......................Gt - int
+........................Id(a) - short
+........................IntLit(2) - int
+......................Lt - int
+........................Id(a) - short
+........................IntLit(2) - int
+....................Gt - int
+......................Id(z) - undef
+......................IntLit(9) - int
+..................And - int
+....................Eq - int
+......................Mul - int
+........................Mul - int
+..........................IntLit(3) - int
+..........................IntLit(3) - int
+........................IntLit(3) - int
+......................IntLit(2) - int
+....................IntLit(1) - int
+................And - int
+..................IntLit(1) - int
+..................Div - int
+....................Mul - int
+......................Mul - int
+........................Mul - int
+..........................Mul - int
+............................Mul - int
+..............................Mul - int
+................................IntLit(1) - int
+................................IntLit(1) - int
+..............................IntLit(1) - int
+............................IntLit(1) - int
+..........................IntLit(1) - int
+........................IntLit(1) - int
+......................IntLit(1) - int
+....................IntLit(1) - int
+..............If
+................Id(abc) - undef
+................StatList
+..................While
+....................IntLit(1) - int
+....................Call - int
+......................Id(putchar) - int(int)
+......................ChrLit('a') - int
+..................Store - short
+....................Id(a) - short
+....................Add - short
+......................Sub - short
+........................Div - short
+..........................Id(a) - short
+..........................Id(a) - short
+........................Id(a) - short
+......................Mul - short
+........................Id(a) - short
+........................Id(a) - short
+..................Store - undef
+....................Id(Perimeter) - undef
+....................Mul - undef
+......................IntLit(2) - int
+......................Add - undef
+........................Id(length) - undef
+........................Id(width) - undef
+................Call - int
+..................Id(func) - int(void)
+..................RealLit(111111.2e2) - double
+..................Id(inforestudante) - undef
+..................Mod - int
+....................Id(i) - int
+....................IntLit(2) - int
+..............Null
+......If
+........Comma - int
+..........Comma - int
+............Comma - int
+..............Comma - int
+................Comma - int
+..................Comma - int
+....................Ge - int
+......................Id(e) - undef
+......................Id(a) - short
+....................Le - int
+......................Id(e) - undef
+......................Id(b) - short
+..................Lt - int
+....................Id(a) - short
+....................Id(d) - short
+................Gt - int
+..................Id(a) - short
+..................Id(a) - short
+..............Eq - int
+................Id(a) - short
+................Id(a) - short
+............Ne - int
+..............Id(i) - int
+..............Id(a) - short
+..........Not - int
+............Call - int
+..............Id(func) - int(void)
+..............Add - int
+................Id(i) - int
+................IntLit(1) - int
+........Call - int
+..........Id(getchar) - int(void)
+..........Id(a) - short
+........Null
+......If
+........Or - int
+..........BitWiseAnd - int
+............IntLit(1) - int
+............IntLit(1) - int
+..........BitWiseOr - int
+............IntLit(2) - int
+............BitWiseXor - int
+..............BitWiseAnd - int
+................IntLit(1) - int
+................IntLit(24) - int
+..............IntLit(2) - int
+........Return
+..........IntLit(1) - int
+........Null
+......If
+........Gt - int
+..........Add - undef
+............Id(side1) - undef
+............Id(side2) - undef
+..........Id(side3) - undef
+........If
+..........Gt - int
+............Add - undef
+..............Id(side2) - undef
+..............Id(side3) - undef
+............Id(side1) - undef
+..........StatList
+............If
+..............Ne - int
+................Mod - int
+..................Id(i) - int
+..................IntLit(2) - int
+................IntLit(0) - int
+..............Call - int
+................Id(putchar) - int(int)
+................Id(i) - int
+..............Null
+............Store - undef
+..............Id(Area) - undef
+..............Mul - undef
+................Id(width) - undef
+................Id(height) - undef
+............Store - undef
+..............Id(Perimeter) - undef
+..............Mul - undef
+................IntLit(2) - int
+................Add - undef
+..................Id(width) - undef
+..................Id(height) - undef
+............Store - undef
+..............Id(Area) - undef
+..............Mul - undef
+................Id(length) - undef
+................Id(width) - undef
+............If
+..............Gt - int
+................Add - undef
+..................Id(side1) - undef
+..................Id(side3) - undef
+................Id(side2) - undef
+..............StatList
+................Call - int
+..................Id(getchar) - int(void)
+................Store - undef
+..................Id(Area) - undef
+..................Mul - undef
+....................Div - undef
+......................Call - undef
+........................Id(sqrt) - undef
+........................IntLit(3)
+......................IntLit(4) - int
+....................Mul - undef
+......................Id(side) - undef
+......................Id(side) - undef
+................Store - undef
+..................Id(Perimeter) - undef
+..................Mul - undef
+....................IntLit(3) - int
+....................Id(side) - undef
+................Store - undef
+..................Id(Semi) - undef
+..................Div - undef
+....................Id(Perimeter) - undef
+....................IntLit(2) - int
+................Store - undef
+..................Id(Altitude) - undef
+..................Mul - undef
+....................Div - undef
+......................Call - undef
+........................Id(sqrt) - undef
+........................IntLit(3)
+......................IntLit(2) - int
+....................Id(side) - undef
+..............Call - int
+................Id(getchar) - int(void)
+..........Call - int
+............Id(getchar) - int(void)
+........StatList
+..........If
+............And - int
+..............Eq - int
+................Mod - int
+..................Id(number) - undef
+..................IntLit(5) - int
+................IntLit(0) - int
+..............Eq - int
+................Mod - int
+..................Id(number) - undef
+..................IntLit(11) - int
+................IntLit(0) - int
+............Store - short
+..............Id(a) - short
+..............Add - int
+................Id(a) - short
+................IntLit(1) - int
+............Null
+..........Store - undef
+............Id(cube) - undef
+............Call - int
+..............Id(Calculte_Cude) - int(int)
+..............Id(number) - undef
+..........Call - int
+............Id(getchar) - int(void)
+..........Store - undef
+............Id(Total) - undef
+............Add - undef
+..............Add - undef
+................Add - undef
+..................Add - undef
+....................Id(english) - undef
+....................Id(chemistry) - undef
+..................Id(computers) - undef
+................Id(physics) - undef
+..............Id(maths) - undef
+..........Store - undef
+............Id(Percentage) - undef
+............Mul - undef
+..............Div - undef
+................Id(Total) - undef
+................IntLit(500) - int
+..............IntLit(100) - int
+......Return
+........Sub - undef
+..........Mul - undef
+............Id(Number) - undef
+............Id(Number) - undef
+..........IntLit(111) - int
+..FuncDefinition
+....Int
+....Id(calc)
+....ParamList
+......ParamDeclaration
+........Int
+........Id(Number)
+....FuncBody
+......Declaration
+........Int
+........Id(english)
+......Declaration
+........Int
+........Id(chemistry)
+......Declaration
+........Int
+........Id(computers)
+......Declaration
+........Int
+........Id(physics)
+......Declaration
+........Int
+........Id(maths)
+......Declaration
+........Double
+........Id(number)
+......Declaration
+........Double
+........Id(result)
+......Store - undef
+........Id(Total) - undef
+........Add - int
+..........Add - int
+............Add - int
+..............Add - int
+................Id(english) - int
+................Id(chemistry) - int
+..............Id(computers) - int
+............Id(physics) - int
+..........Id(maths) - int
+......Store - undef
+........Id(Average) - undef
+........Div - undef
+..........Id(Total) - undef
+..........IntLit(5) - int
+......Store - undef
+........Id(Percentage) - undef
+........Mul - undef
+..........Div - undef
+............Id(Total) - undef
+............IntLit(500) - int
+..........IntLit(100) - int
+......Declaration
+........Char
+........Id(a)
+........ChrLit('a') - int
+......Store - double
+........Id(result) - double
+........Call - undef
+..........Id(sqrt) - undef
+..........Id(number)
+......Return
+........Div - double
+..........Mul - int
+............Id(Number) - int
+............Id(Number) - int
+..........Id(result) - double
+..FuncDefinition
+....Int
+....Id(anotherone)
+....ParamList
+......ParamDeclaration
+........Int
+........Id(a)
+......ParamDeclaration
+........Int
+........Id(b)
+....FuncBody
+......Store - undef
+........Id(discriminant) - undef
+........Sub - int
+..........Mul - int
+............Id(b) - int
+............Id(b) - int
+..........Mul - int
+............Mul - int
+..............IntLit(4) - int
+..............Id(a) - int
+............Id(c) - short
+......Store - undef
+........Id(si) - undef
+........Div - undef
+..........Mul - undef
+............Mul - undef
+..............Id(PAmount) - undef
+..............Id(ROI) - undef
+............Id(Time_Period) - undef
+..........IntLit(100) - int
+......If
+........Gt - int
+..........Id(discriminant) - undef
+..........IntLit(0) - int
+........StatList
+..........If
+............Eq - int
+..............Mod - int
+................Id(i) - undef
+................IntLit(2) - int
+..............IntLit(0) - int
+............Store - undef
+..............Id(Even_Sum) - undef
+..............Add - undef
+................Id(Even_Sum) - undef
+................Id(i) - undef
+............Store - undef
+..............Id(Odd_Sum) - undef
+..............Add - undef
+................Id(Odd_Sum) - undef
+................Id(i) - undef
+..........Store - undef
+............Id(root1) - undef
+............Add - undef
+..............Minus - int
+................Id(b) - int
+..............Div - undef
+................Call - undef
+..................Id(sqrt) - undef
+..................Id(discriminant)
+................Mul - int
+..................IntLit(2) - int
+..................Id(a) - int
+..........Store - undef
+............Id(root2) - undef
+............Sub - undef
+..............Minus - int
+................Id(b) - int
+..............Div - undef
+................Call - undef
+..................Id(sqrt) - undef
+..................Id(discriminant)
+................Mul - int
+..................IntLit(2) - int
+..................Id(a) - int
+..........Store - undef
+............Id(root1) - undef
+............Store - undef
+..............Id(root2) - undef
+..............Div - int
+................Minus - int
+..................Id(b) - int
+................Mul - int
+..................IntLit(2) - int
+..................Id(a) - int
+..........Store - undef
+............Id(root1) - undef
+............Store - undef
+..............Id(root2) - undef
+..............Div - int
+................Minus - int
+..................Id(b) - int
+................Mul - int
+..................IntLit(2) - int
+..................Id(a) - int
+..........Store - undef
+............Id(imaginary) - undef
+............Div - undef
+..............Call - undef
+................Id(sqrt) - undef
+................Minus
+..................Id(discriminant)
+..............Mul - int
+................IntLit(2) - int
+................Id(a) - int
+........Null
+......Return
+........Id(discriminant) - undef
