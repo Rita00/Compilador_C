@@ -21,8 +21,9 @@ functionsList search_locals(functionsList list, AST_Node node) {
 
 functionsList search_localNode(functionsList list, char *name) {
     while(list != NULL) {
-        if (strcmp(list->variable, name) == 0) return list;
-            list = list->next;
+        if (strcmp(list->variable, name) == 0)
+            return list;
+        list = list->next;
     }
     return NULL;
 }
@@ -38,7 +39,11 @@ functionsList create_TableNode(char *varName, char *varType, char isParam, AST_N
     lowerString(new_node->type);
     new_node->isParam = isParam;
     if (strcmp(varType, "Void") == 0 && strcmp(varName, "return") != 0 ){
-        printf("Line %d, col %d: Invalid use of void type in declaration\n", node->n_linha, node->n_coluna);
+        if (strcmp(node->parent->token, "ParamDeclaration") == 0){
+            printf("Line %d, col %d: Invalid use of void type in declaration\n", node->n_linha, node->n_coluna);
+        }else{
+            printf("Line %d, col %d: Invalid use of void type in declaration\n", node->parent->children[1]->n_linha, node->parent->children[1]->n_coluna);
+        }
         return NULL;
     }
 

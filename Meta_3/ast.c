@@ -65,9 +65,11 @@ void destroy_node(AST_Node root){
 }
 
 void free_AST(AST_Node root) {
+    //TODO fix this
     for (int i = 0; i < root->n_children; i++) {
         free_AST(root->children[i]);
     }
+    free(root->expType);
     free(root->children);
     free(root);
 }

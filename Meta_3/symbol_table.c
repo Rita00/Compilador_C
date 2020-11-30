@@ -31,8 +31,7 @@ insert_el(table_element **target, char *name, char *type, int nparam, char **tpa
           AST_Node node) {
     table_element *aux = search_el(*target, name);
     if (aux != NULL && aux->isDefined && strcmp(node->token, "FuncDeclaration") != 0) {
-        printf("Line %d, col %d: Symbol %s already defined\n", node->children[1]->n_linha, node->children[1]->n_coluna,
-               name);
+        printf("Line %d, col %d: Symbol %s already defined\n", node->children[1]->n_linha, node->children[1]->n_coluna, name);
         return -1;
     }
     table_element *newSymbol = (table_element *) calloc(1, sizeof(table_element));
@@ -50,9 +49,10 @@ insert_el(table_element **target, char *name, char *type, int nparam, char **tpa
 
     for (aux = *target; aux; aux = aux->next) {
         if (!strcmp(aux->name, name)) {
-            if(newSymbol->nparam == 0 && strcmp(aux->type, newSymbol->type) != 0){
+            if (newSymbol->nparam == 0 && strcmp(aux->type, newSymbol->type) != 0) {
                 printf("Line %d, col %d: Symbol %s already defined\n", node->children[1]->n_linha,
                        node->children[1]->n_coluna, name);
+                fix_call(node);
                 return 0;
             }
             AST_Node aux_node = calloc(1, sizeof(struct _ast_Node));
@@ -181,6 +181,7 @@ table_element *create_global_table(AST_Node root) {
             if (isDefinition && already_defined_table != NULL && already_defined_table->isDefined) {
                 printf("Line %d, col %d: Symbol %s already defined\n", FuncDe->children[1]->n_linha,
                        FuncDe->children[1]->n_coluna, id);
+                fix_call(FuncDe);
                 continue;
             }
             AST_Node paramlist = FuncDe->children[2];
@@ -237,10 +238,19 @@ table_element *create_global_table(AST_Node root) {
             char *id = (char *) calloc(strlen(aux) - 3, sizeof(char));
             strncpy(id, aux + 3, strlen(aux) - 4);
             if (strcmp(FuncDe->children[0]->token, "Void") == 0) {
-                printf("Line %d, col %d: Invalid use of void type in declaration\n", FuncDe->children[0]->n_linha,
-                       FuncDe->children[0]->n_coluna);
-            }else{
-                error = insert_el(&table, id, root->children[i]->children[0]->token, 0, NULL, 0, NULL, root->children[i]);
+                printf("Line %d, col %d: Invalid use of void type in declaration\n", FuncDe->children[1]->n_linha, FuncDe->children[1]->n_coluna);
+            } else {
+                insert_el(&table, id, root->children[i]->children[0]->token, 0, NULL, 0, NULL, root->children[i]);
+                if (FuncDe->n_children > 2) {
+                    add_type_to_expressions(FuncDe->children[2], table, NULL);
+                    if (strcmp(FuncDe->children[2]->expType, "double") == 0 && strcmp(FuncDe->children[0]->token, "Double") != 0) {
+                        char *tipo = strdup(FuncDe->children[0]->token);
+                        lowerString(tipo);
+                        printf("Line %d, col %d: Conflicting types (got double, expected %s)\n", FuncDe->children[1]->n_linha,
+                               FuncDe->children[1]->n_coluna, tipo);
+                        free(tipo);
+                    }
+                }
             }
             free(id);
         }
@@ -254,6 +264,7 @@ table_element *create_global_table(AST_Node root) {
 }
 
 void free_table(table_element *root) {
+    //TODO fix this
     while (root != NULL) {
         free(root->type);
         free(root->name);
@@ -284,7 +295,7 @@ void search_for_declaration(AST_Node node, table_element *table, char *functionN
         }
     }
 
-    for (aux = table; aux; aux = aux->next) { //TODO what if we're using it as a variable but it is a function or viceversa
+    for (aux = table; aux; aux = aux->next) {
         if (strcmp(id, aux->name) == 0) { // caso id seja este nome da tabela
             node->expType = strdup(aux->type);
             if (aux->nparam > 0) {
@@ -300,7 +311,8 @@ void search_for_declaration(AST_Node node, table_element *table, char *functionN
 
 void add_type_to_expressions(AST_Node node, table_element *table, char *currentFunc) {
     if (!strcmp(node->token, "FuncDefinition")) {
-        if (currentFunc != NULL) free(currentFunc);
+        if (currentFunc != NULL)
+            free(currentFunc);
         currentFunc = (char *) calloc(strlen(node->children[1]->token) - 3, sizeof(char));
         strncpy(currentFunc, node->children[1]->token + 3, strlen(node->children[1]->token) - 4);
         table_element *function = search_el(table, currentFunc);
@@ -319,16 +331,17 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
             char *id_variavel = (char *) calloc(strlen(aux_variavel) - 3, sizeof(char));
             strncpy(id_variavel, aux_variavel + 3, strlen(aux_variavel) - 4);
             function->table = addVariable(id_variavel, node->children[0]->token, 0, function->table, node->children[0]);
-            if(node->n_children > 2){
+            if (node->n_children > 2) {
                 add_type_to_expressions(node->children[2], table, currentFunc);
-                if(strcmp(node->children[2]->expType, "double") == 0 && strcmp(node->children[0]->token, "Double") != 0){
+                if (strcmp(node->children[2]->expType, "double") == 0 && strcmp(node->children[0]->token, "Double") != 0) {
                     char *tipo = strdup(node->children[0]->token);
                     lowerString(tipo);
-                    printf("Line %d, col %d: Conflicting types (got double, expected %s)\n",node->children[1]->n_linha, node->children[1]->n_coluna, tipo);
+                    printf("Line %d, col %d: Conflicting types (got double, expected %s)\n", node->children[1]->n_linha, node->children[1]->n_coluna, tipo);
                     free(tipo);
                 }
             }
         }
+        return;
     }
     if (node->expType != NULL && strcmp(node->expType, "ExpressionCall") == 0) {
         free(node->expType);
@@ -337,20 +350,22 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
         strncpy(id, node->children[0]->token + 3, strlen(node->children[0]->token) - 4);
         table_element *aux = search_el(table, id);
         table_element *function = search_el(table, currentFunc);
-        functionsList localSymbol;
+        functionsList localSymbol = NULL;
         if (function != NULL) {
             localSymbol = search_localNode(function->table, id);
         }
         if (aux == NULL) {
             fix_call(node);
-            if(localSymbol == NULL){
+            if (localSymbol == NULL) {
                 printf("Line %d, col %d: Unknown symbol %s\n", node->children[0]->n_linha, node->children[0]->n_coluna, id);
                 node->expType = strdup("undef");
-                free(node->children[0]->expType);
+                if (node->children[0]->expType != NULL)
+                    free(node->children[0]->expType);
                 node->children[0]->expType = strdup("undef");
-            }else{
+            } else {
                 node->expType = strdup(localSymbol->type);
-                free(node->children[0]->expType);
+                if (node->children[0]->expType != NULL)
+                    free(node->children[0]->expType);
                 node->children[0]->expType = strdup(localSymbol->type);
             }
             return;
@@ -367,9 +382,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                        node->children[0]->n_linha, node->children[0]->n_coluna, id, got, required);
             } else {
                 for (int i = 0; i < required; i++) {
-                    if (strcmp(node->children[i + 1]->expType, "undef") != 0 &&
-                        strcmp(aux->tparam[i], "double") != 0 &&
-                        strcmp(node->children[i + 1]->expType, "double") == 0) {
+                    if (strcmp(node->children[i + 1]->expType, "void") == 0 || (strcmp(node->children[i + 1]->expType, "double") == 0 && strcmp(aux->tparam[i], "double") != 0)) {
                         printf("Line %d, col %d: Conflicting types (got %s, expected %s)\n",
                                node->children[i + 1]->n_linha, node->children[i + 1]->n_coluna,
                                node->children[i + 1]->expType, aux->tparam[i]);
@@ -379,12 +392,12 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
             node->expType = strdup(aux->type);
 
         } else if (aux) {
-            printf("Line %d, col %d: Symbol %s is not a function\n", node->children[0]->n_linha,
-                   node->children[0]->n_coluna, id);
+            printf("Line %d, col %d: Symbol %s is not a function\n", node->children[0]->n_linha, node->children[0]->n_coluna, id);
             node->expType = strdup("undef");
             free(node->children[0]->expType);
             node->children[0]->expType = strdup("undef");
         }
+        return;
     }
 
     if (strcmp(node->token, "If") == 0 || strcmp(node->token, "While") == 0) {
@@ -408,51 +421,32 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
     } else if (strcmp(node->token, "Return") == 0) {
         add_type_to_expressions(node->children[0], table, currentFunc);
         functionsList aux = search_el(table, currentFunc)->table;
-        if (
-                strcmp(aux
-                               ->variable, "return") == 0 && node->children[0]->expType != NULL &&
-                strcmp(aux
-                               ->type, "double") != 0 &&
-                strcmp(node
-                               ->children[0]->expType, "double") == 0) {
+        if (strcmp(aux->variable, "return") == 0 && node->children[0]->expType != NULL &&
+            strcmp(aux->type, "double") != 0 && strcmp(node->children[0]->expType, "double") == 0) {
             printf("Line %d, col %d: Conflicting types (got %s, expected %s)\n", node->children[0]->n_linha,
                    node->children[0]->n_coluna, node->children[0]->expType, aux->type);
-        } else if (
-                strcmp(aux
-                               ->variable, "return") == 0 && node->children[0]->expType == NULL &&
-                strcmp(aux
-                               ->type, "void") != 0) {
+        } else if (strcmp(aux->variable, "return") == 0 && node->children[0]->expType != NULL &&
+                   node->children[0]->nparam > 0) {
+            printf("Line %d, col %d: Conflicting types (got %s, expected %s)\n", node->children[0]->n_linha,
+                   node->children[0]->n_coluna, get_node_full_type(node->children[0]), aux->type);
+        }else if (strcmp(aux->variable, "return") == 0 &&
+                   (node->children[0]->expType == NULL || strcmp(node->children[0]->expType, "void") == 0) &&
+                   strcmp(aux->type, "void") != 0) {
             printf("Line %d, col %d: Conflicting types (got void, expected %s)\n", node->n_linha, node->n_coluna,
                    aux->type);
-        } else if (
-                strcmp(aux
-                               ->variable, "return") == 0 && node->children[0]->expType != NULL &&
-                node->children[0]->nparam > 0) {
-            printf("Line %d, col %d: Conflicting types (got %s, expected %s)\n", node->children[0]->n_linha,
-                   node->children[0]->n_coluna,
-                   get_node_full_type(node
-                                              ->children[0]), aux->type);
+        }  else if (strcmp(aux->variable, "return") == 0 && strcmp(aux->type, "void") == 0 &&
+                   node->children[0]->expType != NULL && strcmp(node->children[0]->expType, "void") != 0) {
+            printf("Line %d, col %d: Conflicting types (got %s, expected void)\n", node->children[0]->n_linha,
+                   node->children[0]->n_coluna, get_node_full_type(node->children[0]));
         }
-    } else if (node->expType != NULL &&
-               strcmp(node
-                              ->expType, "undef") == 0) {
-//fix_call
-        for (
-                int i = 1;
-                i < node->
-                        n_children;
-                i++) {
-            fix_call(node
-                             ->children[i]);
+    } else if (node->expType != NULL && strcmp(node->expType, "undef") == 0) {
+        //fix_call
+        for (int i = 1; i < node->n_children; i++) {
+            fix_call(node->children[i]);
         }
     } else {
-        for (
-                int i = 0;
-                i < node->
-                        n_children;
-                i++) {
-            add_type_to_expressions(node
-                                            ->children[i], table, currentFunc);
+        for (int i = 0; i < node->n_children; i++) {
+            add_type_to_expressions(node->children[i], table, currentFunc);
         }
     }
 
@@ -461,8 +455,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
             char *id = (char *) calloc(strlen(node->token) - 3, sizeof(char));
             strncpy(id, node->token + 3, strlen(node->token) - 4);
             search_for_declaration(node, table, currentFunc);
-        } else if (strcmp(node->expType, "ExpressionArit") ==
-                   0) { //operacoes aritmeticas binarias (ex: int + double = double)
+        } else if (strcmp(node->expType, "ExpressionArit") == 0) { //operacoes aritmeticas binarias (ex: int + double = double)
             free(node->expType);
             if (node->children[0]->nparam > 0 || node->children[1]->nparam > 0) {
                 node->expType = strdup("undef");
@@ -473,13 +466,8 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                        get_node_full_type(node->children[1]));
                 free(logical_op);
             } else {
-                node->
-                        expType = decide_highest_type(node->children[0]->expType, node->children[1]->expType);
-                if (
-                        strcmp(node
-                                       ->children[0]->expType, "undef") == 0 ||
-                        strcmp(node
-                                       ->children[1]->expType, "undef") == 0) {
+                node->expType = decide_highest_type(node->children[0]->expType, node->children[1]->expType);
+                if (strcmp(node->expType, "undef") == 0) {
                     char *logical_op = decice_logical_op(node->token);
                     printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
                            node->n_coluna, logical_op, node->children[0]->expType, node->children[1]->expType);
@@ -487,170 +475,111 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                 }
             }
 
-        } else if (
-                strcmp(node
-                               ->expType, "ExpressionR") ==
-                0) { //operacoes binarias que ficam com o valor da esquerda (igual e virgula)
+        } else if ( strcmp(node->expType, "ExpressionR") == 0) { //operacoes binarias que ficam com o valor da esquerda (igual e virgula)
             int index = 0;
-            free(node
-                         ->expType);
-            if (!
-                    strcmp(node
-                                   ->token, "Comma"))
+            free(node->expType);
+            if (!strcmp(node->token, "Comma"))
                 index = 1;
-            node->
-                    expType = strdup(node->children[index]->expType);
+            node->expType = strdup(node->children[index]->expType);
             if (index == 0 &&
-                strncmp(node
-                                ->children[0]->token, "Id", strlen("Id")) != 0) {
+                strncmp(node->children[0]->token, "Id", strlen("Id")) != 0) {
                 printf("Line %d, col %d: Lvalue required\n", node->children[0]->n_linha, node->children[0]->n_coluna);
             } else if (node->children[0]->nparam > 0 || node->children[1]->nparam > 0) {
-                free(node
-                             ->expType);
-                node->
-                        expType = strdup("undef");
+                free(node->expType);
+                node->expType = strdup("undef");
                 char *logical_op = decice_logical_op(node->token);
                 printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
-                       node->n_coluna, logical_op,
-                       get_node_full_type(node
-                                                  ->children[0]),
-                       get_node_full_type(node
-                                                  ->children[1]));
+                       node->n_coluna, logical_op, get_node_full_type(node->children[0]),
+                       get_node_full_type(node->children[1]));
                 free(logical_op);
-            } else if (index == 0 &&
-                       strcmp(node
-                                      ->children[0]->expType, "double") != 0 &&
-                       strcmp(node
-                                      ->children[1]->expType, "double") == 0) {
+            } else if (index == 0 && strcmp(node->children[0]->expType, "double") != 0 &&
+                       strcmp(node->children[1]->expType, "double") == 0) {
                 char *logical_op = decice_logical_op(node->token);
                 printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
                        node->n_coluna, logical_op, node->children[0]->expType, node->children[1]->expType);
                 free(logical_op);
             } else if (index == 1 && (
-                    strcmp(node
-                                   ->children[0]->expType, "undef") == 0 ||
-                    strcmp(node
-                                   ->children[1]->expType, "undef") == 0)) {
-                free(node
-                             ->expType);
-                node->
-                        expType = strdup("undef");
+                    strcmp(node->children[0]->expType, "undef") == 0 ||
+                    strcmp(node->children[1]->expType, "undef") == 0)) {
+                free(node->expType);
+                node->expType = strdup("undef");
                 char *logical_op = decice_logical_op(node->token);
                 printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
                        node->n_coluna, logical_op, node->children[0]->expType, node->children[1]->expType);
                 free(logical_op);
             }
-        } else if (
-                strcmp(node
-                               ->expType, "ExpressionIntInt") ==
-                0) { //operacoes binarias que so funcionam se os dois lados forem ints
-            free(node
-                         ->expType);
-            node->
-                    expType = strdup("int");
+        } else if (strcmp(node->expType, "ExpressionIntInt") == 0) { //operacoes binarias que so funcionam se os dois lados forem ints
+            free(node->expType);
             char *highest = decide_highest_type(node->children[0]->expType, node->children[1]->expType);
-            if (node->children[0]->nparam > 0 || node->children[1]->nparam > 0) {
+            if (strcmp(highest, "undef") == 0) {
+                node->expType = strdup("undef");
                 char *logical_op = decice_logical_op(node->token);
                 printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
                        node->n_coluna, logical_op,
-                       get_node_full_type(node
-                                                  ->children[0]),
-                       get_node_full_type(node
-                                                  ->children[1]));
+                       get_node_full_type(node->children[0]),
+                       get_node_full_type(node->children[1]));
                 free(logical_op);
-            } else if (
-                    strcmp(highest,
-                           "double") == 0 ||
-                    strcmp(highest,
-                           "undef") == 0) {
+            } else if (node->children[0]->nparam > 0 || node->children[1]->nparam > 0) {
+                node->expType = strdup("int");
+                char *logical_op = decice_logical_op(node->token);
+                printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
+                       node->n_coluna, logical_op,
+                       get_node_full_type(node->children[0]),
+                       get_node_full_type(node->children[1]));
+                free(logical_op);
+            } else if (strcmp(highest, "double") == 0) {
+                node->expType = strdup("int");
                 char *logical_op = decice_logical_op(node->token);
                 printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
                        node->n_coluna, logical_op, node->children[0]->expType,
                        node->children[1]->expType);
                 free(logical_op);
+            } else {
+                node->expType = strdup("int");
             }
             free(highest);
-            if (
-                    strcmp(node
-                                   ->token, "Mod") == 0) {
-                free(node
-                             ->expType);
-                node->
-                        expType = strdup("int");
+            if (strcmp(node->token, "Mod") == 0) {
+                free(node->expType);
+                node->expType = strdup("int");
             }
         } else if (
-                strcmp(node
-                               ->expType, "Expression1") == 0) { //operacoes so com um membro (positivo, negativo, call)
-            free(node
-                         ->expType);
-            if (node->children[0]->nparam == 0) {
-                node->
-                        expType = strdup(node->children[0]->expType);
+                strcmp(node->expType, "Expression1") == 0) { //operacoes so com um membro (positivo, negativo, call)
+            free(node->expType);
+            if (node->children[0]->nparam == 0 && strcmp(node->children[0]->expType, "undef") != 0) {
+                node->expType = strdup(node->children[0]->expType);
             } else {
-                node->
-                        expType = strdup("undef");
+                node->expType = strdup("undef");
                 char *logical_op = decice_logical_op(node->token);
-                printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->n_linha,
-                       node->n_coluna, logical_op,
-                       get_node_full_type(node
-                                                  ->children[0]));
+                printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->n_linha, node->n_coluna, logical_op, get_node_full_type(node->children[0]));
                 free(logical_op);
             }
         } else if (
-                strcmp(node
-                               ->expType, "ExpressionLogical") == 0) {
-            free(node
-                         ->expType);
-            node->
-                    expType = strdup("int");
+                strcmp(node->expType, "ExpressionLogical") == 0) {
+            free(node->expType);
+            node->expType = strdup("int");
             if (node->n_children == 1 && node->children[0]->nparam > 0) {
-//free(node->expType);
-//node->expType = strdup("undef");
                 char *logical_op = decice_logical_op(node->token);
-                printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->n_linha,
-                       node->n_coluna, logical_op,
-                       get_node_full_type(node
-                                                  ->children[0]));
+                printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->n_linha, node->n_coluna,
+                       logical_op, get_node_full_type(node->children[0]));
                 free(logical_op);
             } else if (node->n_children == 2 && (node->children[0]->nparam > 0 || node->children[1]->nparam > 0)) {
-//free(node->expType);
-//node->expType = strdup("undef");
                 char *logical_op = decice_logical_op(node->token);
                 printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
-                       node->n_coluna, logical_op,
-                       get_node_full_type(node
-                                                  ->children[0]),
-                       get_node_full_type(node
-                                                  ->children[1]));
+                       node->n_coluna, logical_op, get_node_full_type(node->children[0]),
+                       get_node_full_type(node->children[1]));
                 free(logical_op);
             } else if (node->n_children == 2 &&
-
-                       strcmp(decide_highest_type(node
-
-                                                          ->children[0]->expType, node->children[1]->expType),
-                              "void") ==
+                       strcmp(decide_highest_type(node->children[0]->expType, node->children[1]->expType), "void") ==
                        0) {
-//free(node->expType);
-//node->expType = strdup("undef");
                 printf("Line %d, col %d: Conflicting types (got void, expected int)\n", node->n_linha, node->n_coluna);
-            } else if (node->n_children == 2 && (
-                    strcmp(node
-                                   ->children[0]->expType, "undef") == 0 ||
-                    strcmp(node
-                                   ->children[1]->expType, "undef") == 0)) {
-//free(node->expType);
-//node->expType = strdup("undef");
+            } else if (node->n_children == 2 && (strcmp(node->children[0]->expType, "undef") == 0 ||
+                                                 strcmp(node->children[1]->expType, "undef") == 0)) {
                 char *logical_op = decice_logical_op(node->token);
-                printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
-                       node->n_coluna, logical_op, node->children[0]->expType, node->children[1]->expType);
+                printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,  node->n_coluna, logical_op, node->children[0]->expType, node->children[1]->expType);
                 free(logical_op);
             } else if (node->n_children == 1 && (
-                    strcmp(node
-                                   ->children[0]->expType, "undef") == 0 ||
-                    strcmp(node
-                                   ->children[0]->expType, "double") == 0)) {
-//free(node->expType);
-//node->expType = strdup("undef");
+                    strcmp(node->children[0]->expType, "undef") == 0 ||
+                    strcmp(node->children[0]->expType, "double") == 0)) {
                 char *logical_op = decice_logical_op(node->token);
                 printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->n_linha,
                        node->n_coluna, logical_op, node->children[0]->expType);
