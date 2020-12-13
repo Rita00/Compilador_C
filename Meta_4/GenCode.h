@@ -19,4 +19,6 @@ char *defineType(char *type);
 
 void caseStoreLocal(AST_Node node);
 
+char* getLiteral(char *literal);
+
 #endif
