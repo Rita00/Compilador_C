@@ -1,0 +1,32 @@
+Line 4, col 9: Unknown symbol asd
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+a	int
+b	int
+c	int
+d	int
+e	int
+
+Program
+..Declaration
+....Int
+....Id(a)
+..Declaration
+....Int
+....Id(b)
+..Declaration
+....Int
+....Id(c)
+..Declaration
+....Int
+....Id(d)
+..Declaration
+....Int
+....Id(e)
+..Declaration
+....Int
+....Id(b)
+....Call - undef
+......Id(asd) - undef
+......Id(b)

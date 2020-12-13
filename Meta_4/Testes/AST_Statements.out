@@ -1,0 +1,118 @@
+Line 2, col 2: Unknown symbol func1
+Line 4, col 2: Unknown symbol func2
+Line 6, col 6: Unknown symbol a
+Line 6, col 6: Conflicting types (got undef, expected int)
+Line 7, col 3: Unknown symbol statement1
+Line 9, col 3: Unknown symbol statement2
+Line 12, col 6: Unknown symbol a
+Line 12, col 6: Conflicting types (got undef, expected int)
+Line 13, col 3: Unknown symbol statement1
+Line 16, col 6: Unknown symbol a
+Line 16, col 6: Conflicting types (got undef, expected int)
+Line 17, col 3: Unknown symbol statement2
+Line 20, col 6: Unknown symbol a
+Line 20, col 6: Conflicting types (got undef, expected int)
+Line 22, col 8: Unknown symbol a
+Line 22, col 8: Conflicting types (got undef, expected int)
+Line 23, col 3: Unknown symbol statement2
+Line 26, col 8: Unknown symbol a
+Line 26, col 8: Conflicting types (got undef, expected int)
+Line 28, col 8: Unknown symbol a
+Line 28, col 8: Conflicting types (got undef, expected int)
+Line 32, col 8: Unknown symbol a
+Line 32, col 8: Conflicting types (got undef, expected int)
+Line 33, col 3: Unknown symbol statement1
+Line 34, col 3: Unknown symbol statement2
+Line 35, col 3: Unknown symbol statement3
+Line 39, col 3: Unknown symbol statement1
+Line 41, col 3: Unknown symbol statement1
+Line 41, col 19: Unknown symbol statement2
+Line 44, col 2: Conflicting types (got void, expected int)
+===== Global Symbol Table =====
+putchar	int(int)
+getchar	int(void)
+main	int(void)
+
+===== Function main Symbol Table =====
+return	int
+
+Program
+..FuncDefinition
+....Int
+....Id(main)
+....ParamList
+......ParamDeclaration
+........Void
+....FuncBody
+......Call - undef
+........Id(func1) - undef
+........IntLit(1)
+........IntLit(2)
+........IntLit(3)
+......Call - undef
+........Id(func2) - undef
+........Comma
+..........IntLit(1)
+..........IntLit(2)
+........IntLit(3)
+......If
+........Id(a) - undef
+........Store - undef
+..........Id(statement1) - undef
+..........IntLit(1) - int
+........Store - undef
+..........Id(statement2) - undef
+..........IntLit(2) - int
+......If
+........Id(a) - undef
+........Store - undef
+..........Id(statement1) - undef
+..........IntLit(1) - int
+........Null
+......If
+........Id(a) - undef
+........Null
+........Store - undef
+..........Id(statement2) - undef
+..........IntLit(2) - int
+......If
+........Id(a) - undef
+........Null
+........Null
+......While
+........Id(a) - undef
+........Store - undef
+..........Id(statement2) - undef
+..........IntLit(2) - int
+......While
+........Id(a) - undef
+........Null
+......While
+........Id(a) - undef
+........Null
+......While
+........Id(a) - undef
+........StatList
+..........Store - undef
+............Id(statement1) - undef
+............IntLit(1) - int
+..........Store - undef
+............Id(statement2) - undef
+............IntLit(2) - int
+..........Store - undef
+............Id(statement3) - undef
+............IntLit(3) - int
+......Store - undef
+........Id(statement1) - undef
+........IntLit(1) - int
+......StatList
+........Store - undef
+..........Id(statement1) - undef
+..........IntLit(1) - int
+........Store - undef
+..........Id(statement2) - undef
+..........IntLit(2) - int
+......Return
+........IntLit(0) - int
+......Return
+........Null

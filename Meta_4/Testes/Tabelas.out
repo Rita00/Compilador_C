@@ -1,0 +1,72 @@
+Line 3, col 33: Invalid use of void type in declaration
+Line 5, col 6: Invalid use of void type in declaration
+Line 7, col 6: Invalid use of void type in declaration
+Line 7, col 31: Invalid use of void type in declaration
+Line 8, col 10: Invalid use of void type in declaration
+Line 15, col 20: Unknown symbol c
+Line 15, col 21: Operator >= cannot be applied to types undef, int
+Line 15, col 26: Unknown symbol d
+Line 15, col 27: Operator ^ cannot be applied to types undef, int
+Line 15, col 24: Operator && cannot be applied to types int, undef
+Line 15, col 31: Unknown symbol x
+Line 15, col 32: Operator | cannot be applied to types undef, int
+Line 15, col 36: Unknown symbol x
+Line 15, col 37: Operator & cannot be applied to types undef, int
+Line 15, col 34: Operator && cannot be applied to types undef, undef
+Line 15, col 29: Operator || cannot be applied to types undef, undef
+Line 15, col 17: Operator && cannot be applied to types int, undef
+Line 15, col 11: Operator || cannot be applied to types int, undef
+Line 15, col 11: Conflicting types (got undef, expected int)
+Line 17, col 5: Unknown symbol c
+Line 17, col 10: Unknown symbol c
+Line 17, col 9: Operator - cannot be applied to type undef
+Line 18, col 5: Unknown symbol c
+Line 18, col 10: Unknown symbol c
+Line 18, col 9: Operator - cannot be applied to type undef
+Line 18, col 13: Unknown symbol d
+Line 18, col 12: Operator - cannot be applied to type undef
+Line 18, col 11: Operator % cannot be applied to types undef, undef
+Line 23, col 11: Unknown symbol c
+Line 23, col 15: Unknown symbol d
+Line 25, col 3: Unknown symbol e
+Line 30, col 3: Unknown symbol f
+Line 42, col 3: Unknown symbol x
+Line 42, col 7: Unknown symbol y
+Line 46, col 5: Unknown symbol c
+Line 46, col 5: Conflicting types (got undef, expected int)
+Line 50, col 5: Unknown symbol d
+Line 50, col 5: Conflicting types (got undef, expected int)
+Line 51, col 11: Unknown symbol c
+Line 68, col 9: Unknown symbol num
+Line 68, col 13: Operator == cannot be applied to types undef, int
+Line 80, col 12: Wrong number of arguments to function factorial (got 2, required 1)
+Line 83, col 2: Unknown symbol func1
+Line 85, col 2: Unknown symbol func2
+Line 88, col 3: Unknown symbol statement1
+Line 90, col 3: Unknown symbol statement2
+Line 94, col 3: Unknown symbol statement1
+Line 98, col 3: Unknown symbol statement2
+Line 104, col 3: Unknown symbol statement2
+Line 114, col 3: Unknown symbol statement1
+Line 115, col 3: Unknown symbol statement2
+Line 116, col 3: Unknown symbol statement3
+Line 120, col 3: Unknown symbol statement1
+Line 122, col 3: Unknown symbol statement1
+Line 122, col 19: Unknown symbol statement2
+Line 123, col 10: Unknown symbol ctoi
+Line 126, col 6: Wrong number of arguments to function tail_recursive_fac (got 1, required 2)
+Line 130, col 2: Conflicting types (got void, expected int)
+Line 139, col 9: Unknown symbol o
+Line 139, col 12: Unknown symbol e
+Line 139, col 10: Operator == cannot be applied to types undef, undef
+Line 141, col 16: Unknown symbol abcd
+Line 141, col 16: Conflicting types (got undef, expected int)
+Line 149, col 6: Wrong number of arguments to function chama (got 1, required 0)
+Line 156, col 10: Symbol a already defined
+Line 163, col 16: Unknown symbol r
+Line 174, col 18: Unknown symbol e
+Line 174, col 19: Operator == cannot be applied to types undef, int
+Line 201, col 9: Unknown symbol weird_char
+Line 201, col 26: Operator < cannot be applied to types undef, char
+Line 276, col 8: Conflicting types (got double(int), expected double(double))
+Line 277, col 5: Conflicting types (got int(int), expected
