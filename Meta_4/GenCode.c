@@ -1,7 +1,6 @@
 #include "symbol_table.h"
 #include "GenCode.h"
 
-
 void treatuppernodes(AST_Node root) {
     if (strcmp(root->token, "Declaration") == 0) {
         caseDeclGlobal(root);
@@ -53,8 +52,14 @@ void genParamList(AST_Node node) {
         AST_Node paraDec = node->children[i];
         type = defineType(paraDec->children[0]->token);
         char *id = getLiteral(paraDec->children[1]->token);
-        printf("\t%%%d = alloca %s, align 4\n", i + 1, type);
-        printf("\tstore %s %%%s, %s* %%%d, align 4\n", type, id, type, i + 1);
+        if (strcmp(type, "double") == 0) {
+            printf("\t%%%d = alloca %s, align 8\n", i + 1, type);
+            printf("\tstore %s %%%s, %s* %%%d, align 8\n", type, id, type, i + 1);
+        } else {
+            printf("\t%%%d = alloca %s, align 4\n", i + 1, type);
+            printf("\tstore %s %%%s, %s* %%%d, align 4\n", type, id, type, i + 1);
+        }
+
     }
 }
 
@@ -65,10 +70,10 @@ char *caseParamList(AST_Node node) {
         if (paraDec->n_children > 1) {
             char *type = defineType(paraDec->children[0]->token);
             char *id = getLiteral(paraDec->children[1]->token);
-            if (i == 0){
+            if (i == 0) {
                 res = (char *) calloc(strlen(type) + strlen(id) + 2, 1);
                 sprintf(res, "%s %s", type, id);
-            } else{
+            } else {
                 char *aux = (char *) calloc(strlen(res) + strlen(type) + strlen(id) + 4, 1);
                 sprintf(aux, "%s, %s %s", res, type, id);
                 free(res);
@@ -102,7 +107,9 @@ void caseDeclLocal(AST_Node node) {
     printf("\t%%%s = alloca %s, align 4\n", id, type);
     if (node->n_children == 3) {
         char *value = getLiteral(node->children[2]->token);
-        printf("\tstore %s %s, %s* %%%s, align 4\n", type, value, type, id); // TODO Verificar se align é 4 ou 8
+        if (strcmp(type, "double") == 0)
+            printf("\tstore %s %s, %s* %%%s, align 8\n", type, id, type, id);
+        else printf("\tstore %s %s, %s* %%%s, align 4\n", type, id, type, id);
         free(value);
     }
     free(type);
@@ -115,10 +122,14 @@ void caseStoreLocal(AST_Node node, AST_Node paramListNode) {
     if (id != NULL) {
         int res = isParam(node->children[0], paramListNode);
         if (res)
-            printf("\tstore %s %s, %s* %%%d, align 4\n", type, id, type, res); // TODO Verificar se align é 4 ou 8
+            if (strcmp(type, "double") == 0)
+                printf("\tstore %s %s, %s* %%%d, align 8\n", type, id, type, res);
+            else printf("\tstore %s %s, %s* %%%d, align 4\n", type, id, type, res);
         else {
             char *value = getLiteral(node->children[0]->token);
-            printf("\tstore %s %s, %s* %%%s, align 4\n", type, id, type, value); // TODO Verificar se align é 4 ou 8
+            if (strcmp(type, "double") == 0)
+                printf("\tstore %s %s, %s* %%%s, align 8\n", type, id, type, value);
+            else printf("\tstore %s %s, %s* %%%s, align 4\n", type, id, type, value);
         }
         free(id);
     }
@@ -137,7 +148,7 @@ int isParam(AST_Node node, AST_Node paramListNode) {
     return 0;
 }
 
-char* getLiteral(char *literal) {
+char *getLiteral(char *literal) {
     int size;
     if (strncmp(literal, "IntLit", strlen("IntLit")) == 0) {
         size = strlen("IntLit");
@@ -152,8 +163,6 @@ char* getLiteral(char *literal) {
     strncpy(value, literal + size + 1, strlen(literal) - size - 2);
     return value;
 }
-
-
 
 char *defineType(char *type) {
     if (strcmp(type, "Double") == 0 || strcmp(type, "double") == 0) return strdup("double");
