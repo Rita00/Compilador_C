@@ -1,7 +1,3 @@
-//
-// Created by bruge on 10/20/2020.
-//
-
 #ifndef DYNAMICARRAY_VECTOR_H
 #define DYNAMICARRAY_VECTOR_H
 
@@ -28,4 +24,4 @@ void printArray(vector v);
 
 void freeArray(vector *v);
 
-#endif //DYNAMICARRAY_VECTOR_H
+#endif
