@@ -20,46 +20,41 @@ void genCode(AST_Node root) {
 
 void caseDeclGlobal(AST_Node node) {
     char *id = getLiteral(node->children[1]->token);
-    char *type = defineType(node->children[0]->token);
+    char **ArrayType = defineType(node->children[0]->token);
     if (node->n_children < 3)
-        printf("@%s = common global %s 0\n", id, type);
+        printf("@%s = common global %s 0\n", id, ArrayType[0]);
     else {
         char *value = getLiteral(node->children[2]->token);
-        printf("@%s = global %s %s\n", id, type, value);
+        printf("@%s = global %s %s\n", id, ArrayType[0], value);
         free(value);
     }
     free(id);
-    free(type);
+    freeArrayDefType(ArrayType);
 }
 
 void caseFuncDef(AST_Node node) {
     char *id = getLiteral(node->children[1]->token);
-    char *type = defineType(node->children[0]->token);
+    char **ArrayType = defineType(node->children[0]->token);
     char *param_list = caseParamList(node->children[2]);
     if (param_list != NULL) {
-        printf("Define %s @%s (%s) #0\n", type, id, param_list);
+        printf("Define %s @%s (%s) #0\n", ArrayType[0], id, param_list);
         genParamList(node->children[2]);
-    } else printf("Define %s @%s () #0\n", type, id);
+    } else printf("Define %s @%s () #0\n", ArrayType[0], id);
 
-    free(type);
+    freeArrayDefType(ArrayType);
     free(param_list);
     free(id);
 }
 
 void genParamList(AST_Node node) {
-    char *type;
+    char **ArrayType;
     for (int i = 0; i < node->n_children; i++) {
         AST_Node paraDec = node->children[i];
-        type = defineType(paraDec->children[0]->token);
+        ArrayType = defineType(paraDec->children[0]->token);
         char *id = getLiteral(paraDec->children[1]->token);
-        if (strcmp(type, "double") == 0) {
-            printf("\t%%%d = alloca %s, align 8\n", i + 1, type);
-            printf("\tstore %s %%%s, %s* %%%d, align 8\n", type, id, type, i + 1);
-        } else {
-            printf("\t%%%d = alloca %s, align 4\n", i + 1, type);
-            printf("\tstore %s %%%s, %s* %%%d, align 4\n", type, id, type, i + 1);
-        }
-
+        printf("\t%%%d = alloca %s, align %s\n", i + 1, ArrayType[0], ArrayType[1]);
+        printf("\tstore %s %%%s, %s* %%%d, align %s\n", ArrayType[0], id, ArrayType[0], i + 1, ArrayType[1]);
+        freeArrayDefType(ArrayType);
     }
 }
 
@@ -68,19 +63,19 @@ char *caseParamList(AST_Node node) {
     for (int i = 0; i < node->n_children; i++) {
         AST_Node paraDec = node->children[i];
         if (paraDec->n_children > 1) {
-            char *type = defineType(paraDec->children[0]->token);
+            char **ArrayType = defineType(paraDec->children[0]->token);
             char *id = getLiteral(paraDec->children[1]->token);
             if (i == 0) {
-                res = (char *) calloc(strlen(type) + strlen(id) + 2, 1);
-                sprintf(res, "%s %s", type, id);
+                res = (char *) calloc(strlen(ArrayType[0]) + strlen(id) + 2, 1);
+                sprintf(res, "%s %s", ArrayType[0], id);
             } else {
-                char *aux = (char *) calloc(strlen(res) + strlen(type) + strlen(id) + 4, 1);
-                sprintf(aux, "%s, %s %s", res, type, id);
+                char *aux = (char *) calloc(strlen(res) + strlen(ArrayType[0]) + strlen(id) + 4, 1);
+                sprintf(aux, "%s, %s %s", res, ArrayType[0], id);
                 free(res);
                 res = aux;
             }
             free(id);
-            free(type);
+            freeArrayDefType(ArrayType);
         } else {
             return NULL;
         }
@@ -102,38 +97,32 @@ void genCodeFuncBody(AST_Node node, AST_Node paramListNode) {
 }
 
 void caseDeclLocal(AST_Node node) {
-    char *type = defineType(node->children[0]->token);
+    char **ArrayType = defineType(node->children[0]->token);
     char *id = getLiteral(node->children[1]->token);
-    printf("\t%%%s = alloca %s, align 4\n", id, type);
+    printf("\t%%%s = alloca %s, align %s\n", id, ArrayType[0], ArrayType[1]);
     if (node->n_children == 3) {
         char *value = getLiteral(node->children[2]->token);
-        if (strcmp(type, "double") == 0)
-            printf("\tstore %s %s, %s* %%%s, align 8\n", type, id, type, id);
-        else printf("\tstore %s %s, %s* %%%s, align 4\n", type, id, type, id);
+        printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], id, ArrayType[0], id, ArrayType[1]);
         free(value);
     }
-    free(type);
+    freeArrayDefType(ArrayType);
     free(id);
 }
 
 void caseStoreLocal(AST_Node node, AST_Node paramListNode) {
-    char *type = defineType(node->children[0]->expType);
+    char **ArrayType = defineType(node->children[0]->expType);
     char *id = getLiteral(node->children[1]->token);
     if (id != NULL) {
         int res = isParam(node->children[0], paramListNode);
         if (res)
-            if (strcmp(type, "double") == 0)
-                printf("\tstore %s %s, %s* %%%d, align 8\n", type, id, type, res);
-            else printf("\tstore %s %s, %s* %%%d, align 4\n", type, id, type, res);
+            printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], id, ArrayType[0], res, ArrayType[1]);
         else {
             char *value = getLiteral(node->children[0]->token);
-            if (strcmp(type, "double") == 0)
-                printf("\tstore %s %s, %s* %%%s, align 8\n", type, id, type, value);
-            else printf("\tstore %s %s, %s* %%%s, align 4\n", type, id, type, value);
+            printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], id, ArrayType[0], value, ArrayType[1]);
         }
         free(id);
     }
-    free(type);
+    freeArrayDefType(ArrayType);
 }
 
 int isParam(AST_Node node, AST_Node paramListNode) {
@@ -164,7 +153,21 @@ char *getLiteral(char *literal) {
     return value;
 }
 
-char *defineType(char *type) {
-    if (strcmp(type, "Double") == 0 || strcmp(type, "double") == 0) return strdup("double");
-    else return strdup("i32");
+char **defineType(char *type) {
+    char **res = calloc(sizeof(char *), 2);
+    if (strcmp(type, "Double") == 0 || strcmp(type, "double") == 0) {
+        res[0] = strdup("double");
+        res[1] = strdup("8");
+        return res;
+    } else {
+        res[0] = strdup("i32");
+        res[1] = strdup("4");
+        return res;
+    }
+}
+
+void freeArrayDefType(char **array) {
+    free(array[0]);
+    free(array[1]);
+    free(array);
 }

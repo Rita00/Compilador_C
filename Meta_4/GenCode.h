@@ -15,12 +15,14 @@ void caseDeclGlobal(AST_Node node);
 
 void caseDeclLocal(AST_Node node);
 
-char *defineType(char *type);
+char **defineType(char *type);
 
 void caseStoreLocal(AST_Node node, AST_Node paramListNode);
 
 int isParam(AST_Node node, AST_Node paramListNode);
 
 char* getLiteral(char *literal);
+
+void freeArrayDefType(char **array);
 
 #endif
