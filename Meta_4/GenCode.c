@@ -1,5 +1,8 @@
 #include "symbol_table.h"
 #include "GenCode.h"
+#include "vector.h"
+
+vector ArrayVarLocal;
 
 void treatuppernodes(AST_Node root) {
     if (strcmp(root->token, "Declaration") == 0) {
@@ -11,6 +14,7 @@ void treatuppernodes(AST_Node root) {
 }
 
 void genCode(AST_Node root) {
+    startArray(&ArrayVarLocal);
     printf("declare i32 @getchar()\n");
     printf("declare i32 @putchar(i32)\n");
     for (int i = 0; i < root->n_children; i++) {
@@ -84,7 +88,6 @@ char *caseParamList(AST_Node node) {
 }
 
 void genCodeFuncBody(AST_Node node, AST_Node paramListNode) {
-
     for (int i = 0; i < node->n_children; i++) {
         genCodeFuncBody(node->children[i], paramListNode);
     }
@@ -94,15 +97,17 @@ void genCodeFuncBody(AST_Node node, AST_Node paramListNode) {
     } else if (strcmp(node->token, "Store") == 0) {
         caseStoreLocal(node, paramListNode);
     }
+    freeArray(&ArrayVarLocal);
 }
 
 void caseDeclLocal(AST_Node node) {
     char **ArrayType = defineType(node->children[0]->token);
     char *id = getLiteral(node->children[1]->token);
+    appendArray(&ArrayVarLocal, id);
     printf("\t%%%s = alloca %s, align %s\n", id, ArrayType[0], ArrayType[1]);
     if (node->n_children == 3) {
         char *value = getLiteral(node->children[2]->token);
-        printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], id, ArrayType[0], id, ArrayType[1]);
+        printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
         free(value);
     }
     freeArrayDefType(ArrayType);
@@ -118,7 +123,10 @@ void caseStoreLocal(AST_Node node, AST_Node paramListNode) {
             printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], id, ArrayType[0], res, ArrayType[1]);
         else {
             char *value = getLiteral(node->children[0]->token);
-            printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], id, ArrayType[0], value, ArrayType[1]);
+            if(searchArray(&ArrayVarLocal, value))
+                printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], id, ArrayType[0], value, ArrayType[1]);
+            else
+                printf("\tstore %s %s, %s* @%s, align %s\n", ArrayType[0], id, ArrayType[0], value, ArrayType[1]);
         }
         free(id);
     }
