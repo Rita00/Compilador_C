@@ -37,6 +37,8 @@ char* isArit(AST_Node node);
 
 void genReturn(AST_Node node);
 
+char checkIfReturn(AST_Node node);
+
 void freeArrayDefType(char **array);
 
 #endif

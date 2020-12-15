@@ -2,6 +2,8 @@
 #include "GenCode.h"
 #include "vector.h"
 
+//TODO falta rever return, nao esta a dar quando há realmente um return
+
 void lowerString(char *str);
 
 vector ArrayVarLocal;
@@ -262,8 +264,8 @@ int isParam(AST_Node node, AST_Node paramListNode) {
 
 void caseCallOnStore(AST_Node node) {
     char **ArrayType = defineType(node->children[0]->expType);
-    char *id = getLiteral(node->children[0]->token);
-    printf("\tstore %s %d, %s* @%s, align %s\n", ArrayType[0], n_var, ArrayType[0], id, ArrayType[1]);
+    char *id = getLiteral(node->parent->children[0]->token);
+    printf("\tstore %s %%%d, %s* @%s, align %s\n", ArrayType[0], n_var, ArrayType[0], id, ArrayType[1]);
 }
 
 char *getLiteral(char *literal) {
@@ -311,8 +313,9 @@ char *isArit(AST_Node node) {
         res = strdup("mul");
     else if (strcmp(node->token, "Div") == 0)
         res = strdup("sdiv");
-    if (strcmp(node->token, "Mod") == 0)
+    else if (strcmp(node->token, "Mod") == 0)
         res = strdup("srem");
+    else res = NULL;
     return res;
 }
 
@@ -342,6 +345,7 @@ void genReturn(AST_Node node) {
             printf("\tret %s %%%d\n", ArrayType[0], n_var);
     }
 }
+
 
 void freeArrayDefType(char **array) {
     free(array[0]);
