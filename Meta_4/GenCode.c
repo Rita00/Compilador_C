@@ -179,7 +179,11 @@ void caseDeclLocal(AST_Node node) {
     printf("\t%%%s = alloca %s, align %s\n", id, ArrayType[0], ArrayType[1]);
     if (node->n_children == 3) {
         char *value = getLiteral(node->children[2]->token);
-        printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
+        if (strcmp(node->children[2]->token, "Minus") == 0 || strcmp(node->children[2]->token, "Plus") == 0) {
+            value = getUnary(node->children[2]);
+            printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
+        } else
+            printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
         free(value);
     }
     freeArrayDefType(ArrayType);
@@ -192,13 +196,26 @@ void caseStoreLocal(AST_Node node, AST_Node paramListNode) {
     if (value != NULL) {
         int res = isParam(node->children[0], paramListNode);
         if (res)
-            printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], res, ArrayType[1]);
+            if (strcmp(node->children[1]->token, "Minus") == 0 || strcmp(node->children[1]->token, "Plus") == 0) {
+                value = getUnary(node->children[1]);
+                printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], res, ArrayType[1]);
+            } else
+                printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], res, ArrayType[1]);
         else {
             char *id = getLiteral(node->children[0]->token);
-            if (searchArray(&ArrayVarLocal, value))
-                printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
-            else
-                printf("\tstore %s %s, %s* @%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
+            if (searchArray(&ArrayVarLocal, value)) {
+                if (strcmp(node->children[1]->token, "Minus") == 0 || strcmp(node->children[1]->token, "Plus") == 0) {
+                    value = getUnary(node->children[1]);
+                    printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], res, ArrayType[1]);
+                } else
+                    printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
+            } else {
+                if (strcmp(node->children[1]->token, "Minus") == 0 || strcmp(node->children[1]->token, "Plus") == 0) {
+                    value = getUnary(node->children[1]);
+                    printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], res, ArrayType[1]);
+                } else
+                    printf("\tstore %s %s, %s* @%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
+            }
             free(id);
         }
         free(value);
@@ -239,6 +256,15 @@ char *getLiteral(char *literal) {
     } else return NULL;
     char *value = (char *) calloc(strlen(literal) - size - 1, sizeof(char));
     strncpy(value, literal + size + 1, strlen(literal) - size - 2);
+    return value;
+}
+
+char* getUnary(AST_Node node) {
+    char *value = (char *) calloc(strlen(node->token) + 2, sizeof(char));
+    if (strcmp(node->token, "Minus") == 0) {
+        sprintf(value, "-%s", getLiteral(node->children[0]->token));
+    } else if (strcmp(node->token, "Plus") == 0)
+        return getLiteral(node->children[0]->token);
     return value;
 }
 

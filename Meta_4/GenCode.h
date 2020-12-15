@@ -29,6 +29,8 @@ void caseCallOnStore(AST_Node node);
 
 char* getLiteral(char *literal);
 
+char* getUnary(AST_Node node);
+
 void freeArrayDefType(char **array);
 
 #endif
