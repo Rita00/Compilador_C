@@ -33,10 +33,10 @@ void caseDeclGlobal(AST_Node node) {
     char *id = getLiteral(node->children[1]->token);
     char **ArrayType = defineType(node->children[0]->token);
     if (node->n_children < 3)
-        printf("@%s = common global %s 0\n", id, ArrayType[0]);
+        printf("@%s = common global %s 0, align %s\n", id, ArrayType[0], ArrayType[1]);
     else {
         char *value = getLiteral(node->children[2]->token);
-        printf("@%s = global %s %s\n", id, ArrayType[0], value);
+        printf("@%s = global %s %s, align %s\n", id, ArrayType[0], value, ArrayType[1]);
         free(value);
     }
     free(id);
@@ -201,8 +201,10 @@ void caseStoreLocal(AST_Node node, AST_Node paramListNode) {
     char **ArrayType;
     char *id = getLiteral(node->children[0]->token);
     char *value = getLiteral(node->children[1]->token);
+    int res = 0;
+    if (paramListNode->n_children > 1)
+        res = isParam(node->children[0], paramListNode);
     if (value != NULL) {
-        int res = isParam(node->children[0], paramListNode);
         ArrayType = defineType(node->children[0]->expType);
         if (res)
             if (strcmp(node->children[1]->token, "Minus") == 0 || strcmp(node->children[1]->token, "Plus") == 0) {
@@ -229,7 +231,6 @@ void caseStoreLocal(AST_Node node, AST_Node paramListNode) {
         freeArrayDefType(ArrayType);
         free(value);
     } else if (value == NULL && isArit(node->children[1])) {
-        int res = isParam(node->children[0], paramListNode);
         caseArit(node->children[1], isArit(node->children[1]));
         free(isArit(node->children[1]));
         ArrayType = defineType(node->children[1]->token);
