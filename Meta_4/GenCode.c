@@ -3,6 +3,7 @@
 #include "vector.h"
 
 vector ArrayVarLocal;
+int n_var = 0;
 
 void treatuppernodes(AST_Node root) {
     if (strcmp(root->token, "Declaration") == 0) {
@@ -10,6 +11,7 @@ void treatuppernodes(AST_Node root) {
     } else if (strcmp(root->token, "FuncDefinition") == 0) {
         caseFuncDef(root);
         genCodeFuncBody(root->children[3], root->children[2]);
+        freeArray(&ArrayVarLocal);
     }
 }
 
@@ -67,6 +69,7 @@ char *caseParamList(AST_Node node) {
     for (int i = 0; i < node->n_children; i++) {
         AST_Node paraDec = node->children[i];
         if (paraDec->n_children > 1) {
+            n_var++;
             char **ArrayType = defineType(paraDec->children[0]->token);
             char *id = getLiteral(paraDec->children[1]->token);
             if (i == 0) {
@@ -96,8 +99,77 @@ void genCodeFuncBody(AST_Node node, AST_Node paramListNode) {
         caseDeclLocal(node);
     } else if (strcmp(node->token, "Store") == 0) {
         caseStoreLocal(node, paramListNode);
+    } else if (strcmp(node->token, "Call") == 0) {
+        caseCall(node, paramListNode);
     }
-    freeArray(&ArrayVarLocal);
+}
+
+char* genLoad(AST_Node node, AST_Node paramListNode) {
+    char *aux;
+    char **ArrayTypeChild;
+    char *id;
+    int res;
+    char *printParam = NULL;
+    for (int i = 1; i < node->n_children; i++) {
+        ArrayTypeChild = defineType(node->children[i]->token);
+        id = getLiteral(node->children[i]->token);
+        if (searchArray(&ArrayVarLocal, id)){
+            n_var++;
+            printf("\t%%%d = load %s, %s* %%%s, align %s\n", n_var, ArrayTypeChild[0], ArrayTypeChild[0], id, ArrayTypeChild[1]);
+            if (i == 1) {
+                printParam = (char *) calloc(strlen(ArrayTypeChild[0]) + strlen(id) + 3, 1);
+                sprintf(printParam, "%s %%%d", ArrayTypeChild[0], n_var);
+            } else {
+                aux = (char *) calloc(strlen(printParam) + strlen(ArrayTypeChild[0]) + strlen(id) + 5, 1);
+                sprintf(aux, "%s, %s %%%d", printParam, ArrayTypeChild[0], n_var);
+                free(printParam);
+                printParam = aux;
+            }
+        }
+        else {
+            res = isParam(node->children[i], paramListNode);
+            if (res) {
+                n_var++;
+                printf("\t%%%d = load %s, %s* %%%d, align %s\n", n_var, ArrayTypeChild[0], ArrayTypeChild[0], res, ArrayTypeChild[1]);
+                if (i == 1) {
+                    printParam = (char *) calloc(strlen(ArrayTypeChild[0]) + strlen(id) + 3, 1);
+                    sprintf(printParam, "%s %%%d", ArrayTypeChild[0], n_var);
+                } else {
+                    aux = (char *) calloc(strlen(printParam) + strlen(ArrayTypeChild[0]) + strlen(id) + 5, 1);
+                    sprintf(aux, "%s, %s %%%d", printParam, ArrayTypeChild[0], n_var);
+                    free(printParam);
+                    printParam = aux;
+                }
+            } else {
+                n_var++;
+                printf("\t%%%d = load %s, %s* @%s, align %s\n", n_var, ArrayTypeChild[0], ArrayTypeChild[0], id, ArrayTypeChild[1]);
+                if (i == 1) {
+                    printParam = (char *) calloc(strlen(ArrayTypeChild[0]) + strlen(id) + 3, 1);
+                    sprintf(printParam, "%s %%%d", ArrayTypeChild[0], n_var);
+                } else {
+                    aux = (char *) calloc(strlen(printParam) + strlen(ArrayTypeChild[0]) + strlen(id) + 5, 1);
+                    sprintf(aux, "%s, %s %%%d", printParam, ArrayTypeChild[0], n_var);
+                    free(printParam);
+                    printParam = aux;
+                }
+            }
+        }
+    }
+    return printParam;
+}
+
+void caseCall(AST_Node node, AST_Node paramListNode){
+    char *printCall;
+    char **ArrayType = defineType(node->children[0]->token);
+    char *id = getLiteral(node->children[0]->token);
+    if(node->n_children > 1) {
+        printCall = genLoad(node, paramListNode);
+        n_var++;
+        printf("\t%%%d = call %s @%s(%s)\n", n_var, ArrayType[0], id, printCall);
+    } else {
+        n_var++;
+        printf("\t%%%d = call %s @%s()\n", n_var, ArrayType[0], id);
+    }
 }
 
 void caseDeclLocal(AST_Node node) {
@@ -116,19 +188,22 @@ void caseDeclLocal(AST_Node node) {
 
 void caseStoreLocal(AST_Node node, AST_Node paramListNode) {
     char **ArrayType = defineType(node->children[0]->expType);
-    char *id = getLiteral(node->children[1]->token);
-    if (id != NULL) {
+    char *value = getLiteral(node->children[1]->token);
+    if (value != NULL) {
         int res = isParam(node->children[0], paramListNode);
         if (res)
-            printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], id, ArrayType[0], res, ArrayType[1]);
+            printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], res, ArrayType[1]);
         else {
-            char *value = getLiteral(node->children[0]->token);
-            if(searchArray(&ArrayVarLocal, value))
-                printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], id, ArrayType[0], value, ArrayType[1]);
+            char *id = getLiteral(node->children[0]->token);
+            if (searchArray(&ArrayVarLocal, value))
+                printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
             else
-                printf("\tstore %s %s, %s* @%s, align %s\n", ArrayType[0], id, ArrayType[0], value, ArrayType[1]);
+                printf("\tstore %s %s, %s* @%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
+            free(id);
         }
-        free(id);
+        free(value);
+    } else {
+        caseCallOnStore(node->children[1]);
     }
     freeArrayDefType(ArrayType);
 }
@@ -143,6 +218,12 @@ int isParam(AST_Node node, AST_Node paramListNode) {
         }
     }
     return 0;
+}
+
+void caseCallOnStore(AST_Node node) {
+    char **ArrayType = defineType(node->children[0]->expType);
+    char *id = getLiteral(node->children[0]->token);
+    printf("\tstore %s %d, %s* @%s, align %s\n", ArrayType[0], n_var, ArrayType[0], id, ArrayType[1]);
 }
 
 char *getLiteral(char *literal) {
