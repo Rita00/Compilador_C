@@ -1,12 +1,9 @@
 int b = 1;
-int d;
 
-int main(double c) {
-   int e = 2;
-   d = 2;
+int a(int, int);
+
+int main(int c, double h) {
+   int g = -2;
+   a(g, c);
+   a(b, c);
  }
-
-int ola(int d){
-    int e = 1;
-    d = 1;
-}

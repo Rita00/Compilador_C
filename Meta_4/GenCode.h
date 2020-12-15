@@ -31,6 +31,12 @@ char* getLiteral(char *literal);
 
 char* getUnary(AST_Node node);
 
+void caseArit(AST_Node node, char *arit);
+
+char* isArit(AST_Node node);
+
+void genReturn(AST_Node node);
+
 void freeArrayDefType(char **array);
 
 #endif
