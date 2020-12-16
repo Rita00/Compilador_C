@@ -9,6 +9,32 @@ void lowerString(char *str);
 vector ArrayVarLocal;
 int n_var = 0;
 
+void genCodeFuncBody(AST_Node node, AST_Node paramListNode) {
+    for (int i = 0; i < node->n_children; i++) {
+        genCodeFuncBody(node->children[i], paramListNode);
+    }
+
+    char *aux = isArit(node);
+    //tratar este no TODO
+    if (aux) {
+        caseArit(node, aux);
+        free(aux);
+        return;
+    }
+    aux = getLiteral(node->token, paramListNode);
+    if (aux) {
+        node->codeRef = aux;
+    } else if (strcmp(node->token, "Declaration") == 0) {
+        caseDeclLocal(node);
+    } else if (strcmp(node->token, "Store") == 0) {
+        caseStoreLocal(node, paramListNode);
+    } else if (strcmp(node->token, "Call") == 0) {
+        caseCall(node, paramListNode);
+    } else if (strcmp(node->token, "If") == 0) {
+
+    }
+}
+
 void treatuppernodes(AST_Node root) {
     if (strcmp(root->token, "Declaration") == 0) {
         caseDeclGlobal(root);
@@ -32,12 +58,12 @@ void genCode(AST_Node root) {
 }
 
 void caseDeclGlobal(AST_Node node) {
-    char *id = getLiteral(node->children[1]->token);
+    char *id = getLiteral(node->children[1]->token, NULL);
     char **ArrayType = defineType(node->children[0]->token);
     if (node->n_children < 3)
         printf("@%s = common global %s 0, align %s\n", id, ArrayType[0], ArrayType[1]);
     else {
-        char *value = getLiteral(node->children[2]->token);
+        char *value = getLiteral(node->children[2]->token, NULL);
         printf("@%s = global %s %s, align %s\n", id, ArrayType[0], value, ArrayType[1]);
         free(value);
     }
@@ -46,7 +72,7 @@ void caseDeclGlobal(AST_Node node) {
 }
 
 void caseFuncDef(AST_Node node) {
-    char *id = getLiteral(node->children[1]->token);
+    char *id = getLiteral(node->children[1]->token, NULL);
     char **ArrayType = defineType(node->children[0]->token);
     char *param_list = caseParamList(node->children[2]);
     if (param_list != NULL) {
@@ -64,7 +90,7 @@ void genParamList(AST_Node node) {
     for (int i = 0; i < node->n_children; i++) {
         AST_Node paraDec = node->children[i];
         ArrayType = defineType(paraDec->children[0]->token);
-        char *id = getLiteral(paraDec->children[1]->token);
+        char *id = getLiteral(paraDec->children[1]->token, NULL);
         printf("\t%%%d = alloca %s, align %s\n", i + 1, ArrayType[0], ArrayType[1]);
         printf("\tstore %s %%%s, %s* %%%d, align %s\n", ArrayType[0], id, ArrayType[0], i + 1, ArrayType[1]);
         freeArrayDefType(ArrayType);
@@ -78,7 +104,7 @@ char *caseParamList(AST_Node node) {
         if (paraDec->n_children > 1) {
             n_var++;
             char **ArrayType = defineType(paraDec->children[0]->token);
-            char *id = getLiteral(paraDec->children[1]->token);
+            char *id = getLiteral(paraDec->children[1]->token, NULL);
             if (i == 0) {
                 res = (char *) calloc(strlen(ArrayType[0]) + strlen(id) + 3, 1);
                 sprintf(res, "%s %%%s", ArrayType[0], id);
@@ -97,19 +123,6 @@ char *caseParamList(AST_Node node) {
     return res;
 }
 
-void genCodeFuncBody(AST_Node node, AST_Node paramListNode) {
-    for (int i = 0; i < node->n_children; i++) {
-        genCodeFuncBody(node->children[i], paramListNode);
-    }
-    //tratar este no TODO
-    if (strcmp(node->token, "Declaration") == 0) {
-        caseDeclLocal(node);
-    } else if (strcmp(node->token, "Store") == 0) {
-        caseStoreLocal(node, paramListNode);
-    } else if (strcmp(node->token, "Call") == 0) {
-        caseCall(node, paramListNode);
-    }
-}
 
 char *genLoad(AST_Node node, AST_Node paramListNode) {
     char *aux;
@@ -119,7 +132,7 @@ char *genLoad(AST_Node node, AST_Node paramListNode) {
     char *printParam = NULL;
     for (int i = 1; i < node->n_children; i++) {
         ArrayTypeChild = defineType(node->children[i]->token);
-        id = getLiteral(node->children[i]->token);
+        id = getLiteral(node->children[i]->token, paramListNode);
         if (searchArray(&ArrayVarLocal, id)) {
             n_var++;
             printf("\t%%%d = load %s, %s* %%%s, align %s\n", n_var, ArrayTypeChild[0], ArrayTypeChild[0], id, ArrayTypeChild[1]);
@@ -133,7 +146,7 @@ char *genLoad(AST_Node node, AST_Node paramListNode) {
                 printParam = aux;
             }
         } else {
-            res = isParam(node->children[i], paramListNode);
+            res = isParam(node->children[i]->token, paramListNode);
             if (res) {
                 n_var++;
                 printf("\t%%%d = load %s, %s* %%%d, align %s\n", n_var, ArrayTypeChild[0], ArrayTypeChild[0], res, ArrayTypeChild[1]);
@@ -167,7 +180,7 @@ char *genLoad(AST_Node node, AST_Node paramListNode) {
 void caseCall(AST_Node node, AST_Node paramListNode) {
     char *printCall;
     char **ArrayType = defineType(node->children[0]->token);
-    char *id = getLiteral(node->children[0]->token);
+    char *id = getLiteral(node->children[0]->token, paramListNode);
     if (node->n_children > 1) {
         printCall = genLoad(node, paramListNode);
         n_var++;
@@ -180,11 +193,11 @@ void caseCall(AST_Node node, AST_Node paramListNode) {
 
 void caseDeclLocal(AST_Node node) {
     char **ArrayType = defineType(node->children[0]->token);
-    char *id = getLiteral(node->children[1]->token);
+    char *id = getLiteral(node->children[1]->token, NULL);
     appendArray(&ArrayVarLocal, id);
     printf("\t%%%s = alloca %s, align %s\n", id, ArrayType[0], ArrayType[1]);
     if (node->n_children == 3) {
-        char *value = getLiteral(node->children[2]->token);
+        char *value = getLiteral(node->children[2]->token, NULL);
         if (strcmp(node->children[2]->token, "Minus") == 0 || strcmp(node->children[2]->token, "Plus") == 0) {
             value = getUnary(node->children[2]);
             printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
@@ -201,60 +214,19 @@ void caseDeclLocal(AST_Node node) {
 
 void caseStoreLocal(AST_Node node, AST_Node paramListNode) {
     char **ArrayType;
-    char *id = getLiteral(node->children[0]->token);
-    char *value = getLiteral(node->children[1]->token);
-    int res = 0;
-    if (paramListNode->n_children > 1)
-        res = isParam(node->children[0], paramListNode);
-    if (value != NULL) {
-        ArrayType = defineType(node->children[0]->expType);
-        if (res)
-            if (strcmp(node->children[1]->token, "Minus") == 0 || strcmp(node->children[1]->token, "Plus") == 0) {
-                value = getUnary(node->children[1]);
-                printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], res, ArrayType[1]);
-            } else
-                printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], res, ArrayType[1]);
-        else {
-            if (searchArray(&ArrayVarLocal, value)) {
-                if (strcmp(node->children[1]->token, "Minus") == 0 || strcmp(node->children[1]->token, "Plus") == 0) {
-                    value = getUnary(node->children[1]);
-                    printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], res, ArrayType[1]);
-                } else
-                    printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
-            } else {
-                if (strcmp(node->children[1]->token, "Minus") == 0 || strcmp(node->children[1]->token, "Plus") == 0) {
-                    value = getUnary(node->children[1]);
-                    printf("\tstore %s %s, %s* %%%d, align %s\n", ArrayType[0], value, ArrayType[0], res, ArrayType[1]);
-                } else
-                    printf("\tstore %s %s, %s* @%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
-            }
-            free(id);
-        }
-        freeArrayDefType(ArrayType);
-        free(value);
-    } else if (value == NULL && isArit(node->children[1])) {
-        caseArit(node->children[1], isArit(node->children[1]));
-        free(isArit(node->children[1]));
-        ArrayType = defineType(node->children[1]->token);
-        if (res) {
-            printf("\tstore %s %%%d, %s* %%%d, align %s\n", ArrayType[0], n_var, ArrayType[0], res, ArrayType[1]);
-        } else {
-            value = getLiteral(node->children[0]->token);
-            if (searchArray(&ArrayVarLocal, value))
-                printf("\tstore %s %%%d, %s* %%%s, align %s\n", ArrayType[0], n_var, ArrayType[0], value, ArrayType[1]);
-            else printf("\tstore %s %%%d, %s* @%s, align %s\n", ArrayType[0], n_var, ArrayType[0], id, ArrayType[1]);
-        }
-        freeArrayDefType(ArrayType);
-    } else {
-        caseCallOnStore(node->children[1]);
-    }
+    char *value = getLiteral(node->children[1]->token, NULL);
+    ArrayType = defineType(node->children[0]->expType);
+    printf("\tstore %s %s, %s* %s, align %s\n", ArrayType[0], node->children[1]->codeRef, ArrayType[0], node->children[0]->codeRef, ArrayType[1]);
+    freeArrayDefType(ArrayType);
+    free(value);
 }
 
-int isParam(AST_Node node, AST_Node paramListNode) {
+
+int isParam(char *token, AST_Node paramListNode) {
     int id;
     for (int i = 0; i < paramListNode->n_children; i++) {
         AST_Node paramDec = paramListNode->children[i];
-        if (strcmp(node->token, paramDec->children[1]->token) == 0) {
+        if (strcmp(token, paramDec->children[1]->token) == 0) {
             id = i + 1;
             return id;
         }
@@ -264,11 +236,11 @@ int isParam(AST_Node node, AST_Node paramListNode) {
 
 void caseCallOnStore(AST_Node node) {
     char **ArrayType = defineType(node->children[0]->expType);
-    char *id = getLiteral(node->parent->children[0]->token);
+    char *id = getLiteral(node->parent->children[0]->token, NULL);
     printf("\tstore %s %%%d, %s* @%s, align %s\n", ArrayType[0], n_var, ArrayType[0], id, ArrayType[1]);
 }
 
-char *getLiteral(char *literal) {
+char *getLiteral(char *literal, AST_Node paramListNode) {
     int size;
     if (strncmp(literal, "IntLit", strlen("IntLit")) == 0) {
         size = strlen("IntLit");
@@ -278,6 +250,25 @@ char *getLiteral(char *literal) {
         size = strlen("RealLit");
     } else if (strncmp(literal, "Id", strlen("Id")) == 0) {
         size = strlen("Id");
+        if (paramListNode != NULL) {
+            char *value = getLiteral(literal, NULL);
+            int res = 0;
+            if (paramListNode->children[0]->children[0]->n_children > 1) //check if current function has parameters
+                res = isParam(literal, paramListNode);
+            if (res) { //left is argument
+                char aux[10];
+                sprintf(aux, "%%%d", res);
+                return strdup(aux); //posicao do argumento (res)
+            } else if (searchArray(&ArrayVarLocal, value)) { //left is local
+                char aux[10];
+                sprintf(aux, "%%%s", value);
+                return strdup(aux); //posicao do argumento (res)
+            } else { //left is global
+                char aux[10];
+                sprintf(aux, "@%s", value);
+                return strdup(aux); //posicao do argumento (res)
+            }
+        }
     } else return NULL;
     char *value = (char *) calloc(strlen(literal) - size - 1, sizeof(char));
     strncpy(value, literal + size + 1, strlen(literal) - size - 2);
@@ -287,27 +278,34 @@ char *getLiteral(char *literal) {
 char *getUnary(AST_Node node) {
     char *value = (char *) calloc(strlen(node->token) + 2, sizeof(char));
     if (strcmp(node->token, "Minus") == 0) {
-        sprintf(value, "-%s", getLiteral(node->children[0]->token));
+        sprintf(value, "-%s", getLiteral(node->children[0]->token, NULL));
     } else if (strcmp(node->token, "Plus") == 0)
-        return getLiteral(node->children[0]->token);
+        return getLiteral(node->children[0]->token, NULL);
     return value;
 }
 
 void caseArit(AST_Node node, char *arit) {
+    //TODO change op types
     n_var++;
     char **ArrayType = defineType(node->expType);
-    if (strcmp(node->children[0]->token, "Minus") == 0) {
-        printf("\t%%%d = %s %s %s, %s\n", n_var, arit, ArrayType[0], getUnary(node->children[0]), getLiteral(node->children[1]->token));
-    } else if (strcmp(node->children[1]->token, "Plus") == 0) {
-        printf("\t%%%d = %s %s %s, %s\n", n_var, arit, ArrayType[0], getLiteral(node->children[0]->token), getUnary(node->children[1]));
-    } else printf("\t%%%d = %s %s %s, %s\n", n_var, arit, ArrayType[0], getLiteral(node->children[0]->token), getLiteral(node->children[1]->token));
+    if (strcmp(node->token, "Minus") == 0) {
+        printf("\t%%%d = %s %s 0, %s\n", n_var, arit, ArrayType[0], node->children[0]->codeRef);
+        char aux[10];
+        sprintf(aux, "%%%d", n_var);
+        node->codeRef = strdup(aux);
+    } else {
+        printf("\t%%%d = %s %s %s, %s\n", n_var, arit, ArrayType[0], node->children[0]->codeRef, node->children[1]->codeRef);
+        char aux[10];
+        sprintf(aux, "%%%d", n_var);
+        node->codeRef = strdup(aux);
+    }
 }
 
 char *isArit(AST_Node node) {
     char *res;
     if (strcmp(node->token, "Add") == 0)
         res = strdup("add");
-    else if (strcmp(node->token, "Sub") == 0)
+    else if (strcmp(node->token, "Sub") == 0 || strcmp(node->token, "Minus") == 0)
         res = strdup("sub");
     else if (strcmp(node->token, "Mul") == 0)
         res = strdup("mul");
@@ -344,6 +342,10 @@ void genReturn(AST_Node node) {
         if (strcmp(node->token, "Int") == 0)
             printf("\tret %s %%%d\n", ArrayType[0], n_var);
     }
+}
+
+void caseIf(AST_Node node, AST_Node paramListNode) {
+
 }
 
 

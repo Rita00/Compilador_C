@@ -20,6 +20,7 @@ struct _ast_Node {
     char** tparam;
     int n_linha;
     int n_coluna;
+    char *codeRef;
 };
 
 AST_Node create_node(char *token, int n_linha, int n_coluna);
