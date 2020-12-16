@@ -2,8 +2,6 @@
 #include "GenCode.h"
 #include "vector.h"
 
-//TODO falta rever return, nao esta a dar quando há realmente um return
-
 void lowerString(char *str);
 
 vector ArrayVarLocal;
@@ -17,7 +15,7 @@ void genCodeFuncBody(AST_Node node, AST_Node paramListNode) {
     char *aux = isArit(node);
     //tratar este no TODO
     if (aux) {
-        caseArit(node, aux);
+        caseArit(node, aux, paramListNode);
         free(aux);
         return;
     }
@@ -25,13 +23,13 @@ void genCodeFuncBody(AST_Node node, AST_Node paramListNode) {
     if (aux) {
         node->codeRef = aux;
     } else if (strcmp(node->token, "Declaration") == 0) {
-        caseDeclLocal(node);
+        caseDeclLocal(node, paramListNode);
     } else if (strcmp(node->token, "Store") == 0) {
-        caseStoreLocal(node, paramListNode);
+        caseStoreLocal(node);
     } else if (strcmp(node->token, "Call") == 0) {
         caseCall(node, paramListNode);
-    } else if (strcmp(node->token, "If") == 0) {
-
+    } else if (strcmp(node->token, "Return") == 0) {
+        caseReturn(node, paramListNode);
     }
 }
 
@@ -41,7 +39,7 @@ void treatuppernodes(AST_Node root) {
     } else if (strcmp(root->token, "FuncDefinition") == 0) {
         caseFuncDef(root);
         genCodeFuncBody(root->children[3], root->children[2]);
-        genReturn(root->children[0]);
+        genFinalReturn(root->children[0]);
         printf("}\n\n");
         freeArray(&ArrayVarLocal);
         n_var = 0;
@@ -60,9 +58,13 @@ void genCode(AST_Node root) {
 void caseDeclGlobal(AST_Node node) {
     char *id = getLiteral(node->children[1]->token, NULL);
     char **ArrayType = defineType(node->children[0]->token);
-    if (node->n_children < 3)
-        printf("@%s = common global %s 0, align %s\n", id, ArrayType[0], ArrayType[1]);
-    else {
+    if (node->n_children < 3) {
+        if (*ArrayType[1] == '4') {
+            printf("@%s = common global %s 0, align %s\n", id, ArrayType[0], ArrayType[1]);
+        } else {
+            printf("@%s = common global %s 0.0, align %s\n", id, ArrayType[0], ArrayType[1]);
+        }
+    } else {
         char *value = getLiteral(node->children[2]->token, NULL);
         printf("@%s = global %s %s, align %s\n", id, ArrayType[0], value, ArrayType[1]);
         free(value);
@@ -123,56 +125,53 @@ char *caseParamList(AST_Node node) {
     return res;
 }
 
+char *getVarRef(int n) {
+    char aux[10];
+    sprintf(aux, "%%%d", n);
+    return strdup(aux);
+}
+
+char shouldLoad(char *codeRef, AST_Node paramListNode) {
+    if (codeRef[0] == '%' || codeRef[0] == '@') {
+        int aux = 0;
+        sscanf(codeRef, "%%%d", &aux);
+        int n_args; //n_args is 0 if first arg is void
+        n_args = paramListNode->children[0]->n_children == 1 ? 0 : paramListNode->n_children;
+        //not a number ou number <= n_args
+        if (aux == 0 || aux <= n_args) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void caseLoad(AST_Node node, AST_Node paramListNode) {
+    char **ArrayTypeChild = defineType(node->expType);
+    if (shouldLoad(node->codeRef, paramListNode)) {
+        n_var++;
+        printf("\t%%%d = load %s, %s* %s, align %s\n", n_var, ArrayTypeChild[0], ArrayTypeChild[0], node->codeRef, ArrayTypeChild[1]);
+        free(node->codeRef);
+        node->codeRef = getVarRef(n_var);
+        freeArrayDefType(ArrayTypeChild);
+    }
+}
 
 char *genLoad(AST_Node node, AST_Node paramListNode) {
-    char *aux;
     char **ArrayTypeChild;
-    char *id;
-    int res;
     char *printParam = NULL;
     for (int i = 1; i < node->n_children; i++) {
-        ArrayTypeChild = defineType(node->children[i]->token);
-        id = getLiteral(node->children[i]->token, paramListNode);
-        if (searchArray(&ArrayVarLocal, id)) {
-            n_var++;
-            printf("\t%%%d = load %s, %s* %%%s, align %s\n", n_var, ArrayTypeChild[0], ArrayTypeChild[0], id, ArrayTypeChild[1]);
-            if (i == 1) {
-                printParam = (char *) calloc(strlen(ArrayTypeChild[0]) + strlen(id) + 3, 1);
-                sprintf(printParam, "%s %%%d", ArrayTypeChild[0], n_var);
-            } else {
-                aux = (char *) calloc(strlen(printParam) + strlen(ArrayTypeChild[0]) + strlen(id) + 4, 1);
-                sprintf(aux, "%s,%s %%%d", printParam, ArrayTypeChild[0], n_var);
-                free(printParam);
-                printParam = aux;
-            }
+        ArrayTypeChild = defineType(node->children[i]->expType);
+        caseLoad(node->children[i], paramListNode);
+        if (i == 1) {
+            printParam = (char *) calloc(strlen(ArrayTypeChild[0]) + strlen(node->children[i]->codeRef) + 2, 1);
+            sprintf(printParam, "%s %s", ArrayTypeChild[0], node->children[i]->codeRef);
         } else {
-            res = isParam(node->children[i]->token, paramListNode);
-            if (res) {
-                n_var++;
-                printf("\t%%%d = load %s, %s* %%%d, align %s\n", n_var, ArrayTypeChild[0], ArrayTypeChild[0], res, ArrayTypeChild[1]);
-                if (i == 1) {
-                    printParam = (char *) calloc(strlen(ArrayTypeChild[0]) + strlen(id) + 3, 1);
-                    sprintf(printParam, "%s %%%d", ArrayTypeChild[0], n_var);
-                } else {
-                    aux = (char *) calloc(strlen(printParam) + strlen(ArrayTypeChild[0]) + strlen(id) + 4, 1);
-                    sprintf(aux, "%s,%s %%%d", printParam, ArrayTypeChild[0], n_var);
-                    free(printParam);
-                    printParam = aux;
-                }
-            } else {
-                n_var++;
-                printf("\t%%%d = load %s, %s* @%s, align %s\n", n_var, ArrayTypeChild[0], ArrayTypeChild[0], id, ArrayTypeChild[1]);
-                if (i == 1) {
-                    printParam = (char *) calloc(strlen(ArrayTypeChild[0]) + strlen(id) + 3, 1);
-                    sprintf(printParam, "%s %%%d", ArrayTypeChild[0], n_var);
-                } else {
-                    aux = (char *) calloc(strlen(printParam) + strlen(ArrayTypeChild[0]) + strlen(id) + 4, 1);
-                    sprintf(aux, "%s,%s %%%d", printParam, ArrayTypeChild[0], n_var);
-                    free(printParam);
-                    printParam = aux;
-                }
-            }
+            char *aux = (char *) calloc(strlen(printParam) + strlen(ArrayTypeChild[0]) + strlen(node->children[i]->codeRef) + 3, 1);
+            sprintf(aux, "%s,%s %s", printParam, ArrayTypeChild[0], node->children[i]->codeRef);
+            free(printParam);
+            printParam = aux;
         }
+        freeArrayDefType(ArrayTypeChild);
     }
     return printParam;
 }
@@ -184,14 +183,15 @@ void caseCall(AST_Node node, AST_Node paramListNode) {
     if (node->n_children > 1) {
         printCall = genLoad(node, paramListNode);
         n_var++;
-        printf("\t%%%d = call %s @%s(%s)\n", n_var, ArrayType[0], id, printCall);
+        printf("\t%%%d = call %s %s(%s)\n", n_var, ArrayType[0], id, printCall);
     } else {
         n_var++;
-        printf("\t%%%d = call %s @%s()\n", n_var, ArrayType[0], id);
+        printf("\t%%%d = call %s %s()\n", n_var, ArrayType[0], id);
     }
+    node->codeRef = getVarRef(n_var);
 }
 
-void caseDeclLocal(AST_Node node) {
+void caseDeclLocal(AST_Node node, AST_Node paramListNode) {
     char **ArrayType = defineType(node->children[0]->token);
     char *id = getLiteral(node->children[1]->token, NULL);
     appendArray(&ArrayVarLocal, id);
@@ -202,7 +202,7 @@ void caseDeclLocal(AST_Node node) {
             value = getUnary(node->children[2]);
             printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
         } else if (isArit(node->children[2])) {
-            caseArit(node->children[2], isArit(node->children[2]));
+            caseArit(node->children[2], isArit(node->children[2]), paramListNode);
             free(isArit(node->children[2]));
         } else
             printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], value, ArrayType[0], id, ArrayType[1]);
@@ -212,7 +212,7 @@ void caseDeclLocal(AST_Node node) {
     free(id);
 }
 
-void caseStoreLocal(AST_Node node, AST_Node paramListNode) {
+void caseStoreLocal(AST_Node node) {
     char **ArrayType;
     char *value = getLiteral(node->children[1]->token, NULL);
     ArrayType = defineType(node->children[0]->expType);
@@ -245,7 +245,9 @@ char *getLiteral(char *literal, AST_Node paramListNode) {
     if (strncmp(literal, "IntLit", strlen("IntLit")) == 0) {
         size = strlen("IntLit");
     } else if (strncmp(literal, "ChrLit", strlen("ChrLit")) == 0) {
-        size = strlen("ChrLit");
+        char aux[10];
+        sprintf(aux, "%d", literal[8]);
+        return strdup(aux);
     } else if (strncmp(literal, "RealLit", strlen("RealLit")) == 0) {
         size = strlen("RealLit");
     } else if (strncmp(literal, "Id", strlen("Id")) == 0) {
@@ -253,20 +255,18 @@ char *getLiteral(char *literal, AST_Node paramListNode) {
         if (paramListNode != NULL) {
             char *value = getLiteral(literal, NULL);
             int res = 0;
-            if (paramListNode->children[0]->children[0]->n_children > 1) //check if current function has parameters
+            if (paramListNode->children[0]->n_children > 1) //check if current function has parameters
                 res = isParam(literal, paramListNode);
             if (res) { //left is argument
-                char aux[10];
-                sprintf(aux, "%%%d", res);
-                return strdup(aux); //posicao do argumento (res)
+                return getVarRef(res);
             } else if (searchArray(&ArrayVarLocal, value)) { //left is local
                 char aux[10];
                 sprintf(aux, "%%%s", value);
-                return strdup(aux); //posicao do argumento (res)
+                return strdup(aux);
             } else { //left is global
                 char aux[10];
                 sprintf(aux, "@%s", value);
-                return strdup(aux); //posicao do argumento (res)
+                return strdup(aux);
             }
         }
     } else return NULL;
@@ -284,20 +284,20 @@ char *getUnary(AST_Node node) {
     return value;
 }
 
-void caseArit(AST_Node node, char *arit) {
+void caseArit(AST_Node node, char *arit, AST_Node paramListNode) {
     //TODO change op types
-    n_var++;
     char **ArrayType = defineType(node->expType);
     if (strcmp(node->token, "Minus") == 0) {
+        caseLoad(node->children[0], paramListNode);
+        n_var++;
         printf("\t%%%d = %s %s 0, %s\n", n_var, arit, ArrayType[0], node->children[0]->codeRef);
-        char aux[10];
-        sprintf(aux, "%%%d", n_var);
-        node->codeRef = strdup(aux);
+        node->codeRef = getVarRef(n_var);
     } else {
+        caseLoad(node->children[0], paramListNode);
+        caseLoad(node->children[1], paramListNode);
+        n_var++;
         printf("\t%%%d = %s %s %s, %s\n", n_var, arit, ArrayType[0], node->children[0]->codeRef, node->children[1]->codeRef);
-        char aux[10];
-        sprintf(aux, "%%%d", n_var);
-        node->codeRef = strdup(aux);
+        node->codeRef = getVarRef(n_var);
     }
 }
 
@@ -330,22 +330,25 @@ char **defineType(char *type) {
     }
 }
 
-void genReturn(AST_Node node) {
+void genFinalReturn(AST_Node node) { //return generated with random content just in case there is no previous return. Should not be reached
     char **ArrayType = defineType(node->token);
-    if (strcmp(node->token, "Void") == 0)
+    if (strcmp(node->token, "Void") == 0) {
         printf("\tret void\n");
-    else {
+    } else {
         n_var++;
         printf("\t%%%d = alloca %s, align %s\n", n_var, ArrayType[0], ArrayType[1]);
         n_var++;
         printf("\t%%%d = load %s, %s* %%%d, align %s\n", n_var, ArrayType[0], ArrayType[0], (n_var - 1), ArrayType[1]);
-        if (strcmp(node->token, "Int") == 0)
-            printf("\tret %s %%%d\n", ArrayType[0], n_var);
+        printf("\tret %s %%%d\n", ArrayType[0], n_var);
     }
 }
 
-void caseIf(AST_Node node, AST_Node paramListNode) {
-
+void caseReturn(AST_Node node, AST_Node paramListNode) {
+    char **ArrayTypeChild = defineType(node->children[0]->expType);
+    caseLoad(node->children[0], paramListNode);
+    n_var++;
+    printf("\tret %s %s\n", ArrayTypeChild[0], node->children[0]->codeRef);
+    freeArrayDefType(ArrayTypeChild);
 }
 
 

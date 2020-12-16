@@ -1,9 +1,16 @@
-int b = 1;
+int b;
+double w;
 
-int a(int, int);
+int a(int, double);
+int func(int ab, double r, short y);
 
-int main(int c, double h) {
-   int g = -2;
-   a(g, c);
-   a(b, c);
+char lower(char c){
+    return c + 'a' - 'A';
+}
+
+int main(void) {
+    int t = 98;
+    putchar(lower('C'));
+    putchar(t);
+    return t;
  }
