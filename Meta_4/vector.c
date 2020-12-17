@@ -7,9 +7,10 @@ void startArray(vector *v) {
 
 void appendArray(vector *v, char* elem) {
     char **new = (char**)calloc(v->len + 1, sizeof(char*));
-    memcpy(new, v->ptr, v->len * sizeof(char));
+    memcpy(new, v->ptr, v->len * sizeof(char*));
     new[v->len] = strdup(elem);
-    free(v->ptr);                                       
+    if(v->ptr != NULL)
+        free(v->ptr);
     v->ptr = new;                                       
     v->len++;                                           
 }
@@ -26,7 +27,8 @@ void freeArray(vector *v) {
     for (int i = 0; i < v->len; i++) {
         free(v->ptr[i]);
     }
-    free(v->ptr);
+    if(v->ptr != NULL)
+        free(v->ptr);
     v->ptr = NULL;
     v->len = 0;
 }

@@ -1,16 +1,19 @@
-int b;
-double w;
 
-int a(int, double);
-int func(int ab, double r, short y);
+double a = 451631784, b = 354356, c = 1;
 
-char lower(char c){
-    return c + 'a' - 'A';
-}
 
-int main(void) {
-    int t = 98;
-    putchar(lower('C'));
-    putchar(t);
-    return t;
+int main(void) {   
+	a = a == b; 
+	putchar(a + '0');
+	a = a != b; 
+	putchar(a + '0');
+	a = a < b; 
+	putchar(a + '0');
+	a = a <= b; 
+	putchar(a + '0');
+	a = a > b; 
+	putchar(a + '0');
+	a = a >= b; 
+	putchar(a + '0');
+	return 0;
  }
