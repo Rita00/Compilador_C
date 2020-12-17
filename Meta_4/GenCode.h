@@ -5,7 +5,13 @@
 
 void caseConvert(AST_Node node, char isStore);
 
-void genCodeFuncBody(AST_Node node, AST_Node paramListNode);
+void genCodeFuncBody(AST_Node node, AST_Node paramListNode, int last_label);
+
+void caseWhile(AST_Node node, AST_Node paramListNode, int last_label);
+
+void caseIf(AST_Node node, AST_Node paramListNode, int last_label);
+
+void caseLoad(AST_Node node, AST_Node paramListNode);
 
 char shouldLoad(char *codeRef, AST_Node paramListNode);
 
@@ -13,7 +19,7 @@ void genCode(AST_Node root);
 
 void caseFuncDef(AST_Node node);
 
-void caseLogical(AST_Node node, AST_Node paramListNode);
+void caseLogical(AST_Node node, AST_Node paramListNode, int last_label);
 
 char *isRelational(AST_Node node);
 
