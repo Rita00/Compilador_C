@@ -3,6 +3,8 @@
 #include<stdio.h>
 #include "symbol_table.h"
 
+char semantic_error = 0;
+
 void lowerString(char *str);
 
 char *get_node_full_type(AST_Node el) {
@@ -32,6 +34,7 @@ insert_el(table_element **target, char *name, char *type, int nparam, char **tpa
     table_element *aux = search_el(*target, name);
     if (aux != NULL && aux->isDefined && strcmp(node->token, "FuncDeclaration") != 0) {
         printf("Line %d, col %d: Symbol %s already defined\n", node->children[1]->n_linha, node->children[1]->n_coluna, name);
+        semantic_error = 1;
         return -1;
     }
     table_element *newSymbol = (table_element *) calloc(1, sizeof(table_element));
@@ -53,6 +56,7 @@ insert_el(table_element **target, char *name, char *type, int nparam, char **tpa
                 printf("Line %d, col %d: Symbol %s already defined\n", node->children[1]->n_linha,
                        node->children[1]->n_coluna, name);
                 fix_call(node);
+                semantic_error = 1;
                 return 0;
             }
             AST_Node aux_node = calloc(1, sizeof(struct _ast_Node));
@@ -72,6 +76,7 @@ insert_el(table_element **target, char *name, char *type, int nparam, char **tpa
                 free(full_type_aux);
                 free(new_node);
                 free(aux_node);
+                semantic_error = 1;
                 return 0;
             }
             free(full_type_new);
@@ -99,23 +104,6 @@ insert_el(table_element **target, char *name, char *type, int nparam, char **tpa
     return 1;
 }
 
-char is_definition_of_declared(table_element *target, table_element *new, AST_Node node) {
-    if (target->isDefined) {//target tem que ser declaration
-        return 0;
-    }
-    if (target->nparam == 0)
-        return 0; //target tem que ser função
-    //if (strcmp(target->type, new->type) != 0) return 0; //target tem que devolver mesmo tipo que new
-    //if (target->nparam != new->nparam) {
-    // printf("Line %d, col %d: Wrong number of arguments to function %s (got %d, required %d)\n", node->n_linha, node->n_coluna, new->name, new->nparam, target->nparam);
-    //    return 0; //target tem que ter mesmo numero de parametros que new
-    //}
-    //target tem que ter parametros iguais a new
-    //for (int i = 0; i < target->nparam; i++) {
-    //  if (strcmp(target->tparam[i], new->tparam[i]) != 0) return 0;
-    //}
-    return 1;
-}
 
 void print_global_table(table_element *target) {
     table_element *aux;
@@ -182,6 +170,7 @@ table_element *create_global_table(AST_Node root) {
                 printf("Line %d, col %d: Symbol %s already defined\n", FuncDe->children[1]->n_linha,
                        FuncDe->children[1]->n_coluna, id);
                 fix_call(FuncDe);
+                semantic_error = 1;
                 continue;
             }
             AST_Node paramlist = FuncDe->children[2];
@@ -199,6 +188,7 @@ table_element *create_global_table(AST_Node root) {
                                paramlist->children[j]->children[0]->n_linha,
                                paramlist->children[j]->children[0]->n_coluna);
                         flag_error = 1;
+                        semantic_error = 1;
                     }
                 }
                 if (flag_error) {
@@ -239,6 +229,7 @@ table_element *create_global_table(AST_Node root) {
             strncpy(id, aux + 3, strlen(aux) - 4);
             if (strcmp(FuncDe->children[0]->token, "Void") == 0) {
                 printf("Line %d, col %d: Invalid use of void type in declaration\n", FuncDe->children[1]->n_linha, FuncDe->children[1]->n_coluna);
+                semantic_error = 1;
             } else {
                 insert_el(&table, id, root->children[i]->children[0]->token, 0, NULL, 0, NULL, root->children[i]);
                 if (FuncDe->n_children > 2) {
@@ -248,6 +239,7 @@ table_element *create_global_table(AST_Node root) {
                         lowerString(tipo);
                         printf("Line %d, col %d: Conflicting types (got double, expected %s)\n", FuncDe->children[1]->n_linha,
                                FuncDe->children[1]->n_coluna, tipo);
+                        semantic_error = 1;
                         free(tipo);
                     }
                 }
@@ -306,6 +298,7 @@ void search_for_declaration(AST_Node node, table_element *table, char *functionN
         }
     }
     printf("Line %d, col %d: Unknown symbol %s\n", node->n_linha, node->n_coluna, id);
+    semantic_error = 1;
     node->expType = strdup("undef");
 }
 
@@ -337,6 +330,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                     char *tipo = strdup(node->children[0]->token);
                     lowerString(tipo);
                     printf("Line %d, col %d: Conflicting types (got double, expected %s)\n", node->children[1]->n_linha, node->children[1]->n_coluna, tipo);
+                    semantic_error = 1;
                     free(tipo);
                 }
             }
@@ -358,6 +352,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
             fix_call(node);
             if (localSymbol == NULL) {
                 printf("Line %d, col %d: Unknown symbol %s\n", node->children[0]->n_linha, node->children[0]->n_coluna, id);
+                semantic_error = 1;
                 node->expType = strdup("undef");
                 if (node->children[0]->expType != NULL)
                     free(node->children[0]->expType);
@@ -380,12 +375,14 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
             if (required != got && !(got == 0 && required == 1 && strcmp(aux->tparam[0], "void") == 0)) {
                 printf("Line %d, col %d: Wrong number of arguments to function %s (got %d, required %d)\n",
                        node->children[0]->n_linha, node->children[0]->n_coluna, id, got, required);
+                semantic_error = 1;
             } else {
                 for (int i = 0; i < required; i++) {
                     if (strcmp(node->children[i + 1]->expType, "void") == 0 || (strcmp(node->children[i + 1]->expType, "double") == 0 && strcmp(aux->tparam[i], "double") != 0)) {
                         printf("Line %d, col %d: Conflicting types (got %s, expected %s)\n",
                                node->children[i + 1]->n_linha, node->children[i + 1]->n_coluna,
                                node->children[i + 1]->expType, aux->tparam[i]);
+                        semantic_error = 1;
                     }
                 }
             }
@@ -396,6 +393,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
             node->expType = strdup("undef");
             free(node->children[0]->expType);
             node->children[0]->expType = strdup("undef");
+            semantic_error = 1;
         }
         return;
     }
@@ -406,14 +404,17 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
             printf("Line %d, col %d: Conflicting types (got %s, expected int)\n", node->children[0]->n_linha,
                    node->children[0]->n_coluna,
                    get_node_full_type(node->children[0]));
+            semantic_error = 1;
         } else if (
                 strcmp(node->children[0]->expType, "undef") == 0) {
             printf("Line %d, col %d: Conflicting types (got undef, expected int)\n", node->children[0]->n_linha,
                    node->children[0]->n_coluna);
+            semantic_error = 1;
         } else if (
                 strcmp(node->children[0]->expType, "double") == 0) {
             printf("Line %d, col %d: Conflicting types (got double, expected int)\n", node->children[0]->n_linha,
                    node->children[0]->n_coluna);
+            semantic_error = 1;
         }
         for (int i = 1; i < node->n_children; i++) {
             add_type_to_expressions(node->children[i], table, currentFunc);
@@ -425,19 +426,23 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
             strcmp(aux->type, "double") != 0 && strcmp(node->children[0]->expType, "double") == 0) {
             printf("Line %d, col %d: Conflicting types (got %s, expected %s)\n", node->children[0]->n_linha,
                    node->children[0]->n_coluna, node->children[0]->expType, aux->type);
+            semantic_error = 1;
         } else if (strcmp(aux->variable, "return") == 0 && node->children[0]->expType != NULL &&
                    node->children[0]->nparam > 0) {
             printf("Line %d, col %d: Conflicting types (got %s, expected %s)\n", node->children[0]->n_linha,
                    node->children[0]->n_coluna, get_node_full_type(node->children[0]), aux->type);
+            semantic_error = 1;
         }else if (strcmp(aux->variable, "return") == 0 &&
                    (node->children[0]->expType == NULL || strcmp(node->children[0]->expType, "void") == 0) &&
                    strcmp(aux->type, "void") != 0) {
             printf("Line %d, col %d: Conflicting types (got void, expected %s)\n", node->n_linha, node->n_coluna,
                    aux->type);
+            semantic_error = 1;
         }  else if (strcmp(aux->variable, "return") == 0 && strcmp(aux->type, "void") == 0 &&
                    node->children[0]->expType != NULL && strcmp(node->children[0]->expType, "void") != 0) {
             printf("Line %d, col %d: Conflicting types (got %s, expected void)\n", node->children[0]->n_linha,
                    node->children[0]->n_coluna, get_node_full_type(node->children[0]));
+            semantic_error = 1;
         }
     } else if (node->expType != NULL && strcmp(node->expType, "undef") == 0) {
         //fix_call
@@ -465,6 +470,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                        get_node_full_type(node->children[0]),
                        get_node_full_type(node->children[1]));
                 free(logical_op);
+                semantic_error = 1;
             } else {
                 node->expType = decide_highest_type(node->children[0]->expType, node->children[1]->expType);
                 if (strcmp(node->expType, "undef") == 0) {
@@ -472,6 +478,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                     printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
                            node->n_coluna, logical_op, node->children[0]->expType, node->children[1]->expType);
                     free(logical_op);
+                    semantic_error = 1;
                 }
             }
 
@@ -484,6 +491,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
             if (index == 0 &&
                 strncmp(node->children[0]->token, "Id", strlen("Id")) != 0) {
                 printf("Line %d, col %d: Lvalue required\n", node->children[0]->n_linha, node->children[0]->n_coluna);
+                semantic_error = 1;
             } else if (node->children[0]->nparam > 0 || node->children[1]->nparam > 0) {
                 free(node->expType);
                 node->expType = strdup("undef");
@@ -492,6 +500,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                        node->n_coluna, logical_op, get_node_full_type(node->children[0]),
                        get_node_full_type(node->children[1]));
                 free(logical_op);
+                semantic_error = 1;
             } else if (index == 0 && strcmp(node->children[0]->expType, "double") != 0 &&
                        strcmp(node->children[1]->expType, "double") == 0) {
                 char *logical_op = decice_logical_op(node->token);
@@ -507,6 +516,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                 printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
                        node->n_coluna, logical_op, node->children[0]->expType, node->children[1]->expType);
                 free(logical_op);
+                semantic_error = 1;
             }
         } else if (strcmp(node->expType, "ExpressionIntInt") == 0) { //operacoes binarias que so funcionam se os dois lados forem ints
             free(node->expType);
@@ -519,6 +529,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                        get_node_full_type(node->children[0]),
                        get_node_full_type(node->children[1]));
                 free(logical_op);
+                semantic_error = 1;
             } else if (node->children[0]->nparam > 0 || node->children[1]->nparam > 0) {
                 node->expType = strdup("int");
                 char *logical_op = decice_logical_op(node->token);
@@ -527,6 +538,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                        get_node_full_type(node->children[0]),
                        get_node_full_type(node->children[1]));
                 free(logical_op);
+                semantic_error = 1;
             } else if (strcmp(highest, "double") == 0) {
                 node->expType = strdup("int");
                 char *logical_op = decice_logical_op(node->token);
@@ -534,6 +546,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                        node->n_coluna, logical_op, node->children[0]->expType,
                        node->children[1]->expType);
                 free(logical_op);
+                semantic_error = 1;
             } else {
                 node->expType = strdup("int");
             }
@@ -552,6 +565,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                 char *logical_op = decice_logical_op(node->token);
                 printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->n_linha, node->n_coluna, logical_op, get_node_full_type(node->children[0]));
                 free(logical_op);
+                semantic_error = 1;
             }
         } else if (
                 strcmp(node->expType, "ExpressionLogical") == 0) {
@@ -562,21 +576,25 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                 printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->n_linha, node->n_coluna,
                        logical_op, get_node_full_type(node->children[0]));
                 free(logical_op);
+                semantic_error = 1;
             } else if (node->n_children == 2 && (node->children[0]->nparam > 0 || node->children[1]->nparam > 0)) {
                 char *logical_op = decice_logical_op(node->token);
                 printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,
                        node->n_coluna, logical_op, get_node_full_type(node->children[0]),
                        get_node_full_type(node->children[1]));
                 free(logical_op);
+                semantic_error = 1;
             } else if (node->n_children == 2 &&
                        strcmp(decide_highest_type(node->children[0]->expType, node->children[1]->expType), "void") ==
                        0) {
                 printf("Line %d, col %d: Conflicting types (got void, expected int)\n", node->n_linha, node->n_coluna);
+                semantic_error = 1;
             } else if (node->n_children == 2 && (strcmp(node->children[0]->expType, "undef") == 0 ||
                                                  strcmp(node->children[1]->expType, "undef") == 0)) {
                 char *logical_op = decice_logical_op(node->token);
                 printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->n_linha,  node->n_coluna, logical_op, node->children[0]->expType, node->children[1]->expType);
                 free(logical_op);
+                semantic_error = 1;
             } else if (node->n_children == 1 && (
                     strcmp(node->children[0]->expType, "undef") == 0 ||
                     strcmp(node->children[0]->expType, "double") == 0)) {
@@ -584,6 +602,7 @@ void add_type_to_expressions(AST_Node node, table_element *table, char *currentF
                 printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->n_linha,
                        node->n_coluna, logical_op, node->children[0]->expType);
                 free(logical_op);
+                semantic_error = 1;
             }
         }
     }

@@ -4,6 +4,7 @@
 
 void lowerString(char *str);
 
+extern table_element *gtable;
 vector ArrayVarLocal;
 int n_var = 0;
 int n_label = 0;
@@ -225,12 +226,27 @@ void caseLoad(AST_Node node, AST_Node paramListNode) {
     }
 }
 
+void caseConvertParam(AST_Node funcNode, AST_Node argNode, int paramPos) {
+    char *funcId = getLiteral(funcNode->token, NULL);
+    table_element *funcInfo = search_el(gtable, funcId);
+    if (strcmp(funcInfo->tparam[paramPos], "double") == 0 && strcmp(argNode->expType, "double") != 0) {
+        n_var++;
+        printf("\t%%%d = sitofp i32 %s to double\n", n_var, argNode->codeRef);
+        free(argNode->codeRef);
+        argNode->codeRef = getVarRef(n_var);
+        free(argNode->expType);
+        argNode->expType = strdup("double");
+    }
+
+}
+
 char *genLoad(AST_Node node, AST_Node paramListNode) {
     char **ArrayTypeChild;
     char *printParam = NULL;
     for (int i = 1; i < node->n_children; i++) {
-        ArrayTypeChild = defineType(node->children[i]->expType);
         caseLoad(node->children[i], paramListNode);
+        caseConvertParam(node->children[0], node->children[i], i-1);
+        ArrayTypeChild = defineType(node->children[i]->expType);
         if (i == 1) {
             printParam = (char *) calloc(strlen(ArrayTypeChild[0]) + strlen(node->children[i]->codeRef) + 2, 1);
             sprintf(printParam, "%s %s", ArrayTypeChild[0], node->children[i]->codeRef);
@@ -343,8 +359,6 @@ void caseConvert(AST_Node node, char isStore) {
             node->children[0]->codeRef = getVarRef(n_var);
         }
     }
-
-
 }
 
 void caseStoreLocal(AST_Node node, AST_Node paramListNode) {
@@ -402,8 +416,26 @@ char getChar(char *escape_sequence) {
         char c3 = escape_sequence[3] - '0';
         return (c1 << 6) + (c2 << 3) + c3;
     }
+}
 
-    return 0;
+char *getRealLit(char *real) {
+    // Se não tiver 1 ponto e se o primeiro caracter for 1 ponto
+    if (real[0] == '.') {
+        char *aux = (char*)calloc(1, strlen(real) + 2);
+        sprintf(aux, "0%s", real);
+        return aux;
+    } else {
+        for(int i = 1; i < strlen(real) && real[i] != '.'; i++){
+            if(real[i] == 'e'){
+                char *aux = (char*)calloc(1, strlen(real) + 2);
+                strncpy(aux, real, i);
+                aux[i] = '.';
+                strncpy(aux + i + 1, real+i, strlen(real) - i);
+                return aux;
+            }
+        }
+        return strdup(real);
+    }
 }
 
 char *getLiteral(char *literal, AST_Node paramListNode) {
@@ -418,7 +450,10 @@ char *getLiteral(char *literal, AST_Node paramListNode) {
         sprintf(aux, "%d", c);
         return strdup(aux);
     } else if (strncmp(literal, "RealLit", strlen("RealLit")) == 0) {
-        size = strlen("RealLit");
+        char aux[128] = "\0";
+        sscanf(literal, "RealLit(%s)", aux);
+        aux[strlen(aux) - 1] = '\0';
+        return getRealLit(aux);
     } else if (strncmp(literal, "Id", strlen("Id")) == 0) {
         size = strlen("Id");
         if (paramListNode != NULL) {
@@ -583,7 +618,6 @@ void caseLogical(AST_Node node, AST_Node paramListNode, int last_label) {
     }
 }
 
-
 char *isRelational(AST_Node node) {
     char *res = NULL;
     if (node->n_children == 2 && node->children[0]->expType != NULL && node->children[1]->expType != NULL) {
@@ -711,7 +745,6 @@ void caseReturn(AST_Node node, AST_Node paramListNode) {
         freeArrayDefType(ArrayTypeChild);
     }
 }
-
 
 void freeArrayDefType(char **array) {
     free(array[0]);

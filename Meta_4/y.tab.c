@@ -73,9 +73,10 @@
     AST_Node root;
     table_element* gtable;
     extern char flag;
+    extern char semantic_error;
     #include "GenCode.h"
 
-#line 79 "y.tab.c" /* yacc.c:339  */
+#line 80 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -199,7 +200,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 36 "uccompiler.y" /* yacc.c:355  */
+#line 37 "uccompiler.y" /* yacc.c:355  */
 
     struct _ast_Node *node;
     struct {
@@ -207,7 +208,7 @@ union YYSTYPE
         char *letters;
     } data;
 
-#line 211 "y.tab.c" /* yacc.c:355  */
+#line 212 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -224,7 +225,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 228 "y.tab.c" /* yacc.c:358  */
+#line 229 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -525,17 +526,17 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    65,    65,    85,    86,    87,    88,    89,    90,    93,
-      96,    97,   100,   101,   102,   103,   106,   109,   112,   115,
-     116,   117,   120,   121,   124,   125,   126,   127,   128,   131,
-     132,   133,   136,   137,   138,   139,   140,   141,   142,   143,
-     144,   145,   148,   149,   153,   154,   157,   158,   159,   160,
-     161,   162,   163,   164,   165,   166,   167,   168,   169,   170,
-     171,   172,   173,   174,   175,   176,   177,   178,   179,   180,
-     181,   182,   183,   184,   185,   186,   189,   190,   191,   192,
-     193,   194,   195,   196,   197,   198,   199,   200,   201,   202,
-     203,   204,   205,   206,   207,   208,   209,   210,   211,   212,
-     213,   214,   215,   216,   217,   218
+       0,    66,    66,    88,    89,    90,    91,    92,    93,    96,
+      99,   100,   103,   104,   105,   106,   109,   112,   115,   118,
+     119,   120,   123,   124,   127,   128,   129,   130,   131,   134,
+     135,   136,   139,   140,   141,   142,   143,   144,   145,   146,
+     147,   148,   151,   152,   156,   157,   160,   161,   162,   163,
+     164,   165,   166,   167,   168,   169,   170,   171,   172,   173,
+     174,   175,   176,   177,   178,   179,   180,   181,   182,   183,
+     184,   185,   186,   187,   188,   189,   192,   193,   194,   195,
+     196,   197,   198,   199,   200,   201,   202,   203,   204,   205,
+     206,   207,   208,   209,   210,   211,   212,   213,   214,   215,
+     216,   217,   218,   219,   220,   221
 };
 #endif
 
@@ -1552,7 +1553,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 65 "uccompiler.y" /* yacc.c:1646  */
+#line 66 "uccompiler.y" /* yacc.c:1646  */
     {
         root = create_node("Program", 0, 0); 
         add_child(root, (yyvsp[0].node)); 
@@ -1567,633 +1568,635 @@ yyreduce:
         } 
         if (!error && flag == '0') {
             gtable=create_global_table(root);
-            genCode(root);
+            if(!semantic_error){
+                genCode(root);
+            }
         }
         free_AST(root); 
     }
-#line 1575 "y.tab.c" /* yacc.c:1646  */
+#line 1578 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 85 "uccompiler.y" /* yacc.c:1646  */
+#line 88 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=(yyvsp[0].node);}
-#line 1581 "y.tab.c" /* yacc.c:1646  */
+#line 1584 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 86 "uccompiler.y" /* yacc.c:1646  */
+#line 89 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=(yyvsp[0].node);}
-#line 1587 "y.tab.c" /* yacc.c:1646  */
+#line 1590 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 87 "uccompiler.y" /* yacc.c:1646  */
+#line 90 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=(yyvsp[0].node);}
-#line 1593 "y.tab.c" /* yacc.c:1646  */
+#line 1596 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 88 "uccompiler.y" /* yacc.c:1646  */
+#line 91 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = create_node("many_children", 0, 0); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1599 "y.tab.c" /* yacc.c:1646  */
+#line 1602 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 89 "uccompiler.y" /* yacc.c:1646  */
+#line 92 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = create_node("many_children", 0, 0); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1605 "y.tab.c" /* yacc.c:1646  */
+#line 1608 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 90 "uccompiler.y" /* yacc.c:1646  */
+#line 93 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = create_node("many_children", 0, 0); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1611 "y.tab.c" /* yacc.c:1646  */
+#line 1614 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 93 "uccompiler.y" /* yacc.c:1646  */
+#line 96 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("FuncDefinition", 0, 0); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1617 "y.tab.c" /* yacc.c:1646  */
+#line 1620 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 96 "uccompiler.y" /* yacc.c:1646  */
+#line 99 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("FuncBody", 0, 0); add_child((yyval.node), (yyvsp[-1].node));}
-#line 1623 "y.tab.c" /* yacc.c:1646  */
+#line 1626 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 97 "uccompiler.y" /* yacc.c:1646  */
+#line 100 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("FuncBody", 0, 0);}
-#line 1629 "y.tab.c" /* yacc.c:1646  */
+#line 1632 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 100 "uccompiler.y" /* yacc.c:1646  */
+#line 103 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("many_children", 0, 0);add_child((yyval.node), (yyvsp[-1].node));add_child((yyval.node), (yyvsp[0].node));}
-#line 1635 "y.tab.c" /* yacc.c:1646  */
+#line 1638 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 101 "uccompiler.y" /* yacc.c:1646  */
+#line 104 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("many_children", 0, 0); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1641 "y.tab.c" /* yacc.c:1646  */
+#line 1644 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 102 "uccompiler.y" /* yacc.c:1646  */
+#line 105 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=(yyvsp[0].node);}
-#line 1647 "y.tab.c" /* yacc.c:1646  */
+#line 1650 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 103 "uccompiler.y" /* yacc.c:1646  */
+#line 106 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=(yyvsp[0].node);}
-#line 1653 "y.tab.c" /* yacc.c:1646  */
+#line 1656 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 106 "uccompiler.y" /* yacc.c:1646  */
+#line 109 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("FuncDeclaration", 0, 0); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[-1].node));}
-#line 1659 "y.tab.c" /* yacc.c:1646  */
+#line 1662 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 109 "uccompiler.y" /* yacc.c:1646  */
+#line 112 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = create_node("many_children", 0, 0); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].data).letters, (yyvsp[-3].data).linha, (yyvsp[-3].data).coluna)); add_child((yyval.node), (yyvsp[-1].node));}
-#line 1665 "y.tab.c" /* yacc.c:1646  */
+#line 1668 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 112 "uccompiler.y" /* yacc.c:1646  */
+#line 115 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = create_node("ParamList", 0, 0); add_child((yyval.node), (yyvsp[0].node));}
-#line 1671 "y.tab.c" /* yacc.c:1646  */
+#line 1674 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 115 "uccompiler.y" /* yacc.c:1646  */
+#line 118 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("many_children", 0, 0); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1677 "y.tab.c" /* yacc.c:1646  */
+#line 1680 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 116 "uccompiler.y" /* yacc.c:1646  */
+#line 119 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = create_node("ParamDeclaration", 0, 0); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), create_literal_node("Id", (yyvsp[0].data).letters, (yyvsp[0].data).linha, (yyvsp[0].data).coluna));}
-#line 1683 "y.tab.c" /* yacc.c:1646  */
+#line 1686 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 117 "uccompiler.y" /* yacc.c:1646  */
+#line 120 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = create_node("ParamDeclaration", 0, 0); add_child((yyval.node), (yyvsp[0].node)); }
-#line 1689 "y.tab.c" /* yacc.c:1646  */
+#line 1692 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 120 "uccompiler.y" /* yacc.c:1646  */
+#line 123 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("many_children", 0, 0);  add_child((yyval.node), (yyvsp[-1].node)); prepend_child((yyval.node), (yyvsp[-2].node), (yyvsp[-2].node)->n_linha, (yyvsp[-2].node)->n_coluna);}
-#line 1695 "y.tab.c" /* yacc.c:1646  */
+#line 1698 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 121 "uccompiler.y" /* yacc.c:1646  */
+#line 124 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=NULL; error = 1;}
-#line 1701 "y.tab.c" /* yacc.c:1646  */
+#line 1704 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 124 "uccompiler.y" /* yacc.c:1646  */
+#line 127 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Char", (yyvsp[0].data).linha, (yyvsp[0].data).coluna);}
-#line 1707 "y.tab.c" /* yacc.c:1646  */
+#line 1710 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 125 "uccompiler.y" /* yacc.c:1646  */
+#line 128 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Int", (yyvsp[0].data).linha, (yyvsp[0].data).coluna);}
-#line 1713 "y.tab.c" /* yacc.c:1646  */
+#line 1716 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 126 "uccompiler.y" /* yacc.c:1646  */
+#line 129 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Void", (yyvsp[0].data).linha, (yyvsp[0].data).coluna);}
-#line 1719 "y.tab.c" /* yacc.c:1646  */
+#line 1722 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 127 "uccompiler.y" /* yacc.c:1646  */
+#line 130 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Short", (yyvsp[0].data).linha, (yyvsp[0].data).coluna);}
-#line 1725 "y.tab.c" /* yacc.c:1646  */
+#line 1728 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 128 "uccompiler.y" /* yacc.c:1646  */
+#line 131 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Double", (yyvsp[0].data).linha, (yyvsp[0].data).coluna);}
-#line 1731 "y.tab.c" /* yacc.c:1646  */
+#line 1734 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 131 "uccompiler.y" /* yacc.c:1646  */
+#line 134 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("many_children", 0, 0); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1737 "y.tab.c" /* yacc.c:1646  */
+#line 1740 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 132 "uccompiler.y" /* yacc.c:1646  */
+#line 135 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Declaration", 0, 0); add_child((yyval.node), create_literal_node("Id", (yyvsp[0].data).letters, (yyvsp[0].data).linha, (yyvsp[0].data).coluna));}
-#line 1743 "y.tab.c" /* yacc.c:1646  */
+#line 1746 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 133 "uccompiler.y" /* yacc.c:1646  */
+#line 136 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Declaration", 0, 0); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].data).letters, (yyvsp[-2].data).linha, (yyvsp[-2].data).coluna)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1749 "y.tab.c" /* yacc.c:1646  */
+#line 1752 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 136 "uccompiler.y" /* yacc.c:1646  */
+#line 139 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=(yyvsp[-1].node);}
-#line 1755 "y.tab.c" /* yacc.c:1646  */
+#line 1758 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 137 "uccompiler.y" /* yacc.c:1646  */
+#line 140 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=NULL;}
-#line 1761 "y.tab.c" /* yacc.c:1646  */
+#line 1764 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 138 "uccompiler.y" /* yacc.c:1646  */
+#line 141 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("StatList", 0, 0); add_child((yyval.node), (yyvsp[-1].node)); if ((yyval.node)->n_children == 0){destroy_node((yyval.node)); (yyval.node) = NULL;}else if((yyval.node)->n_children == 1){AST_Node aux = (yyval.node)->children[0]; destroy_node((yyval.node)); (yyval.node) = aux;}}
-#line 1767 "y.tab.c" /* yacc.c:1646  */
+#line 1770 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 139 "uccompiler.y" /* yacc.c:1646  */
+#line 142 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=NULL;}
-#line 1773 "y.tab.c" /* yacc.c:1646  */
+#line 1776 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 140 "uccompiler.y" /* yacc.c:1646  */
+#line 143 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("If", (yyvsp[-4].data).linha, (yyvsp[-4].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); if ((yyvsp[0].node) != NULL) add_child((yyval.node), (yyvsp[0].node)); else add_child((yyval.node), create_node("Null", 0, 0)); add_child((yyval.node), create_node("Null", 0, 0));}
-#line 1779 "y.tab.c" /* yacc.c:1646  */
+#line 1782 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 141 "uccompiler.y" /* yacc.c:1646  */
+#line 144 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("If", (yyvsp[-6].data).linha, (yyvsp[-6].data).coluna); add_child((yyval.node), (yyvsp[-4].node)); if ((yyvsp[-2].node) != NULL) add_child((yyval.node), (yyvsp[-2].node)); else add_child((yyval.node), create_node("Null", 0, 0)); if((yyvsp[0].node) != NULL) add_child((yyval.node), (yyvsp[0].node)); else add_child((yyval.node), create_node("Null", 0, 0));}
-#line 1785 "y.tab.c" /* yacc.c:1646  */
+#line 1788 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 142 "uccompiler.y" /* yacc.c:1646  */
+#line 145 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("While", (yyvsp[-4].data).linha, (yyvsp[-4].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); if((yyvsp[0].node) != NULL)add_child((yyval.node), (yyvsp[0].node)); else add_child((yyval.node), create_node("Null", 0, 0));}
-#line 1791 "y.tab.c" /* yacc.c:1646  */
+#line 1794 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 143 "uccompiler.y" /* yacc.c:1646  */
+#line 146 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Return", (yyvsp[-2].data).linha, (yyvsp[-2].data).coluna); add_child((yyval.node), (yyvsp[-1].node));}
-#line 1797 "y.tab.c" /* yacc.c:1646  */
+#line 1800 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 144 "uccompiler.y" /* yacc.c:1646  */
+#line 147 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Return", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), create_node("Null", 0, 0));}
-#line 1803 "y.tab.c" /* yacc.c:1646  */
+#line 1806 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 145 "uccompiler.y" /* yacc.c:1646  */
+#line 148 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=NULL; error = 1;}
-#line 1809 "y.tab.c" /* yacc.c:1646  */
+#line 1812 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 148 "uccompiler.y" /* yacc.c:1646  */
+#line 151 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = (yyvsp[0].node);}
-#line 1815 "y.tab.c" /* yacc.c:1646  */
+#line 1818 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 149 "uccompiler.y" /* yacc.c:1646  */
+#line 152 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = NULL; error = 1;}
-#line 1821 "y.tab.c" /* yacc.c:1646  */
+#line 1824 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 153 "uccompiler.y" /* yacc.c:1646  */
+#line 156 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = create_node("many_children", 0, 0); add_child((yyval.node), (yyvsp[-1].node)); add_child((yyval.node), (yyvsp[0].node));}
-#line 1827 "y.tab.c" /* yacc.c:1646  */
+#line 1830 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 154 "uccompiler.y" /* yacc.c:1646  */
+#line 157 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node) = (yyvsp[0].node);}
-#line 1833 "y.tab.c" /* yacc.c:1646  */
+#line 1836 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 157 "uccompiler.y" /* yacc.c:1646  */
+#line 160 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Store", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionR"); (yyval.node)->n_linha = (yyvsp[-1].data).linha;}
-#line 1839 "y.tab.c" /* yacc.c:1646  */
+#line 1842 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 158 "uccompiler.y" /* yacc.c:1646  */
+#line 161 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Comma", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionR");}
-#line 1845 "y.tab.c" /* yacc.c:1646  */
+#line 1848 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 159 "uccompiler.y" /* yacc.c:1646  */
+#line 162 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Add", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
-#line 1851 "y.tab.c" /* yacc.c:1646  */
+#line 1854 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 160 "uccompiler.y" /* yacc.c:1646  */
+#line 163 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Sub", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
-#line 1857 "y.tab.c" /* yacc.c:1646  */
+#line 1860 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 161 "uccompiler.y" /* yacc.c:1646  */
+#line 164 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Mul", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
-#line 1863 "y.tab.c" /* yacc.c:1646  */
+#line 1866 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 162 "uccompiler.y" /* yacc.c:1646  */
+#line 165 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Div", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
-#line 1869 "y.tab.c" /* yacc.c:1646  */
+#line 1872 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 163 "uccompiler.y" /* yacc.c:1646  */
+#line 166 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Mod", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 1875 "y.tab.c" /* yacc.c:1646  */
+#line 1878 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 164 "uccompiler.y" /* yacc.c:1646  */
+#line 167 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Or", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 1881 "y.tab.c" /* yacc.c:1646  */
+#line 1884 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 165 "uccompiler.y" /* yacc.c:1646  */
+#line 168 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("And", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 1887 "y.tab.c" /* yacc.c:1646  */
+#line 1890 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 166 "uccompiler.y" /* yacc.c:1646  */
+#line 169 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("BitWiseAnd", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 1893 "y.tab.c" /* yacc.c:1646  */
+#line 1896 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 167 "uccompiler.y" /* yacc.c:1646  */
+#line 170 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("BitWiseOr", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 1899 "y.tab.c" /* yacc.c:1646  */
+#line 1902 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 168 "uccompiler.y" /* yacc.c:1646  */
+#line 171 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("BitWiseXor", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna);add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 1905 "y.tab.c" /* yacc.c:1646  */
+#line 1908 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 169 "uccompiler.y" /* yacc.c:1646  */
+#line 172 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Eq", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 1911 "y.tab.c" /* yacc.c:1646  */
+#line 1914 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 170 "uccompiler.y" /* yacc.c:1646  */
+#line 173 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Ne", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 1917 "y.tab.c" /* yacc.c:1646  */
+#line 1920 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 171 "uccompiler.y" /* yacc.c:1646  */
+#line 174 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Le", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 1923 "y.tab.c" /* yacc.c:1646  */
+#line 1926 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 172 "uccompiler.y" /* yacc.c:1646  */
+#line 175 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Ge", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 1929 "y.tab.c" /* yacc.c:1646  */
+#line 1932 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 173 "uccompiler.y" /* yacc.c:1646  */
+#line 176 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Lt", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 1935 "y.tab.c" /* yacc.c:1646  */
+#line 1938 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 174 "uccompiler.y" /* yacc.c:1646  */
+#line 177 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Gt", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 1941 "y.tab.c" /* yacc.c:1646  */
+#line 1944 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 175 "uccompiler.y" /* yacc.c:1646  */
+#line 178 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Plus", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression1");}
-#line 1947 "y.tab.c" /* yacc.c:1646  */
+#line 1950 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 176 "uccompiler.y" /* yacc.c:1646  */
+#line 179 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Minus", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression1");}
-#line 1953 "y.tab.c" /* yacc.c:1646  */
+#line 1956 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 177 "uccompiler.y" /* yacc.c:1646  */
+#line 180 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Not", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 1959 "y.tab.c" /* yacc.c:1646  */
+#line 1962 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 178 "uccompiler.y" /* yacc.c:1646  */
+#line 181 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Call", (yyvsp[-2].data).linha, (yyvsp[-2].data).coluna); add_child((yyval.node), create_literal_node("Id", (yyvsp[-2].data).letters, (yyvsp[-2].data).linha, (yyvsp[-2].data).coluna));(yyval.node)->expType = strdup("ExpressionCall");(yyval.node)->children[0]->expType = strdup("ExpressionId");}
-#line 1965 "y.tab.c" /* yacc.c:1646  */
+#line 1968 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 179 "uccompiler.y" /* yacc.c:1646  */
+#line 182 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Call", (yyvsp[-3].data).linha, (yyvsp[-3].data).coluna); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].data).letters, (yyvsp[-3].data).linha, (yyvsp[-3].data).coluna)); add_child((yyval.node), (yyvsp[-1].node));(yyval.node)->expType = strdup("ExpressionCall");(yyval.node)->children[0]->expType = strdup("ExpressionId");}
-#line 1971 "y.tab.c" /* yacc.c:1646  */
+#line 1974 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 180 "uccompiler.y" /* yacc.c:1646  */
+#line 183 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=(yyval.node)=create_literal_node("Id", (yyvsp[0].data).letters, (yyvsp[0].data).linha, (yyvsp[0].data).coluna);(yyval.node)->expType = strdup("ExpressionId");}
-#line 1977 "y.tab.c" /* yacc.c:1646  */
+#line 1980 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 181 "uccompiler.y" /* yacc.c:1646  */
+#line 184 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_literal_node("IntLit", (yyvsp[0].data).letters, (yyvsp[0].data).linha, (yyvsp[0].data).coluna);(yyval.node)->expType = strdup("int");}
-#line 1983 "y.tab.c" /* yacc.c:1646  */
+#line 1986 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 182 "uccompiler.y" /* yacc.c:1646  */
+#line 185 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_literal_node("ChrLit", (yyvsp[0].data).letters, (yyvsp[0].data).linha, (yyvsp[0].data).coluna);(yyval.node)->expType = strdup("int");}
-#line 1989 "y.tab.c" /* yacc.c:1646  */
+#line 1992 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 183 "uccompiler.y" /* yacc.c:1646  */
+#line 186 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_literal_node("RealLit", (yyvsp[0].data).letters, (yyvsp[0].data).linha, (yyvsp[0].data).coluna);(yyval.node)->expType = strdup("double");}
-#line 1995 "y.tab.c" /* yacc.c:1646  */
+#line 1998 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 184 "uccompiler.y" /* yacc.c:1646  */
+#line 187 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=(yyvsp[-1].node);}
-#line 2001 "y.tab.c" /* yacc.c:1646  */
+#line 2004 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 185 "uccompiler.y" /* yacc.c:1646  */
+#line 188 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Call", (yyvsp[-3].data).linha, (yyvsp[-3].data).coluna); add_child((yyval.node), create_node("Null", 0, 0)); error = 1;(yyval.node)->expType = strdup("Expression1");}
-#line 2007 "y.tab.c" /* yacc.c:1646  */
+#line 2010 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 186 "uccompiler.y" /* yacc.c:1646  */
+#line 189 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=NULL; error = 1;}
-#line 2013 "y.tab.c" /* yacc.c:1646  */
+#line 2016 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 189 "uccompiler.y" /* yacc.c:1646  */
+#line 192 "uccompiler.y" /* yacc.c:1646  */
     { (yyval.node)=create_node("Store", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionR");}
-#line 2019 "y.tab.c" /* yacc.c:1646  */
+#line 2022 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 190 "uccompiler.y" /* yacc.c:1646  */
+#line 193 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("many_children", 0, 0); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionR");}
-#line 2025 "y.tab.c" /* yacc.c:1646  */
+#line 2028 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 191 "uccompiler.y" /* yacc.c:1646  */
+#line 194 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Add", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
-#line 2031 "y.tab.c" /* yacc.c:1646  */
+#line 2034 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 192 "uccompiler.y" /* yacc.c:1646  */
+#line 195 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Sub", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
-#line 2037 "y.tab.c" /* yacc.c:1646  */
+#line 2040 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 193 "uccompiler.y" /* yacc.c:1646  */
+#line 196 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Mul", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
-#line 2043 "y.tab.c" /* yacc.c:1646  */
+#line 2046 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 194 "uccompiler.y" /* yacc.c:1646  */
+#line 197 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Div", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionArit");}
-#line 2049 "y.tab.c" /* yacc.c:1646  */
+#line 2052 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 195 "uccompiler.y" /* yacc.c:1646  */
+#line 198 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Mod", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 2055 "y.tab.c" /* yacc.c:1646  */
+#line 2058 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 196 "uccompiler.y" /* yacc.c:1646  */
+#line 199 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Or", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 2061 "y.tab.c" /* yacc.c:1646  */
+#line 2064 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 197 "uccompiler.y" /* yacc.c:1646  */
+#line 200 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("And", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 2067 "y.tab.c" /* yacc.c:1646  */
+#line 2070 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 198 "uccompiler.y" /* yacc.c:1646  */
+#line 201 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("BitWiseAnd", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 2073 "y.tab.c" /* yacc.c:1646  */
+#line 2076 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 199 "uccompiler.y" /* yacc.c:1646  */
+#line 202 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("BitWiseOr", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 2079 "y.tab.c" /* yacc.c:1646  */
+#line 2082 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 200 "uccompiler.y" /* yacc.c:1646  */
+#line 203 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("BitWiseXor", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna);add_child((yyval.node), (yyvsp[-2].node));add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionIntInt");}
-#line 2085 "y.tab.c" /* yacc.c:1646  */
+#line 2088 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 201 "uccompiler.y" /* yacc.c:1646  */
+#line 204 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Eq", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 2091 "y.tab.c" /* yacc.c:1646  */
+#line 2094 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 202 "uccompiler.y" /* yacc.c:1646  */
+#line 205 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Ne", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 2097 "y.tab.c" /* yacc.c:1646  */
+#line 2100 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 90:
-#line 203 "uccompiler.y" /* yacc.c:1646  */
+#line 206 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Le", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 2103 "y.tab.c" /* yacc.c:1646  */
+#line 2106 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 204 "uccompiler.y" /* yacc.c:1646  */
+#line 207 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Ge", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 2109 "y.tab.c" /* yacc.c:1646  */
+#line 2112 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 205 "uccompiler.y" /* yacc.c:1646  */
+#line 208 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Lt", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 2115 "y.tab.c" /* yacc.c:1646  */
+#line 2118 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 93:
-#line 206 "uccompiler.y" /* yacc.c:1646  */
+#line 209 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Gt", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[-2].node)); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 2121 "y.tab.c" /* yacc.c:1646  */
+#line 2124 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 94:
-#line 207 "uccompiler.y" /* yacc.c:1646  */
+#line 210 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Plus", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression1");}
-#line 2127 "y.tab.c" /* yacc.c:1646  */
+#line 2130 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 95:
-#line 208 "uccompiler.y" /* yacc.c:1646  */
+#line 211 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Minus", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("Expression1");}
-#line 2133 "y.tab.c" /* yacc.c:1646  */
+#line 2136 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 96:
-#line 209 "uccompiler.y" /* yacc.c:1646  */
+#line 212 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Not", (yyvsp[-1].data).linha, (yyvsp[-1].data).coluna); add_child((yyval.node), (yyvsp[0].node));(yyval.node)->expType = strdup("ExpressionLogical");}
-#line 2139 "y.tab.c" /* yacc.c:1646  */
+#line 2142 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 97:
-#line 210 "uccompiler.y" /* yacc.c:1646  */
+#line 213 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Call", (yyvsp[-2].data).linha, (yyvsp[-2].data).coluna); add_child((yyval.node), create_literal_node("Id",  (yyvsp[-2].data).letters, (yyvsp[-2].data).linha, (yyvsp[-2].data).coluna));(yyval.node)->expType = strdup("ExpressionCall");(yyval.node)->children[0]->expType = strdup("ExpressionId");}
-#line 2145 "y.tab.c" /* yacc.c:1646  */
+#line 2148 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 98:
-#line 211 "uccompiler.y" /* yacc.c:1646  */
+#line 214 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Call", (yyvsp[-3].data).linha, (yyvsp[-3].data).coluna); add_child((yyval.node), create_literal_node("Id", (yyvsp[-3].data).letters, (yyvsp[-3].data).linha, (yyvsp[-3].data).coluna)); add_child((yyval.node), (yyvsp[-1].node));(yyval.node)->expType = strdup("ExpressionCall");(yyval.node)->children[0]->expType = strdup("ExpressionId");}
-#line 2151 "y.tab.c" /* yacc.c:1646  */
+#line 2154 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 99:
-#line 212 "uccompiler.y" /* yacc.c:1646  */
+#line 215 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=(yyval.node)=create_literal_node("Id", (yyvsp[0].data).letters, (yyvsp[0].data).linha, (yyvsp[0].data).coluna);(yyval.node)->expType = strdup("ExpressionId");}
-#line 2157 "y.tab.c" /* yacc.c:1646  */
+#line 2160 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 100:
-#line 213 "uccompiler.y" /* yacc.c:1646  */
+#line 216 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_literal_node("IntLit", (yyvsp[0].data).letters, (yyvsp[0].data).linha, (yyvsp[0].data).coluna);(yyval.node)->expType = strdup("int");}
-#line 2163 "y.tab.c" /* yacc.c:1646  */
+#line 2166 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 101:
-#line 214 "uccompiler.y" /* yacc.c:1646  */
+#line 217 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_literal_node("ChrLit", (yyvsp[0].data).letters, (yyvsp[0].data).linha, (yyvsp[0].data).coluna);(yyval.node)->expType = strdup("int");}
-#line 2169 "y.tab.c" /* yacc.c:1646  */
+#line 2172 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 102:
-#line 215 "uccompiler.y" /* yacc.c:1646  */
+#line 218 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_literal_node("RealLit", (yyvsp[0].data).letters, (yyvsp[0].data).linha, (yyvsp[0].data).coluna);(yyval.node)->expType = strdup("double");}
-#line 2175 "y.tab.c" /* yacc.c:1646  */
+#line 2178 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 103:
-#line 216 "uccompiler.y" /* yacc.c:1646  */
+#line 219 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=(yyvsp[-1].node);}
-#line 2181 "y.tab.c" /* yacc.c:1646  */
+#line 2184 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 104:
-#line 217 "uccompiler.y" /* yacc.c:1646  */
+#line 220 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=create_node("Call", (yyvsp[-3].data).linha, (yyvsp[-3].data).coluna); add_child((yyval.node), create_node("Null", 0, 0)); error = 1;(yyval.node)->expType = strdup("Expression1");}
-#line 2187 "y.tab.c" /* yacc.c:1646  */
+#line 2190 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 105:
-#line 218 "uccompiler.y" /* yacc.c:1646  */
+#line 221 "uccompiler.y" /* yacc.c:1646  */
     {(yyval.node)=NULL; error = 1;}
-#line 2193 "y.tab.c" /* yacc.c:1646  */
+#line 2196 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2197 "y.tab.c" /* yacc.c:1646  */
+#line 2200 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2421,5 +2424,5 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 222 "uccompiler.y" /* yacc.c:1906  */
+#line 225 "uccompiler.y" /* yacc.c:1906  */
 

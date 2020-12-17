@@ -8,6 +8,7 @@
     AST_Node root;
     table_element* gtable;
     extern char flag;
+    extern char semantic_error;
     #include "GenCode.h"
 %}
 
@@ -76,7 +77,9 @@ Program: FunctionsAndDeclarations {
         } 
         if (!error && flag == '0') {
             gtable=create_global_table(root);
-            genCode(root);
+            if(!semantic_error){
+                genCode(root);
+            }
         }
         free_AST(root); 
     }
