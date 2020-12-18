@@ -8,17 +8,18 @@ extern table_element *gtable;
 vector ArrayVarLocal;
 int n_var = 0;
 int n_label = 0;
+int last_label = 0;
 
-void genCodeFuncBody(AST_Node node, AST_Node paramListNode, int last_label) {
+void genCodeFuncBody(AST_Node node, AST_Node paramListNode) {
     if (strcmp(node->token, "While") == 0) {
-        caseWhile(node, paramListNode, last_label);
+        caseWhile(node, paramListNode);
         return;
     } else if (strcmp(node->token, "If") == 0) {
-        caseIf(node, paramListNode, last_label);
+        caseIf(node, paramListNode);
         return;
     }
     for (int i = 0; i < node->n_children; i++) {
-        genCodeFuncBody(node->children[i], paramListNode, last_label);
+        genCodeFuncBody(node->children[i], paramListNode);
     }
 
     char *aux = isArit(node);
@@ -47,52 +48,58 @@ void genCodeFuncBody(AST_Node node, AST_Node paramListNode, int last_label) {
     } else if (strcmp(node->token, "Plus") == 0) {
         node->codeRef = strdup(node->children[0]->codeRef);
     } else {
-        caseLogical(node, paramListNode, last_label);
+        caseLogical(node, paramListNode);
     }
 }
 
-void caseWhile(AST_Node node, AST_Node paramListNode, int last_label) {
+void caseWhile(AST_Node node, AST_Node paramListNode) {
     int mylabel = n_label;
     n_label += 3;
     mylabel++;
+    last_label = mylabel;
     printf("\tbr label %%label%d\n\n", mylabel); //todo pode-se omitir
 
     printf("\tlabel%d:\n", mylabel);
-    genCodeFuncBody(node->children[0], paramListNode, mylabel);
+    genCodeFuncBody(node->children[0], paramListNode);
     caseLoad(node->children[0], paramListNode);
     n_var++;
     printf("\t%%%d = icmp ne i32 %s, 0\n", n_var, node->children[0]->codeRef);
     printf("\tbr i1 %%%d, label %%label%d, label %%label%d\n\n", n_var, mylabel + 1, mylabel + 2);
 
     mylabel++;
+    last_label = mylabel;
     printf("\tlabel%d:\n", mylabel);
-    genCodeFuncBody(node->children[1], paramListNode, mylabel);
+    genCodeFuncBody(node->children[1], paramListNode);
     printf("\tbr label %%label%d\n\n", mylabel - 1);
 
     mylabel++;
+    last_label = mylabel;
     printf("\tlabel%d:\n", mylabel);
 }
 
-void caseIf(AST_Node node, AST_Node paramListNode, int last_label) {
+void caseIf(AST_Node node, AST_Node paramListNode) {
     int mylabel = n_label;
     n_label += 3;
-    genCodeFuncBody(node->children[0], paramListNode, last_label);
+    genCodeFuncBody(node->children[0], paramListNode);
     caseLoad(node->children[0], paramListNode);
     n_var++;
     printf("\t%%%d = icmp ne i32 %s, 0\n", n_var, node->children[0]->codeRef);
     printf("\tbr i1 %%%d, label %%label%d, label %%label%d\n\n", n_var, mylabel + 1, mylabel + 2);
 
     mylabel++;
+    last_label = mylabel;
     printf("\tlabel%d:\n", mylabel);
-    genCodeFuncBody(node->children[1], paramListNode, mylabel);
+    genCodeFuncBody(node->children[1], paramListNode);
     printf("\tbr label %%label%d\n\n", mylabel + 2);
 
     mylabel++;
+    last_label = mylabel;
     printf("\tlabel%d:\n", mylabel);
-    genCodeFuncBody(node->children[2], paramListNode, mylabel);
+    genCodeFuncBody(node->children[2], paramListNode);
     printf("\tbr label %%label%d\n\n", mylabel + 1);
 
     mylabel++;
+    last_label = mylabel;
     printf("\tlabel%d:\n", mylabel);
 }
 
@@ -101,12 +108,13 @@ void treatuppernodes(AST_Node root) {
         caseDeclGlobal(root);
     } else if (strcmp(root->token, "FuncDefinition") == 0) {
         caseFuncDef(root);
-        genCodeFuncBody(root->children[3], root->children[2], 0);
+        genCodeFuncBody(root->children[3], root->children[2]);
         genFinalReturn(root->children[0]);
         printf("}\n\n");
         freeArray(&ArrayVarLocal);
         n_var = 0;
         n_label = 0;
+        last_label = 0;
     }
 }
 
@@ -291,6 +299,7 @@ void caseDeclLocal(AST_Node node, AST_Node paramListNode) {
     appendArray(&ArrayVarLocal, id);
     printf("\t%%%s = alloca %s, align %s\n", id, ArrayType[0], ArrayType[1]);
     if (node->n_children == 3) {
+        caseLoad(node->children[2], paramListNode);
         caseConvert(node, 2);
         printf("\tstore %s %s, %s* %%%s, align %s\n", ArrayType[0], node->children[2]->codeRef, ArrayType[0], id, ArrayType[1]);
     }
@@ -521,7 +530,6 @@ void caseRelational(AST_Node node, char *arit, AST_Node paramListNode) {
 
 void caseArit(AST_Node node, char *arit, AST_Node paramListNode) {
     char **ArrayType = defineType(node->expType);
-
     if (*arit != 'f') {
         if (strcmp(node->token, "Plus") == 0) {
             node->codeRef = strdup(node->children[0]->codeRef);
@@ -560,7 +568,7 @@ void caseArit(AST_Node node, char *arit, AST_Node paramListNode) {
 
 }
 
-void caseLogical(AST_Node node, AST_Node paramListNode, int last_label) {
+void caseLogical(AST_Node node, AST_Node paramListNode) {
     if (strcmp(node->token, "Not") == 0) {
         caseLoad(node->children[0], paramListNode);
         n_var++;
@@ -592,6 +600,7 @@ void caseLogical(AST_Node node, AST_Node paramListNode, int last_label) {
         }
         node->codeRef = getVarRef(n_var);
         caseConvertToInt(node);
+        last_label = mylabel;
     } else if (strcmp(node->token, "Or") == 0) {
         int mylabel = n_label;
         n_label += 2;
@@ -615,6 +624,9 @@ void caseLogical(AST_Node node, AST_Node paramListNode, int last_label) {
         }
         node->codeRef = getVarRef(n_var);
         caseConvertToInt(node);
+        last_label = mylabel;
+    }else if (strcmp(node->token, "Comma") == 0) {
+        node->codeRef = strdup(node->children[1]->codeRef);
     }
 }
 

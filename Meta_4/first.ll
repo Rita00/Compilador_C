@@ -1,44 +1,76 @@
 declare i32 @getchar()
 declare i32 @putchar(i32)
-define i32 @teste (double %a, double %c, i32 %d) #0 {
-	%1 = alloca double, align 8
-	store double %a, double* %1, align 8
-	%2 = alloca double, align 8
-	store double %c, double* %2, align 8
-	%3 = alloca i32, align 4
-	store i32 %d, i32* %3, align 4
-	%4 = sitofp i32 98 to double
-	store double %4, double* %1, align 8
-	store i32 4, i32* %3, align 4
-	%5 = load i32, i32* %3, align 4
-	%6 = sitofp i32 %5 to double
-	%7 = fadd double 30.000000, %6
-	store double %7, double* %1, align 8
-	%8 = load double, double* %1, align 8
-	%9 = load double, double* %2, align 8
-	%10 = fadd double %8, %9
-	store double %10, double* %2, align 8
-	%g = alloca i32, align 4
-	store i32 48, i32* %g, align 4
-	%11 = load i32, i32* %3, align 4
-	ret i32 %11
-	%13 = alloca i32, align 4
-	%14 = load i32, i32* %13, align 4
-	ret i32 %14
+@n1 = global i32 10, align 4
+define void @print_int (i32 %value) #0 {
+	%1 = alloca i32, align 4
+	store i32 %value, i32* %1, align 4
+	%2 = load i32, i32* %1, align 4
+	%3 = icmp ne i32 %2, 0
+	%4 = zext i1 %3 to i32
+	%5 = icmp ne i32 %4, 0
+	br i1 %5, label %label1, label %label2
+
+	label1:
+	%6 = load i32, i32* %1, align 4
+	%7 = sdiv i32 %6, 10
+	call void @print_int(i32 %7)
+	%8 = load i32, i32* %1, align 4
+	%9 = srem i32 %8, 10
+	%10 = add i32 %9, 48
+	%11 = call i32 @putchar(i32 %10)
+	br label %label3
+
+	label2:
+	br label %label3
+
+	label3:
+	ret void
+}
+
+define void @func (i32 %n1) #0 {
+	%1 = alloca i32, align 4
+	store i32 %n1, i32* %1, align 4
+	br label %label1
+
+	label1:
+	%2 = load i32, i32* %1, align 4
+	%3 = sub i32 %2, 1
+	store i32 %3, i32* %1, align 4
+	%4 = load i32, i32* %1, align 4
+	%5 = icmp ne i32 %4, 0
+	br i1 %5, label %label2, label %label3
+
+	label2:
+	%6 = load i32, i32* %1, align 4
+	call void @print_int(i32 %6)
+	br label %label1
+
+	label3:
+	store i32 10, i32* %1, align 4
+	br label %label4
+
+	label4:
+	%7 = load i32, i32* %1, align 4
+	%8 = sub i32 %7, 1
+	store i32 %8, i32* %1, align 4
+	%9 = load i32, i32* %1, align 4
+	%10 = icmp ne i32 %9, 0
+	br i1 %10, label %label5, label %label6
+
+	label5:
+	%11 = load i32, i32* %1, align 4
+	call void @print_int(i32 %11)
+	br label %label4
+
+	label6:
+	ret void
 }
 
 define i32 @main () #0 {
-	%d = alloca i32, align 4
-	%1 = load i32, i32* %d, align 4
-	%2 = sitofp i32 %1 to double
-	%3 = call i32 @teste(double %2,double 0.2,i32 2)
-	%f = alloca i32, align 4
-	store i32 %3, i32* %f, align 4
-	%4 = load i32, i32* %f, align 4
-	%5 = add i32 %4, 48
-	%6 = call i32 @putchar(i32 %5)
-	%7 = alloca i32, align 4
-	%8 = load i32, i32* %7, align 4
-	ret i32 %8
+	call void @func(i32 20)
+	ret i32 0
+	%2 = alloca i32, align 4
+	%3 = load i32, i32* %2, align 4
+	ret i32 %3
 }
 

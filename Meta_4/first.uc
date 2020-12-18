@@ -1,13 +1,24 @@
-int teste(double a, double c, int d) {
-    a = 'b';
-    a = 3e1 + (d = 4);
-    c = a + c;
-    char g = 48;
-    return d;
+int n1=10;
+
+void print_int(int value) {
+   if(value != 0) {
+      print_int(value/10);
+      putchar((value%10) + '0');
+   }
 }
 
-int main(void) {
-int d;
-    short f = teste(d, .2, 2);
-    putchar(f + 48);
+void func(int n1){
+	while( n1 = n1 -1){
+      print_int(n1);
+    }	
+    n1 = 10;
+    while( n1 = n1 -1){
+      print_int(n1);
+    }
+}
+
+int main(void)
+{
+	func(20);
+    return 0;
 }

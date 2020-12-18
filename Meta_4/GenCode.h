@@ -3,11 +3,11 @@
 
 #include "ast.h"
 
-void genCodeFuncBody(AST_Node node, AST_Node paramListNode, int last_label);
+void genCodeFuncBody(AST_Node node, AST_Node paramListNode);
 
-void caseWhile(AST_Node node, AST_Node paramListNode, int last_label);
+void caseWhile(AST_Node node, AST_Node paramListNode);
 
-void caseIf(AST_Node node, AST_Node paramListNode, int last_label);
+void caseIf(AST_Node node, AST_Node paramListNode);
 
 void treatuppernodes(AST_Node root);
 
@@ -53,7 +53,7 @@ void caseRelational(AST_Node node, char *arit, AST_Node paramListNode);
 
 void caseArit(AST_Node node, char *arit, AST_Node paramListNode);
 
-void caseLogical(AST_Node node, AST_Node paramListNode, int last_label);
+void caseLogical(AST_Node node, AST_Node paramListNode);
 
 char *isRelational(AST_Node node);
 
