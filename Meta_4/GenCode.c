@@ -17,6 +17,12 @@ void genCodeFuncBody(AST_Node node, AST_Node paramListNode) {
     } else if (strcmp(node->token, "If") == 0) {
         caseIf(node, paramListNode);
         return;
+    } else if (strcmp(node->token, "And") == 0) {
+        caseLogical(node, paramListNode);
+        return;
+    } else if (strcmp(node->token, "Or") == 0) {
+        caseLogical(node, paramListNode);
+        return;
     }
     for (int i = 0; i < node->n_children; i++) {
         genCodeFuncBody(node->children[i], paramListNode);
@@ -442,7 +448,7 @@ char *getLiteral(char *literal, AST_Node paramListNode) {
     int size;
     if (strncmp(literal, "IntLit", strlen("IntLit")) == 0) {
         size = strlen("IntLit");
-        if(literal[7] == '0') {
+        if (literal[7] == '0') {
             char aux[128] = "\0";
             sscanf(literal, "IntLit(%s)", aux);
             aux[strlen(aux) - 1] = '\0';
@@ -579,48 +585,48 @@ void caseLogical(AST_Node node, AST_Node paramListNode) {
     } else if (strcmp(node->token, "And") == 0) {
         int mylabel = n_label;
         n_label += 2;
+        genCodeFuncBody(node->children[0], paramListNode);
         caseLoad(node->children[0], paramListNode);
         n_var++;
         printf("\t%%%d = icmp ne i32 %s, 0\n", n_var, node->children[0]->codeRef);
+        int var_left = n_var;
         mylabel++;
         printf("\tbr i1 %%%d, label %%label%d, label %%label%d\n\n", n_var, mylabel, mylabel + 1);
         printf("\tlabel%d:\n", mylabel);
+        genCodeFuncBody(node->children[1], paramListNode);
         caseLoad(node->children[1], paramListNode);
         n_var++;
         printf("\t%%%d = icmp ne i32 %s, 0\n", n_var, node->children[1]->codeRef);
+        int var_right = n_var;
         printf("\tbr label %%label%d\n\n", mylabel + 1);
         mylabel++;
         printf("\tlabel%d:\n", mylabel);
         n_var++;
-        if (last_label == 0) {
-            printf("\t%%%d = phi i1 [false, %%0], [%%%d, %%label%d]\n", n_var, n_var - 1, mylabel - 1);
-        } else {
-            printf("\t%%%d = phi i1 [false, %%label%d], [%%%d, %%label%d]\n", n_var, last_label, n_var - 1, mylabel - 1);
-        }
+        printf("\t%%%d = and i1 %%%d, %%%d\n", n_var, var_left, var_right);
         node->codeRef = getVarRef(n_var);
         caseConvertToInt(node);
         last_label = mylabel;
     } else if (strcmp(node->token, "Or") == 0) {
         int mylabel = n_label;
         n_label += 2;
+        genCodeFuncBody(node->children[0], paramListNode);
         caseLoad(node->children[0], paramListNode);
         n_var++;
         printf("\t%%%d = icmp ne i32 %s, 0\n", n_var, node->children[0]->codeRef);
+        int var_left = n_var;
         mylabel++;
         printf("\tbr i1 %%%d, label %%label%d, label %%label%d\n\n", n_var, mylabel + 1, mylabel);
         printf("\tlabel%d:\n", mylabel);
+        genCodeFuncBody(node->children[1], paramListNode);
         caseLoad(node->children[1], paramListNode);
         n_var++;
         printf("\t%%%d = icmp ne i32 %s, 0\n", n_var, node->children[1]->codeRef);
+        int var_right = n_var;
         printf("\tbr label %%label%d\n\n", mylabel + 1);
         mylabel++;
         printf("\tlabel%d:\n", mylabel);
         n_var++;
-        if (last_label == 0) {
-            printf("\t%%%d = phi i1 [true, %%0], [%%%d, %%label%d]\n", n_var, n_var - 1, mylabel - 1);
-        } else {
-            printf("\t%%%d = phi i1 [true, %%label%d], [%%%d, %%label%d]\n", n_var, last_label, n_var - 1, mylabel - 1);
-        }
+        printf("\t%%%d = or i1 %%%d, %%%d\n", n_var, var_left, var_right);
         node->codeRef = getVarRef(n_var);
         caseConvertToInt(node);
         last_label = mylabel;
@@ -765,9 +771,9 @@ void freeArrayDefType(char **array) {
     free(array);
 }
 
-int getOctal(char *octal){
+int getOctal(char *octal) {
     int res = 0;
-    for(int i = 0; i < strlen(octal); i++){
+    for (int i = 0; i < strlen(octal); i++) {
         res = res << 3;
         res += octal[i] - '0';
     }
