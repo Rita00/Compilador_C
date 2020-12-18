@@ -253,7 +253,7 @@ char *genLoad(AST_Node node, AST_Node paramListNode) {
     char *printParam = NULL;
     for (int i = 1; i < node->n_children; i++) {
         caseLoad(node->children[i], paramListNode);
-        caseConvertParam(node->children[0], node->children[i], i-1);
+        caseConvertParam(node->children[0], node->children[i], i - 1);
         ArrayTypeChild = defineType(node->children[i]->expType);
         if (i == 1) {
             printParam = (char *) calloc(strlen(ArrayTypeChild[0]) + strlen(node->children[i]->codeRef) + 2, 1);
@@ -395,7 +395,7 @@ int isParam(char *token, AST_Node paramListNode) {
     return 0;
 }
 
-char getChar(char *escape_sequence) {
+int getChar(char *escape_sequence) {
     if (strlen(escape_sequence) == 0) {
         return ' ';
     } else if (strlen(escape_sequence) == 1) {
@@ -410,36 +410,27 @@ char getChar(char *escape_sequence) {
                 return '\\';
             case '\'':
                 return '\'';
-            case '\"':
-                return '\"';
+            case '"':
+                return '"';
             default:
-                return escape_sequence[1] - '0';
+                return getOctal(escape_sequence + 1);
         }
-    } else if (strlen(escape_sequence) == 3) {
-        char c1 = escape_sequence[1] - '0'; //convert to numeric
-        char c2 = escape_sequence[2] - '0';
-        return (c1 << 3) + c2;
-    } else {
-        char c1 = escape_sequence[1] - '0'; //convert to numeric
-        char c2 = escape_sequence[2] - '0';
-        char c3 = escape_sequence[3] - '0';
-        return (c1 << 6) + (c2 << 3) + c3;
-    }
+    } else return getOctal(escape_sequence + 1);
 }
 
 char *getRealLit(char *real) {
     // Se não tiver 1 ponto e se o primeiro caracter for 1 ponto
     if (real[0] == '.') {
-        char *aux = (char*)calloc(1, strlen(real) + 2);
+        char *aux = (char *) calloc(1, strlen(real) + 2);
         sprintf(aux, "0%s", real);
         return aux;
     } else {
-        for(int i = 1; i < strlen(real) && real[i] != '.'; i++){
-            if(real[i] == 'e'){
-                char *aux = (char*)calloc(1, strlen(real) + 2);
+        for (int i = 1; i < strlen(real) && real[i] != '.'; i++) {
+            if (real[i] == 'e' || real[i] == 'E') {
+                char *aux = (char *) calloc(1, strlen(real) + 2);
                 strncpy(aux, real, i);
                 aux[i] = '.';
-                strncpy(aux + i + 1, real+i, strlen(real) - i);
+                strncpy(aux + i + 1, real + i, strlen(real) - i);
                 return aux;
             }
         }
@@ -451,11 +442,19 @@ char *getLiteral(char *literal, AST_Node paramListNode) {
     int size;
     if (strncmp(literal, "IntLit", strlen("IntLit")) == 0) {
         size = strlen("IntLit");
+        if(literal[7] == '0') {
+            char aux[128] = "\0";
+            sscanf(literal, "IntLit(%s)", aux);
+            aux[strlen(aux) - 1] = '\0';
+            int c = getOctal(aux);
+            sprintf(aux, "%d", c);
+            return strdup(aux);
+        }
     } else if (strncmp(literal, "ChrLit", strlen("ChrLit")) == 0) {
-        char aux[10] = "\0";
+        char aux[128] = "\0";
         sscanf(literal, "ChrLit('%s')", aux);
         aux[strlen(aux) - 2] = '\0';
-        char c = getChar(aux);
+        int c = getChar(aux);
         sprintf(aux, "%d", c);
         return strdup(aux);
     } else if (strncmp(literal, "RealLit", strlen("RealLit")) == 0) {
@@ -625,7 +624,7 @@ void caseLogical(AST_Node node, AST_Node paramListNode) {
         node->codeRef = getVarRef(n_var);
         caseConvertToInt(node);
         last_label = mylabel;
-    }else if (strcmp(node->token, "Comma") == 0) {
+    } else if (strcmp(node->token, "Comma") == 0) {
         node->codeRef = strdup(node->children[1]->codeRef);
     }
 }
@@ -739,8 +738,10 @@ void genFinalReturn(AST_Node node) { //return generated with random content just
     } else {
         n_var++;
         printf("\t%%%d = alloca %s, align %s\n", n_var, ArrayType[0], ArrayType[1]);
+        printf("\tstore %s 0, %s* %%%d, align %s\n", ArrayType[0], ArrayType[0], n_var, ArrayType[1]);
         n_var++;
         printf("\t%%%d = load %s, %s* %%%d, align %s\n", n_var, ArrayType[0], ArrayType[0], (n_var - 1), ArrayType[1]);
+
         printf("\tret %s %%%d\n", ArrayType[0], n_var);
     }
 }
@@ -762,4 +763,13 @@ void freeArrayDefType(char **array) {
     free(array[0]);
     free(array[1]);
     free(array);
+}
+
+int getOctal(char *octal){
+    int res = 0;
+    for(int i = 0; i < strlen(octal); i++){
+        res = res << 3;
+        res += octal[i] - '0';
+    }
+    return res;
 }

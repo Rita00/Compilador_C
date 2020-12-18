@@ -1,24 +1,8 @@
-int n1=10;
-
-void print_int(int value) {
-   if(value != 0) {
-      print_int(value/10);
-      putchar((value%10) + '0');
-   }
-}
-
-void func(int n1){
-	while( n1 = n1 -1){
-      print_int(n1);
-    }	
-    n1 = 10;
-    while( n1 = n1 -1){
-      print_int(n1);
-    }
-}
-
-int main(void)
-{
-	func(20);
-    return 0;
+int main(void){
+  putchar(027 * 01365 + 'A');
+  char a;
+a = 10;
+putchar(a + 'A');
+int c = 0;
+putchar(c + 'A');
 }

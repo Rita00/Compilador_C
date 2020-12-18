@@ -41,7 +41,7 @@ void caseStoreLocal(AST_Node node, AST_Node paramListNode);
 
 int isParam(char *token, AST_Node paramListNode);
 
-char getChar(char *escape_sequence);
+int getChar(char *escape_sequence);
 
 char *getRealLit(char *real);
 
@@ -66,5 +66,7 @@ void genFinalReturn(AST_Node node);
 void caseReturn(AST_Node node, AST_Node paramListNode);
 
 void freeArrayDefType(char **array);
+
+int getOctal(char *octal);
 
 #endif
