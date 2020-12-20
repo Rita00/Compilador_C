@@ -593,6 +593,7 @@ void caseLogical(AST_Node node, AST_Node paramListNode) {
         mylabel++;
         printf("\tbr i1 %%%d, label %%label%d, label %%label%d\n\n", n_var, mylabel, mylabel + 1);
         printf("\tlabel%d:\n", mylabel);
+        last_label = mylabel;
         genCodeFuncBody(node->children[1], paramListNode);
         caseLoad(node->children[1], paramListNode);
         n_var++;
@@ -601,6 +602,7 @@ void caseLogical(AST_Node node, AST_Node paramListNode) {
         printf("\tbr label %%label%d\n\n", mylabel + 1);
         mylabel++;
         printf("\tlabel%d:\n", mylabel);
+        last_label = mylabel;
         n_var++;
         printf("\t%%%d = and i1 %%%d, %%%d\n", n_var, var_left, var_right);
         node->codeRef = getVarRef(n_var);
@@ -611,12 +613,13 @@ void caseLogical(AST_Node node, AST_Node paramListNode) {
         n_label += 2;
         genCodeFuncBody(node->children[0], paramListNode);
         caseLoad(node->children[0], paramListNode);
+        int comes_from = last_label;
         n_var++;
         printf("\t%%%d = icmp ne i32 %s, 0\n", n_var, node->children[0]->codeRef);
-        int var_left = n_var;
         mylabel++;
         printf("\tbr i1 %%%d, label %%label%d, label %%label%d\n\n", n_var, mylabel + 1, mylabel);
         printf("\tlabel%d:\n", mylabel);
+        last_label = mylabel;
         genCodeFuncBody(node->children[1], paramListNode);
         caseLoad(node->children[1], paramListNode);
         n_var++;
@@ -626,7 +629,12 @@ void caseLogical(AST_Node node, AST_Node paramListNode) {
         mylabel++;
         printf("\tlabel%d:\n", mylabel);
         n_var++;
-        printf("\t%%%d = or i1 %%%d, %%%d\n", n_var, var_left, var_right);
+        if(comes_from == 0){
+            printf("\t%%%d = phi i1 [ true, %%0 ], [ %%%d, %%label%d ]\n", n_var, var_right, last_label);
+        }else{
+            printf("\t%%%d = phi i1 [ true, %%label%d ], [ %%%d, %%label%d ]\n", n_var, comes_from,  var_right, last_label);
+        }
+        last_label = mylabel;
         node->codeRef = getVarRef(n_var);
         caseConvertToInt(node);
         last_label = mylabel;
